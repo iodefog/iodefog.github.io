@@ -1,0 +1,49 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>iMessage 通讯录发送 · iodefog</title><meta name="description" content="怎样实现iMessage群发Apple公司全线在mac os与ios两个操作系统上内置了FaceTime与iMessage两个应用。完美替代运营商的短信与电话。并且FaceTime与iMessage的帐号不仅仅与Apple ID 绑定，同时也与使用这Apple ID的手机号码绑定，这样的漏洞自然给无"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>iMessage 通讯录发送</a></h3></div><div class="post-content"><p>怎样实现iMessage群发<br>Apple公司全线在mac os与ios两个操作系统上内置了FaceTime与iMessage两个应用。完美替代运营商的短信与电话。并且FaceTime与iMessage的帐号不仅仅与Apple ID 绑定，同时也与使用这Apple ID的手机号码绑定，这样的漏洞自然给无孔不入的中国的群发垃圾信息商们提供了后门。<br>这样iPhone的iMessage时不时就能收到以邮件为发送者的垃圾iMessage，尤其是嘀嗒打车群发的最多，听说是厦门一家公司操刀的。针对iMessage的群发实现，新闻稿上说是花几分钟写个脚本就可以了。可惜我花时间研究了好几次，也没有实现大批量群发的实现，倒是把自己的Apple ID搞的电脑与手机不同步了。<br>我研究怎么实现iMessage群发先是从XMPP协议开始的，因为Apple MAC os上的ichat是XMPP客户端，可以连接iMessage服务器，同时也可连接gtalk与weibo私信。但后面发现iMessage的服务器验证是加密，没办法实现非ichat XMPP客户端连接iMeesage服务器，那就自然没办法实现程序控制往iMeesage服务器批量发送信息。</p>
+<a id="more"></a>
+<p>只能通过MAC OS或者iOS自带的程序往iMeesage服务器发送信息，那要实现群发，自然只能想办法去调用自带的这ichat客户端，在MAC OS系统上Apple公司提供一种叫Apple script的脚本来自动实现任务。可能通过<code>tell
+ application &quot;Messages&quot;</code>就可以激活iMessage客户端自动发送信息。这样实现的群发的思路就很清楚了<br>1.通过AppleScript实现<a href="https://github.com/aaronfreimark/Apple-ID-AppleScript" target="_blank" rel="noopener">批量注册itune帐号</a><br>2.通过AppleScript实现自动取一个itune帐号群发100个APPle ID的iMessage</p>
+<pre><code>set EMAIL to &quot;EMAIL_DEL_DESTINATARI&quot; -- el destinatari ha de tenir l&apos;iMessage activat
+set MSG to &quot;COS_DEL_MISSATGE&quot;
+set N to the 1000 -- nombre de vegades que s&apos;enviarà el missatge
+set APPLE_ID to &quot;E:&quot; -- la teva Apple ID que ha de tenir iMessage activat
+repeat N times
+    tell application &quot;Messages&quot;
+        send MSG to buddy EMAIL of service APPLE_ID
+    end tell
+end repeat
+</code></pre><p>看来新闻稿没有说错，实现iMessage群发确实只要几分钟写脚本。但懂用使用iMessage的用户显然不是买iPhone装逼用的用户，你群发的iMessage除骚扰又能带来什么样的效果哟。<br>后面在网上搜索到一个更详细的博客说明，<a href="http://blog.csdn.net/zhaoxy2850/article/details/9255165" target="_blank" rel="noopener">转载如下</a>：<br>iMessage介绍<br>iMessage是苹果设备（iPad、iPhone、iPod touch）自带的免费信息发送应用。它的信息通过网络发送，不同于运营商短信。目前iMessage日活跃用户1.9亿，日发送约20亿条。<br>iMessage优势<br>iMessage与传统短信不同，具有以下优势：</p>
+<ul>
+<li>目标人群明确，均为苹果用户，消费能力较强</li>
+<li>文字数量不限，同时还可以添加表情和图片</li>
+<li>可以添加网址、下载链接等，用户可以直接通过手机访问</li>
+<li>不会被手机安全卫士拦截</li>
+<li>转发就像手机短信一样方便</li>
+<li>无发送成本</li>
+<li>送达终端的概率极高</li>
+</ul>
+<p>iMessage推送技术实现<br>群发iMessage主要需要攻破两个技术难点，一个是iMessage账号的获取，另一个是群发iMessage。<br>iMessage账号获取<br>iMessage账号目前获取的方法主要是扫描手机号码。扫描手机号码可以通过代码自动扫描，也可以通过人工筛选。通过代码自动扫描本人暂未发现很好的方法，建议大家可以从以下两方面着手：</p>
+<ul>
+<li>1.编写AppleScript脚本控制Mac OS自带的iMessage客户端进行验证，类似于群发iMessage。发送一条iMessage之后，如果捕获到发送失败的异常则不是iMessage账号</li>
+<li>2.研究iOS系统中Message framework中的私有api，通过私有api进行验证</li>
+</ul>
+<p>要进行人工筛选，也可以通过Mac OS自带的iMessage客户端。方法是编写程序，将要验证的号码输出到文件中，以逗号分隔。再将文件中的号码粘贴到iMessage客户端的地址栏，iMessage客户端会自动逐个检验该号码是否为iMessage账号，检验速度视网速而定。其中红色表示不是iMessage账号，蓝色表示iMessage账号以及未检验的账号。如图：<br><img src="http://note.youdao.com/yws/res/5122/555A9B4686F843D8A1E7332A44CA06DC" alt="image"><br>检验过程中有可能会出现停止的现象，可以全选所有号码后，剪切再粘贴即可继续检验。<br>iMessage群发<br>检验完所有账号后，可以从中选取出iMessage账号进行群发。群发有两个方法，一个还是通过iMessage客户端，另一个是通过AppleScript脚本控制iMessage客户端发送。</p>
+<ul>
+<li>通过iMessage客户端发送，可直接将号码粘贴至地址栏，填写内容，发送即可。</li>
+<li>通过ApplseScript控制iMessage客户端的脚本如下：<br>  tell application “Messages”<br>  set csvData to read “/Users/xxxx/Desktop/test.csv”<br>  set csvEntries to paragraphs of csvData<br>  repeat with i from 1 to count csvEntries<br>  set phone to (csvEntries’s item i)’s text<br>  set myid to get id of first service<br>  set theBuddy to buddy phone of service id myid<br>  send “今天北京晴，气温13到27度；周二晴，气温11到26度，北风3-4级；周三晴，气温11到24度，微风&lt;3” to theBuddy<br>  end repeat<br>  end tell</li>
+</ul>
+<p>以上代码可从一个csv文件中读取出iMessage账号，并通过iMessage客户端逐个发送iMessage消息。</p>
+<p>需要注意如下问题：</p>
+<ul>
+<li>1.由于该脚本是控制iMessage客户端进行发送，所以必须在MacOS 10.8以上（10.7系统中的iMessage Beta版本已无法使用）的系统中运行，同时开启iMessage程序。</li>
+<li>2.该脚本在发送iMessage时并不是后台发送，所以当发送量很大时，会导致iMessage客户端运行缓慢，甚至无法开启。可通过清空所有已发送的iMessage或注销账号解决。</li>
+<li>3.通过脚本发送的iMessage账号必须是在当前iMessage客户端中检验过的，否则会报“不能获得“buddy id “C0B35E7F-A0FB-49E1-BDD7-C867BC06D920:+86136xxxx0000””。</li>
+</ul>
+<p>从上面转载的博文上可以看出来，这哥们主要是做了简单少数号码的尝试，没有真正大量群发过，但他在最后也提出了真正群发会遇到问题，三个问题解决方案如下：</p>
+<ul>
+<li>第一个问题用mac os系统或者黑苹果装10.8操作系统，会自带messages程序，这程序系统自带，千万不会发现打不开去删除Messages程序，删除就只能重装系统了。并且是先打开Messages程序，再启动apple script脚本，不然运行不正常。</li>
+<li><p>第二个问题，在发送过程中加入同步删除的代码,但同步一条一条删除时有时会失败，所以再增加发一定量后再批量删除一次的操作，正常的流程应该是打开Messages程序-&gt;循环号码库-&gt;读取一个号码-&gt;发送一条信息-&gt;等待1秒-&gt;删除此条信息-&gt;判断是否未删除的超过100条，是批量删除-&gt;循环号码库。这样就可以保证Messages程序不会去占百分一百多的CPU或者几个G的内存。<br>  tell application “Messages”<br>  set csvData to read “/Users/xxxx/Desktop/test.csv”<br>  set csvEntries to paragraphs of csvData<br>  repeat with i from 1 to count csvEntries<br>  set phone to (csvEntries’s item i)’s text<br>  set myid to get id of first service<br>  set theBuddy to buddy phone of service id myid<br>  send “今天北京晴，气温13到27度；周二晴，气温11到26度，北风3-4级；周三晴，气温11到24度，微风&lt;3” to theBuddy<br>  delay 1 -延时一秒，不然取不到已发达的内容<br>  set FailNum to (get count chat)<br>  if FailNum&gt;100 then<br>  repeat with j from 1 to FailNum<br>  set phone to (get name of chat (FailNum-j))<br>  set DelMsg to “iMessage;-;” &amp; phone<br>  if exists (text chat id DelMsg) then<br>  delete text chat id DelMsg<br>  end if<br>  end repeat<br>  end if<br>  end repeat<br>  end tell</p>
+</li>
+<li><p>第三个问题，在messages程序的imessage帐号中设置用来群发的imessage帐号。就没有问题了。</p>
+</li>
+</ul>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2014-12-11</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>FFmpeg学习记录、整理 · iodefog</title><meta name="description" content="“FFmpeg”这个单词中的“FF”指的是“Fast Forward”[2]。有些新手写信给“FFmpeg”的项目负责人，询问FF是不是代表“Fast Free”或者“Fast Fourier”等意思，“FFmpeg”的项目负责人回信说：“Just for the record, the origi"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>FFmpeg学习记录、整理</a></h3></div><div class="post-content"><p>“FFmpeg”这个单词中的“FF”指的是“Fast Forward”[2]。有些新手写信给“FFmpeg”的项目负责人，询问FF是不是代表“Fast Free”或者“Fast Fourier”等意思，“FFmpeg”的项目负责人回信说：“Just for the record, the original meaning of “FF” in FFmpeg is “Fast Forward”…”</p>
+<a id="more"></a>
+<p><a href="#">目录</a></p>
+<ul>
+<li><a href="#基本介绍">基本介绍</a></li>
+<li><a href="#常用命令解析">常用命令解析</a></li>
+<li><a href="#添加水印">添加水印</a></li>
+</ul>
+<hr>
+<h1 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h1><h3 id="组成组件："><a href="#组成组件：" class="headerlink" title="组成组件："></a>组成组件：</h3><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ffmpeg</td>
+<td>一个命令行工具，用来对视频文件转换格式，也支持对电视卡即时编码</td>
+</tr>
+<tr>
+<td>ffserver</td>
+<td>一个HTTP多媒体即时广播流服务器，支持时光平移</td>
+</tr>
+<tr>
+<td>ffplay</td>
+<td>一个简单的播放器，基于SDL与FFmpeg库</td>
+</tr>
+<tr>
+<td>libavcodec</td>
+<td>包含全部FFmpeg音频/视频编解码库</td>
+</tr>
+<tr>
+<td>libavformat</td>
+<td>包含demuxers和muxer库</td>
+</tr>
+<tr>
+<td>libavutil</td>
+<td>包含一些工具库</td>
+</tr>
+<tr>
+<td>libpostproc</td>
+<td>对于视频做前处理的库</td>
+</tr>
+<tr>
+<td>libswscale</td>
+<td>对于视频作缩放的库</td>
+</tr>
+</tbody>
+</table>
+<h3 id="参数："><a href="#参数：" class="headerlink" title="参数："></a>参数：</h3><p>FFmpeg可使用众多参数，参数内容会根据ffmpeg版本而有差异，使用前建议先参考参数及编解码器的叙述。此外，参数明细可用ffmpeg -h显示；编解码器名称等明细可用ffmpeg -formats显示。<br>下列为较常使用的参数：</p>
+<ol>
+<li>主要参数</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>【参数】</th>
+<th>【说明】</th>
+<th>【示例】</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-i “路径”</td>
+<td>指定需要转换的文件路径</td>
+<td>-i ./mm.mp4</td>
+</tr>
+<tr>
+<td>-f</td>
+<td>设置输出格式。</td>
+</tr>
+<tr>
+<td>-y</td>
+<td>若输出文件已存在时则覆盖文件。</td>
+</tr>
+<tr>
+<td>-fs</td>
+<td>超过指定的文件大小时则结束转换。</td>
+</tr>
+<tr>
+<td>-ss</td>
+<td>从指定时间开始转换。</td>
+</tr>
+<tr>
+<td>-t</td>
+<td>从-ss时间开始转换（如-ss 00:00:01.00 -t 00:00:10.00即从00:00:01.00开始到00:00:11.00）。</td>
+</tr>
+<tr>
+<td>-title</td>
+<td>设置标题。</td>
+</tr>
+<tr>
+<td>-timestamp</td>
+<td>设置时间戳。</td>
+</tr>
+<tr>
+<td>-vsync</td>
+<td>增减Frame使影音同步。</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>视频参数</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>【参数】</th>
+<th>【说明】</th>
+<th>【示例】</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-bitexac</td>
+<td>使用标准比特率</td>
+</tr>
+<tr>
+<td>-b</td>
+<td>v——设置视频流量，默认为200Kbit/秒。指定压缩比特率（单位请引用下方注意事项）</td>
+<td>-b 1500</td>
+</tr>
+<tr>
+<td>-r</td>
+<td>设置帧率值，默认为25。帧速率(非标准数值会导致音画不同步【标准值为15或29.97】)</td>
+<td>-r 15</td>
+</tr>
+<tr>
+<td>-s</td>
+<td>设置画面的宽与高。指定分辨率大小</td>
+<td>-s 320*240</td>
+</tr>
+<tr>
+<td>-aspect</td>
+<td>设置画面的比例。</td>
+</tr>
+<tr>
+<td>-vn</td>
+<td>不处理视频，于仅针对声音做处理时使用。</td>
+</tr>
+<tr>
+<td>-vcodec xvid</td>
+<td>使用xvid压缩</td>
+</tr>
+<tr>
+<td>-vcodec( -c:v )</td>
+<td>设置视频视频编解码器，未设置时则使用与输入文件相同之编解码器。</td>
+</tr>
+<tr>
+<td>-qmin</td>
+<td>设定最小质量</td>
+<td>-qmin 10</td>
+</tr>
+<tr>
+<td>-qmax</td>
+<td>与-qmin相反，可以与-qmin同时使用</td>
+<td>-qmax 30</td>
+</tr>
+<tr>
+<td>-sameq</td>
+<td>使用与源视频相同的质量</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li>声音参数</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>【参数】</th>
+<th>【说明】</th>
+<th>【示例】</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-b:a</td>
+<td>设置每Channel（最近的SVN版为所有Channel的总合）的流量。（单位请引用下方注意事项）</td>
+</tr>
+<tr>
+<td>-ar</td>
+<td>设定声音采样率(8000，11025，22050)</td>
+<td>-ar 22050</td>
+</tr>
+<tr>
+<td>-ac</td>
+<td>设定声道数：1为单声道，2为立体声</td>
+<td>-ac 2</td>
+</tr>
+<tr>
+<td>-acodec aac</td>
+<td>设置声音编解码器，未设置时与视频相同，使用与输入文件相同之编解码器。</td>
+</tr>
+<tr>
+<td>-an</td>
+<td>不处理声音，于仅针对视频做处理时使用。</td>
+</tr>
+<tr>
+<td>-vol</td>
+<td>设置音量大小，256为标准音量。（要设置成两倍音量时则输入512，依此类推。）</td>
+</tr>
+<tr>
+<td>-ab &lt;比特率&gt;</td>
+<td>设定声音比特率(-ac设为立体声时要以一半比特率来设置，比如192kbps的就设成96)</td>
+<td>-ab 96</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>注意事项<br>以-b:v及-b:a首选项流量时，根据使用的ffmpeg版本，须注意单位会有kbits/sec与bits/sec的不同。（可用ffmpeg -h显示说明来确认单位。）<br>例如，单位为bits/sec的情况时，欲指定流量64kbps时需输入 -b:a 64k；单位为kbits/sec的情况时则需输入 -b:a 64。<br>以-acodec及-vcodec所指定的编解码器名称，会根据使用的ffmpeg版本而有所不同。例如使用AAC编解码器时，会有输入aac与libfaac的情况。此外，编解码器有分为仅供解码时使用与仅供编码时使用，因此一定要利用ffmpeg -formats确认输入的编解码器是否能运作。</li>
+</ul>
+<p><a href="https://zh.wikipedia.org/wiki/FFmpeg" target="_blank" rel="noopener">参考wiki百科</a></p>
+<hr>
+<h1 id="常用命令解析"><a href="#常用命令解析" class="headerlink" title="常用命令解析"></a>常用命令解析</h1><p>下载一个视频到本地并转换为MP4类型  ffmpeg -i 远程url或者本地视频  到本地<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i http://videodata.url ./成都日本版.mp4</span><br></pre></td></tr></table></figure></p>
+<p>下载一个视频到本地并转换成mp3类型  ffmpeg -i 远程url或者本地视频  到本地<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i http://videodata.url ./成都日本版.mp4</span><br></pre></td></tr></table></figure></p>
+<p>【转换文件格式的同时抓缩微图】<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i &quot;test.avi&quot; -y -f image2 -ss 8 -t 0.001 -s 350x240 &quot;test.jpg&quot;</span><br></pre></td></tr></table></figure></p>
+<p>讲解： -i 后面跟输入文件  -y 覆盖  -f 转换格式为image2  -ss 起点 -t 时长  -s 指定分辨率大小  “test.jpg” 最后生成的文件</p>
+<p>【对已有flv抓图】<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i &quot;test.flv&quot; -y -f image2 -ss 8 -t 0.001 -s 350x240 &quot;test.jpg&quot;</span><br></pre></td></tr></table></figure></p>
+<p>-ss后跟的时间单位为秒</p>
+<hr>
+<h1 id="添加水印"><a href="#添加水印" class="headerlink" title="添加水印"></a>添加水印</h1><h3 id="1-添加图片水印"><a href="#1-添加图片水印" class="headerlink" title="1. 添加图片水印"></a>1. 添加图片水印</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 添加图片水印</span><br><span class="line">  ffmpeg -i inputfile -vf  &quot;movie=masklogo,scale= 60: 30[watermask]; [in] [watermask] overlay=30:10 [out]&quot; outfile</span><br><span class="line"></span><br><span class="line">//  在视频mm.mp4上添加水印图64.png 位置为右上角，输出新文件为mm1.mp4</span><br><span class="line">ffmpeg -i mm.mp4 -vf &quot;movie=64.png ,scale=64*64[watermask];[in][watermask] overlay=main_w-overlay_w-40:30 [out]&quot; ./mm1.mp4</span><br></pre></td></tr></table></figure>
+<p>marklogo:添加的水印图片；</p>
+<p>scale：水印大小，水印长度＊水印的高度；</p>
+<p>overlay：水印的位置，距离屏幕左侧的距离＊距离屏幕上侧的距离；mainW主视频宽度， mainH主视频高度，overlayW水印宽度，overlayH水印高度</p>
+<p>　　左上角overlay参数为 overlay=0:0</p>
+<p>　　右上角为 overlay= main_w-overlay_w:0</p>
+<p>　　右下角为 overlay= main_w-overlay_w:main_h-overlay_h</p>
+<p>　　左下角为 overlay=0: main_h-overlay_h</p>
+<p> 上面的0可以改为5，或10像素，以便多留出一些空白。</p>
+<h3 id="2-水印合流"><a href="#2-水印合流" class="headerlink" title="2. 水印合流"></a>2. 水印合流</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i input -i logo -filter_complex &apos;overlay=10:main_h-overlay_h-10&apos; output</span><br></pre></td></tr></table></figure>
+<p>input:输入流</p>
+<p>logo：水印文件，也可以是一个流。</p>
+<p>注意：需要编译时把相应的解码器编译。例如PNG图片。需要编译PNG解码器。Ffmpeg才能够识别图片文件，把图片做为一 种流。注意：PNG图片必须含有alpha通道。Overlay过滤器是根据alpha通道来进行复盖的。所以，你想要透明效果时，须先制做一张透明的PNG图片。</p>
+<p>output：输出流</p>
+<p>也可以用下面命令：  ffmpeg -i input  -vf ‘movie=long.png[logo];[in][logo]overlay=10:10[out]’ output     ，movie过滤器用来把两个流组合成一个流。它有一个输出PAD。</p>
+<h3 id="字幕文件转换"><a href="#字幕文件转换" class="headerlink" title="字幕文件转换"></a>字幕文件转换</h3><p>字幕文件有很多种，常见的有 .srt , .ass 文件等,下面使用FFmpeg进行相互转换。</p>
+<ul>
+<li>将.srt文件转换成.ass文件</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i subtitle.srt subtitle.ass</span><br></pre></td></tr></table></figure>
+<p>将.ass文件转换成.srt文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i subtitle.ass subtitle.srt</span><br></pre></td></tr></table></figure></p>
+<p>集成字幕，选择播放<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i input.mp4 -i subtitles.srt -c:s mov_text -c:v copy -c:a copy output.mp4</span><br></pre></td></tr></table></figure></p>
+<p>解析：<br>-c:s 设置字幕解码器。未设置是字幕解码与输入文件相同<br>-c:v 设置视频视频编解码器，未设置时则使用与输入文件相同之编解码器<br>-c:a 设置声音编解码器，未设置时与视频相同，使用与输入文件相同之编解码器。</p>
+<ul>
+<li>嵌入SRT字幕到视频文件</li>
+</ul>
+<p>单独SRT字幕<br>字幕文件为subtitle.srt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i video.avi -vf subtitles=subtitle.srt out.avi</span><br></pre></td></tr></table></figure></p>
+<p>嵌入在MKV等容器的字幕<br>将video.mkv中的字幕（默认）嵌入到out.avi文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i video.mkv -vf subtitles=video.mkv out.avi</span><br></pre></td></tr></table></figure></p>
+<p>将video.mkv中的字幕（第二个）嵌入到out.avi文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i video.mkv -vf subtitles=video.mkv:si=1 out.avi</span><br></pre></td></tr></table></figure></p>
+<p>嵌入ASS字幕到视频文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i video.avi -vf &quot;ass=subtitle.ass&quot; out.avi</span><br></pre></td></tr></table></figure></p>
+<p>不能加载fontconfig文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Fontconfig error: Cannot load default config file</span><br><span class="line">[Parsed_ass_0 @ 0000000002bfa3e0] No usable fontconfig configuration file found,</span><br><span class="line"> using fallback.</span><br><span class="line">Fontconfig error: Cannot load default config file</span><br></pre></td></tr></table></figure></p>
+<p>出现类似错误的原因是无法加载字体配置文件。</p>
+<hr>
+<p>其他常用命令</p>
+<ol>
+<li><p>提取视频 （Extract Video）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i Life.of.Pi.has.subtitles.mkv -vcodec copy –an  videoNoAudioSubtitle.mp4</span><br></pre></td></tr></table></figure>
+<p>参考：<a href="http://www.cnblogs.com/wainiwann/p/4128154.html" target="_blank" rel="noopener">http://www.cnblogs.com/wainiwann/p/4128154.html</a></p>
+</li>
+<li><p>提取音频（Extract Audio）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i Life.of.Pi.has.subtitles.mkv -vn -acodec copy audio.ac3</span><br></pre></td></tr></table></figure>
+<p>参考：<a href="http://stackoverflow.com/questions/9913032/ffmpeg-to-extract-audio-from-video" target="_blank" rel="noopener">http://stackoverflow.com/questions/9913032/ffmpeg-to-extract-audio-from-video</a></p>
+</li>
+<li>提取字幕（Extract Subtitle）<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i Life.of.Pi.has.subtitles.mkv-map 0:s:0 sub1.srt</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>参考：<a href="http://superuser.com/questions/583393/extract-subtitle-from-video" target="_blank" rel="noopener">http://superuser.com/questions/583393/extract-subtitle-from-video</a></p>
+<hr>
+<hr>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2018-11-06</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a><a href="/tags/ffmpeg-player/" title="ffmpeg, player" class="tag">ffmpeg, player </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

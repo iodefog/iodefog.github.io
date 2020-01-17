@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>国际化与本地化(i18n)支持函数库（多语言） · iodefog</title><meta name="description" content="http://www.cocoachina.com/bbs/read.php?tid=224074
+
+关键字：I18N,本地化,国际化,多语言
+代码类库：数据持久化(DataPersistence)
+GitHub链接：https://github.com/kaishiqi/I18N-Gettext-"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>国际化与本地化(i18n)支持函数库（多语言）</a></h3></div><div class="post-content"><p><a href="http://www.cocoachina.com/bbs/read.php?tid=224074" target="_blank" rel="noopener">http://www.cocoachina.com/bbs/read.php?tid=224074</a></p>
+<ul>
+<li>关键字：I18N,本地化,国际化,多语言</li>
+<li>代码类库：数据持久化(DataPersistence)</li>
+<li>GitHub链接：<a href="https://github.com/kaishiqi/I18N" target="_blank" rel="noopener">https://github.com/kaishiqi/I18N</a>-Gettext-Supported</li>
+</ul>
+<p><a href="http://click.am1.adm.cnzz.net/click.php?m4c=2mNyDbwSya6SX2vfkkOADQsfFQVbGB4_Egg9S0ZOMwtCDjgIVkBUGE5OTk1QMjpaHlkCFxwSVAoPXEJXPQNlSB5vEC8QeAkSEHEsCwMAAg4OMBIoaw.." target="_blank" rel="noopener"><img src="http://cache.adm.cnzz.net/material/df/1/13d5a300cf3ab7df234d2612d434f.jpg" alt="" title="捕鱼达人"></a>最近在研究项目多语言功能，发现了一套比较成熟的解决方案，就是GUN GETTEX。<br>而且还有完善的编辑器 Poedit，于是就剩下在项目中解析使用翻译文件了。<br>搜索发现 Boost 类库貌似有提供支持，可是又不想为此而使用这么庞大的一个类库。<br>所以自己四处搜索了一些资料，写了这么一个配合 Poedit 软件，解析使用 gettext 翻译文件(*.mo)，的解决方案功能类库。</p>
+<a id="more"></a>
+<p>使用方法很简单：</p>
+<hr>
+<p>第一步：<br>在代码中用关键字包装需要翻译的字符串。我做了一些扩展，支持的翻译种类功能有：</p>
+<p><img src="http://www.cocoachina.com/bbs/attachment/Fid_19/19_72216_cce545fa56053d4.png" alt=""> </p>
+<ul>
+<li>普通文本：        就是普通的一句字符串，一句话或者一个单词。例如：<br><a href="">复制代码</a>1. __(“Hello world!”)</li>
+</ul>
+<ul>
+<li>上下文文本：        有些时候一个词语存一词多意的情况，比如一个按钮上显示着 post，另一个标签上也显示着 post。他们的上下文环境不同意思也不一样。</li>
+</ul>
+<p>但是如果你直接把2个post单词丢给翻译直接去翻译，他一定也会拿不定的，而且直接用post在用在程序翻译哈希表key的话也会被覆盖掉一个的。<br>所以这时候如果有个额外的上下文参数区分，那么就会很方便了。例如：<br><a href="">复制代码</a>1. _x(“post”, “A post.”); // 当翻译看到 A post，那么自然就知道这个地方的 post 需要翻译成 “文章”，而翻译并不需要关系这是我们程序中用在标签位置的 post。</p>
+<ol>
+<li>_x(“post”, “To post.”); // 看到 To post，翻译就很确切的知道这里的 post 需要翻译成 “发布”。</li>
+</ol>
+<ul>
+<li>单复数文本：        大家都知道很多语言是存在单复数格式的，比如说英语。那么数量不同，自然就需要用不同的格式进行显示。这个格式就会根据第三个变量参数的数量判断是需要使用单数格式还是复数格式显示了。<br><a href="">复制代码</a>1. _n(“There is a comment.”, “There are comments.”, 1);</li>
+</ul>
+<ol>
+<li>_n(“There is a comment.”, “There are comments.”, 3);</li>
+</ol>
+<ul>
+<li>单复数 + 上下文：        顾名思义就是既有单复数的情况也存在需要区分上下文环境的情况。不举例了，示例代码中都有。</li>
+</ul>
+<p>除此之外，我写了一个额外的字符串格式化方法，类似于 printf 方法，只不过假如了为格式标记附带参数索引的功能。例如：<br><a href="">复制代码</a>1. i18nFormat(“c:%c1 d:%d2 f:%.2f3 s:%s4 %:%”, ‘@’, 30, 3.1415, “str”);</p>
+<ol>
+<li>//c:@ d:30 f:3.14 s:str %:%)</li>
+</ol>
+<p>这个format格式后面增加了参数的索引标记，参数是从1开始依次计算的。这个功能有什么用的？<br>比如，参数需要反复使用的情况：<br><a href="">复制代码</a>1. i18nFormat(“%s1.a = %s1.b = %s1.c = %s1.d = %d2”, “foo”, 7);</p>
+<ol>
+<li>//foo.a = foo.b = foo.c = foo.d = 18)</li>
+</ol>
+<p>参数需要无序使用的情况：<br><a href="">复制代码</a>1. i18nFormat(“[enable] %d1 &lt; %d2; %d2 &gt; %d3; %d3 &gt; %d1”, 1, 3, 2);</p>
+<ol>
+<li>//1 &lt; 3; 3 &gt; 2; 2 &gt; 1</li>
+</ol>
+<p>为什么要提提供这个功能呢？因为英文存在一个叫“倒装句”的语法。比如：<br><a href="">复制代码</a>1. 英文原文：printf(“There are birds singing in the tree.”)</p>
+<ol>
+<li>翻译中文：printf(“小鸟在树上唱歌。”)</li>
+</ol>
+<p>如果唱歌和树是变量的话，那么这句话的翻译格式应该为：<br><a href="">复制代码</a>1. 英文原文：printf(“There are birds %s in the %s.”, “singing”, “tree”)</p>
+<ol>
+<li>翻译中文：printf(“小鸟在%s上%s。”, “唱歌”, “树”)</li>
+</ol>
+<p>如果只是单纯的变量按照顺序替换的话，中文翻译过来就会变成：<br>小鸟在[唱歌]上[树]。<br>这时候就是发挥参数匹配foramat的优势了：<br><a href="">复制代码</a>1. 英文原文：i18nFormatStr(“There are birds %s1 in the %s2.”, “singing”, “tree”)</p>
+<ol>
+<li>翻译中文：i18nFormatStr(“小鸟在%s2上%s2。”, “唱歌”, “树”)</li>
+</ol>
+<hr>
+<p>第二步：<br>使用 <a href="http://poedit.net/" target="_blank" rel="noopener">Poedit</a> 软件捕捉代码使用各种关键字包住的字符串，然后生成翻译清单。</p>
+<p><img src="http://www.cocoachina.com/bbs/attachment/Fid_19/19_72216_78e1b2c8a707baa.png" alt=""><br>Poedit是一款多平台的软件，有mac、win、liux版。可视化的编辑操作，管理维护起来十分很方便，而且很智能。<br>比如注释的代码就不会去捕捉，而且代码中的翻译文字如果想要修改，只需要点击一下更新按钮就可以自动识别出变动，完全不需要人工调整原字符哪里做了改动，翻译字典那边也要记得同样修改。<br>po文件是Poedit的编辑文件，而保存后将会编译生成二进制文件mo，即减少文件体积又可以达到一点加密的效果。</p>
+<hr>
+<p>第三步：<br>用类库加载指定的 mo 文件即可。类库会自动解析文件并且生成一个翻译原文与翻译文对应的字符串哈希表提供给外部使用。使用者不需要关心实现细节，只需要写一句话即可实现：<br><a href="">复制代码</a>1. I18nUtils::getInstance()-&gt;addMO(“res/zh_Hans.mo”, <a href="int"></a>{return 0;}, 1);</p>
+<p><img src="http://www.cocoachina.com/bbs/attachment/Fid_19/19_72216_26dee3053893cab.png" alt=""> </p>
+<p>一开始我在做cocos2d-x项目的时候编写的，后来把代码独立抽离出来，所以现在类库不依赖cocos2d-x，可以适用于任何C++的游戏或者软件项目。<br>当然cocos2d-x也是提供了支持接口的。所以该类库是 iOS、Android、MAC、Windows 和 Linux 多平台支持的C++解决方案。</p>
+<p>最后，我在 github 链接中分别提供了 xcode 以及 vs2012 的用例，以及如何使用 Poedit 的说明。方便大家围观测用。</p>
+<p><img src="http://www.cocoachina.com/bbs/attachment/Fid_19/19_72216_cf246611612e583.png" alt=""> </p>
+<p><img src="http://www.cocoachina.com/bbs/attachment/Fid_19/19_72216_020b8800d5b6944.png" alt=""></p>
+<p><img src="http://www.cocoachina.com/bbs/attachment/Fid_19/19_72216_d8c5130de0e9f2a.png" alt=""> </p>
+<p><img src="http://www.cocoachina.com/bbs/attachment/Fid_19/19_72216_1add24671d336dd.png" alt=""><br>附件: <img src="http://www.cocoachina.com/bbs/images/wind2013/file/zip.gif" alt=""> <a href="http://www.cocoachina.com/bbs/job.php?action=download&amp;aid=75903" target="_blank" rel="noopener">I18N-Gettext-Supported-master.zip</a> (98<br> K) 下载次数:12</p>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2014-08-22</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
