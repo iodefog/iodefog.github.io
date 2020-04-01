@@ -1,33 +1,25 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>在 Mac mini 上架设 Jenkins 服务器来运行 iOS 测试 · iodefog</title><meta name="description" content="[在 Mac mini 上架设 Jenkins 服务器来运行 iOS 测试](http://linjunpop.logdown.com/posts/162202-set-up-jenkins-server-on-the-mac-mini-to-run-ios-tests)
-安装配置 Jenkins先"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>在 Mac mini 上架设 Jenkins 服务器来运行 iOS 测试</a></h3></div><div class="post-content"><h2 id="在"><a href="#在" class="headerlink" title="[在"></a>[在</h2><p> Mac mini 上架设 Jenkins 服务器来运行 iOS 测试](<a href="http://linjunpop.logdown.com/posts/162202-set-up-jenkins-server-on-the-mac-mini-to-run-ios-tests" target="_blank" rel="noopener">http://linjunpop.logdown.com/posts/162202-set-up-jenkins-server-on-the-mac-mini-to-run-ios-tests</a>)</p>
-<h2 id="安装配置-Jenkins"><a href="#安装配置-Jenkins" class="headerlink" title="安装配置 Jenkins"></a>安装配置 Jenkins</h2><p>先使用 homebrew 安装 Jenkins<br>    $ brew install jenkins<br><a id="more"></a></p>
-<p>然后链接 launchd 配置文件<br>    $ ln -sfv /usr/local/opt/jenkins/*.plist ~/Library/LaunchAgents</p>
-<p>可以更改此 plist 来进行一些自定义的配置，详细列表可以参考<a href="https://wiki.jenkins-ci.org/display/JENKINS/Starting+and+Accessing+Jenkins" target="_blank" rel="noopener">https://wiki.jenkins-ci.org/display/JENKINS/Starting+and+Accessing+Jenkins</a></p>
-<blockquote>
-<p>如果要其他机器也可以访问，把 plist 里的 <code>&lt;string&gt;--httpListenAddress=127.0.0.1&lt;/string&gt;</code> 删掉即可<br>修改完后，在终端执行<br>    $ launchctl load ~/Library/LaunchAgents/homebrew.mxcl.jenkins.plist</p>
-</blockquote>
-<p>即可启动 Jenkins<br>接着用浏览器访问 <code>localhost:8080</code>（默认配置），就可以看到<br> Jenkins 的 web 界面了</p>
-<h2 id="集成-GitHub-的-Pull-Request"><a href="#集成-GitHub-的-Pull-Request" class="headerlink" title="集成 GitHub 的 Pull Request"></a>集成 GitHub 的 Pull Request</h2><p>在 GitHub 上有新的 Pull Request 的时候，可以自动来跑测试，然后把结果提交给 GitHub 上</p>
-<h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><p>在左侧的导航找到 <code>Manage
- Jenkins</code>，进到管理界面，然后找到 <code>Manage
- Plugins</code> 进入插件管理界面，我们安装几个必须的插件：</p>
-<ul>
-<li>GitHub plugin <a href="https://wiki.jenkins-ci.org/display/JENKINS/Github+Plugin" target="_blank" rel="noopener">https://wiki.jenkins-ci.org/display/JENKINS/Github+Plugin</a></li>
-<li>GitHub Pull Request Builder <a href="https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin" target="_blank" rel="noopener">https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin</a></li>
-</ul>
-<h2 id="Job-跑起来"><a href="#Job-跑起来" class="headerlink" title="Job 跑起来"></a>Job 跑起来</h2><p>安装完插件之后，我们可以开始建立 Job，在首页的左侧找到 New Job 进入新建 Job 的界面，选择 <code>Build
- a free-style software project</code><br><img src="http://user-image.logdown.io/user/749/blog/746/post/162202/vDclj1BQR9qvMPAhQhdG_Screen%20Shot%202013-11-25%20at%202.00.36%20PM.png" alt="Screen Shot 2013-11-25 at 2.00.36 PM.png"><br>点击 OK 之后，进入配置界面，找到 Source Code Management，按照下图，选择 Git，然后填入 Name 为 <code>origin</code>，Refspec<br> 填入<code>+refs/pull/*:refs/remotes/origin/pr/*</code>，Branch<br> Specifier 填入<code>${sha1}</code><br><img src="http://user-image.logdown.io/user/749/blog/746/post/162202/g62kVG4sRqykiRynCBIu_Screen%20Shot%202013-11-25%20at%202.02.52%20PM.png" alt="Screen Shot 2013-11-25 at 2.02.52 PM.png"><br>接着在 Build Trigger 下选择上 <code>GitHub
- pull requests builder</code>，默认使用的是 polling，这里也可以配置使用 github 的 hook 来触发，具体可以点击旁边的问号查看帮助<br><img src="http://user-image.logdown.io/user/749/blog/746/post/162202/SYHWaxR9QdG14iNmpXeJ_Screen%20Shot%202013-11-25%20at%202.10.02%20PM.png" alt="Screen Shot 2013-11-25 at 2.10.02 PM.png"><br>接着在 Build 下，添加 <code>Execute
- shell</code> 的 build step，里面写上跑测试的脚本<br><img src="http://user-image.logdown.io/user/749/blog/746/post/162202/2u14UI1PQb6lakztF97K_Screen%20Shot%202013-11-25%20at%202.16.21%20PM.png" alt="Screen Shot 2013-11-25 at 2.16.21 PM.png"><br><a href="http://griddiaryapp.com/" target="_blank" rel="noopener">格志</a>里使用了<br> cocoapods，还有用 bundler 来管理 cocoapods 和其他 Ruby Gems 的版本，所以我们使用下面这段脚本来跑测试</p>
-<pre><code>#!/usr/bin/env zsh --login
+include mixins
 
-rvm use 2.0.0
-ruby --version
-bundle
-bundle --version
-bin/pod
-/usr/bin/xcodebuild -scheme &apos;GridDiary Beta&apos; -workspace GridDiary.xcworkspace -destination &quot;platform=iOS Simulator,name=iPhone Retina (4-inch),OS=latest&quot; -configuration Debug clean build test ONLY_ACTIVE_ARCH=NO
-</code></pre><p>最后在 Post-build Actions 里加入 <code>Set
- build status on GitHub commit</code><br><img src="http://user-image.logdown.io/user/749/blog/746/post/162202/ycHKHjERT7KdjfaVhnFA_Screen%20Shot%202013-11-25%20at%202.21.26%20PM.png" alt="Screen Shot 2013-11-25 at 2.21.26 PM.png"><br>这样，每次在 github 上有 Pull Request 的时候，Jenkins 就会自动运行测试，然后把结果反馈到 GitHub 上<br><img src="http://user-image.logdown.io/user/749/blog/746/post/162202/cJlnp703RDC5K3FGjf9l_Screen%20Shot%202013-11-25%20at%202.24.54%20PM.png" alt="Screen Shot 2013-11-25 at 2.24.54 PM.png"></p>
-<h2 id="Extra"><a href="#Extra" class="headerlink" title="Extra"></a>Extra</h2><p>Jenkins 默认的界面惨不忍睹，可以用 <a href="https://wiki.jenkins-ci.org/display/JENKINS/Simple+Theme+Plugin" target="_blank" rel="noopener">Simple<br> Theme</a> 这个插件来来自定 CSS 和 JavaScript<br>还有一个可以让 console 更不费眼睛一点的 Chrome 插件：<a href="https://github.com/M6Web/JenkinsTerminalColors" target="_blank" rel="noopener">https://github.com/M6Web/JenkinsTerminalColors</a><br>EOF</p>
-</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2016-05-31</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
+extends partial/layout
+
+block site_title
+    != page.title + " · " + config.title
+
+block description
+    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
+    meta(name="description", content=desc)
+
+block content
+  .autopagerize_page_element: .content: .post-page
+    include mixins
+    +make_post(page, true)
+    .pagination
+      ul.clearfix
+        if prev
+          li.pre.pagbuttons
+            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
+        if next
+          li.next.pagbuttons
+            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
+    if page.comments
+        include partial/comments

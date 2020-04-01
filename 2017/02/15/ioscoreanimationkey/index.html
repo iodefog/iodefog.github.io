@@ -1,18 +1,25 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>iOS CoreAnimation AnimationWithKeyPath 来改变动画 的Key · iodefog</title><meta name="description" content="可以通过改变animationWithKeyPath来改变动画：
-transform.scale = 比例转换transform.scale.x = 宽的比例转换transform.scale.y = 高的比例转换transform.rotation.z = 平面图的旋转opacity = 透明度m"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>iOS CoreAnimation AnimationWithKeyPath 来改变动画 的Key</a></h3></div><div class="post-content"><p>可以通过改变animationWithKeyPath来改变动画：</p>
-<p>transform.scale = 比例转换<br>transform.scale.x = 宽的比例转换<br>transform.scale.y = 高的比例转换<br>transform.rotation.z = 平面图的旋转<br>opacity = 透明度<br>margin<br>zPosition</p>
-<a id="more"></a>
-<p>backgroundColor 背景颜色<br>cornerRadius 圆角<br>borderWidth<br>bounds<br>contents<br>contentsRect<br>cornerRadius<br>frame<br>hidden<br>mask<br>masksToBounds<br>opacity<br>position<br>shadowColor<br>shadowOffset<br>shadowOpacity<br>shadowRadius</p>
-<p>[objc] <a href="http://blog.csdn.net/lihongli528628/article/details/47127739#" title="view plain" target="_blank" rel="noopener">view<br> plain</a> <a href="http://blog.csdn.net/lihongli528628/article/details/47127739#" title="copy" target="_blank" rel="noopener">copy</a>1. // Create animation for location change  </p>
-<ol>
-<li>CABasicAnimation *locationAnimation = [CABasicAnimation animationWithKeyPath:@”locations”];  </li>
-<li>locationAnimation.fromValue = gradientMask.locations;  </li>
-<li>locationAnimation.toValue = adjustedLocations;  </li>
-<li>locationAnimation.duration = 0.25;  </li>
-<li></li>
-<li>// Create animation for color change  </li>
-<li>CABasicAnimation *colorAnimation = [CABasicAnimation animationWithKeyPath:@”colors”];  </li>
-<li>colorAnimation.fromValue = gradientMask.colors;  </li>
-<li>colorAnimation.toValue = adjustedColo  </li>
-</ol>
-</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2017-02-15</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a><a href="/tags/iOS/" title="iOS" class="tag">iOS </a><a href="/tags/CoreAnimation/" title="CoreAnimation" class="tag">CoreAnimation </a><a href="/tags/AnimationWithKeyPath/" title="AnimationWithKeyPath" class="tag">AnimationWithKeyPath </a><a href="/tags/来改变动画/" title="来改变动画" class="tag">来改变动画 </a><a href="/tags/Key/" title="Key" class="tag">Key </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
+include mixins
+
+extends partial/layout
+
+block site_title
+    != page.title + " · " + config.title
+
+block description
+    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
+    meta(name="description", content=desc)
+
+block content
+  .autopagerize_page_element: .content: .post-page
+    include mixins
+    +make_post(page, true)
+    .pagination
+      ul.clearfix
+        if prev
+          li.pre.pagbuttons
+            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
+        if next
+          li.next.pagbuttons
+            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
+    if page.comments
+        include partial/comments

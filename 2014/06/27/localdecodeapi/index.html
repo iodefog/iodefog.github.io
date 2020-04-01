@@ -1,6 +1,25 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>根据坐标返回具体地址的API · iodefog</title><meta name="description" content="给你个“根据坐标返回具体地址的API”：高德：http://restapi.amap.com/v3/geocode/regeo?location=113.921076,22.499654&amp;amp;key=da8dd537807d127e3d41c74cbf185836&amp;amp;radius=1000"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>根据坐标返回具体地址的API</a></h3></div><div class="post-content"><p>给你个“根据坐标返回具体地址的API”：<br>高德：<a href="http://restapi.amap.com/v3/geocode/regeo?location=113.921076,22.499654&amp;key=da8dd537807d127e3d41c74cbf185836&amp;radius=1000&amp;extensions=all" target="_blank" rel="noopener">http://restapi.amap.com/v3/geocode/regeo?location=113.921076,22.499654&amp;key=da8dd537807d127e3d41c74cbf185836&amp;radius=1000&amp;extensions=all</a><br>百度：<a href="http://api.map.baidu.com/geocoder/v2/?ak=36fcc51e203c9958959d419e24238112&amp;callback=renderReverse&amp;location=22.505416578980,113.927633886490&amp;output=json&amp;pois=1&amp;qq-pf-to=pcqq.c2c" target="_blank" rel="noopener">http://api.map.baidu.com/geocoder/v2/?ak=36fcc51e203c9958959d419e24238112&amp;callback=renderReverse&amp;location=22.505416578980,113.927633886490&amp;output=json&amp;pois=1&amp;qq-pf-to=pcqq.c2c</a><br><a id="more"></a></p>
-<p>谷歌：<a href="http://maps.google.com/maps/api/geocode/json?latlng=22.499654000000,113.921076000000&amp;sensor=false" target="_blank" rel="noopener">http://maps.google.com/maps/api/geocode/json?latlng=22.499654000000,113.921076000000&amp;sensor=false</a><br>搜狗：<a href="http://api.go2map.com/engine/api/regeocoder/json?points=113.921076000000,22.499654000000&amp;type=1" target="_blank" rel="noopener">http://api.go2map.com/engine/api/regeocoder/json?points=113.921076000000,22.499654000000&amp;type=1</a><br>搜搜：<a href="http://api.map.qq.com/rgeoc/?lnglat=113.921076%2C22.499654&amp;output=jsonp&amp;fr=mapapi&amp;cb=SOSOMapLoader.geocoder0" target="_blank" rel="noopener">http://api.map.qq.com/rgeoc/?lnglat=113.921076%2C22.499654&amp;output=jsonp&amp;fr=mapapi&amp;cb=SOSOMapLoader.geocoder0</a><br><a href="http://segmentfault.com/q/1010000000328558/a-1020000000336551" target="_blank" rel="noopener">链接</a>2013年11月14日更新<a href="http://segmentfault.com/u/skiy" target="_blank" rel="noopener"><img src="http://sfault-avatar.b0.upaiyun.com/371/746/371746764-1030000000321445_small" alt=""></a>####<a href="http://segmentfault.com/u/skiy" target="_blank" rel="noopener">Skiychan</a>20<br>2013年11月14日回答- 0</p>
-<ul>
-<li></li>
-</ul>
-</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2014-06-27</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
+include mixins
+
+extends partial/layout
+
+block site_title
+    != page.title + " · " + config.title
+
+block description
+    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
+    meta(name="description", content=desc)
+
+block content
+  .autopagerize_page_element: .content: .post-page
+    include mixins
+    +make_post(page, true)
+    .pagination
+      ul.clearfix
+        if prev
+          li.pre.pagbuttons
+            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
+        if next
+          li.next.pagbuttons
+            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
+    if page.comments
+        include partial/comments

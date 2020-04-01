@@ -1,28 +1,25 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>New export options Plist in Xcode 9 · iodefog</title><meta name="description" content="即使Xcode 9还处于测试阶段，Bitrise已经有一个Xcode 9堆栈，许多人在尝试心情时使用它。👨🔬
-然而，由于新的导出选项，几个版本失败。我们正在进行更新Xcode Archive以自动检测此新选项的步骤。直到我们发布修复程序，让我们看看问题和解决方案。
+include mixins
 
-之前Xcode 9Xcode"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>New export options Plist in Xcode 9</a></h3></div><div class="post-content"><p>即使Xcode 9还处于测试阶段，Bitrise已经有一个Xcode 9堆栈，许多人在尝试心情时使用它。👨🔬</p>
-<p>然而，由于新的导出选项，几个版本失败。我们正在进行更新Xcode Archive以自动检测此新选项的步骤。直到我们发布修复程序，让我们看看问题和解决方案。</p>
-<a id="more"></a>
-<h1 id="之前Xcode-9"><a href="#之前Xcode-9" class="headerlink" title="之前Xcode 9"></a>之前Xcode 9</h1><p>Xcode 7引入了命令行工具的exportOptionsPlist标志xcodebuild来指定IPA导出参数。（要查看可用的IPA导出选项调用：xcodebuild -h并Available keys for -exportOptionsPlist:在命令的输出中搜索。）</p>
-<p>在Xcode 9之前，最小exportOptionsPlist指定exportMethod：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</span><br><span class="line">&lt;!DOCTYPE plist PUBLIC <span class="string">"-//Apple//DTD PLIST 1.0//EN"</span> <span class="string">"http://www.apple.com/DTDs/PropertyList-1.0.dtd"</span>&gt;</span><br><span class="line">&lt;plist version=<span class="string">"1.0"</span>&gt;</span><br><span class="line">    &lt;dict&gt;</span><br><span class="line">        &lt;key&gt;method&lt;/key&gt;</span><br><span class="line">        &lt;string&gt;development&lt;/string&gt;</span><br><span class="line">    &lt;/dict&gt;</span><br><span class="line">&lt;/plist&gt;</span><br></pre></td></tr></table></figure>
-<p>这些导出选项仍然可用，并且当您在本地Xcode中导出IPA时，您仍然必须选择这些选项。</p>
-<p>当您使用IDE第一次导出您的IPA时，您需要Select a method for distribution定义该method键exportOptionsPlist。（所有其他选项可以类似地映射到UI选项。）<br>Xcode Archive for iOS如果将Select method for export输入设置为，则该步骤可以根据嵌入到.xcarchive文件中的配置配置文件来确定所需的导出选项auto-detect。</p>
-<h1 id="但是用Xcode-9-…⚠"><a href="#但是用Xcode-9-…⚠" class="headerlink" title="但是用Xcode 9 …⚠"></a>但是用Xcode 9 …⚠</h1><p>使用Xcode 9的xcodebuild工具，您需要比以前的Xcode版本更具体：如果您使用auto-detect导出方法在Xcode 9.0.x堆栈上运行该步骤，您将收到以下错误消息：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;Error Domain=IDEProvisioningErrorDomain Code=9 \&quot;\&quot;ios-simple-objc.app\&quot; requires a provisioning profile.\&quot; </span><br><span class="line">UserInfo=&#123;NSLocalizedDescription=\&quot;ios-simple-objc.app\&quot; requires a provisioning profile., NSLocalizedRecoverySuggestion=Add </span><br><span class="line">a profile to the \&quot;provisioningProfiles\&quot; dictionary in your Export Options property list.&#125;&quot;</span><br></pre></td></tr></table></figure>
-<p>从日志中可以看到，您需要将provisioningProfiles密钥添加到exportOptionsPlist文件中，并且此值应描述应使用哪个配置文件对哪个包ID进行签名。</p>
-<h1 id="目前的解决方案"><a href="#目前的解决方案" class="headerlink" title="目前的解决方案"></a>目前的解决方案</h1><p>所以你必须让你的本地Xcode 9为你生成exportOptions文件，一旦你的Xcode生成了这个文件，你可以用这些选项配置Xcode存档步骤：</p>
-<ul>
-<li>1.使用 Xcode 9 打开项目.</li>
-<li>2.Archive项目 Product-&gt;Archive.</li>
-<li>3.Archive项目完成后，将生成的.xcarchive文件导出到IPA文件中。Xcode将在生成的IPA文件旁边复制使用的exportOptionsPlist文件</li>
-<li>4.在您喜欢的文本编辑器中打开此plist文件并复制其内容</li>
-<li>5.将其内容粘贴到Xcode存档步骤的Custom export options plist content输入</li>
-</ul>
-<p><img src="/img/9EC84551-CA4A-4782-A4B2-CEC0A88F31C9.png" alt="image"></p>
-<p>🎉 ！</p>
-<p>您现在可以在Xcode 9.0.x位升序堆栈上导出您的iOS项目，就像在本地计算机上一样。</p>
-<p>快乐编码！👻</p>
-<p>引用自：<a href="https://blog.bitrise.io/new-export-options-plist-in-xcode-9" target="_blank" rel="noopener">https://blog.bitrise.io/new-export-options-plist-in-xcode-9</a></p>
-</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2017-09-18</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
+extends partial/layout
+
+block site_title
+    != page.title + " · " + config.title
+
+block description
+    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
+    meta(name="description", content=desc)
+
+block content
+  .autopagerize_page_element: .content: .post-page
+    include mixins
+    +make_post(page, true)
+    .pagination
+      ul.clearfix
+        if prev
+          li.pre.pagbuttons
+            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
+        if next
+          li.next.pagbuttons
+            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
+    if page.comments
+        include partial/comments

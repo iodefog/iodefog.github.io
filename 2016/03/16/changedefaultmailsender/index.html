@@ -1,28 +1,25 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>命令行发送邮件并修改发送人,避免自动邮件归置到垃圾邮件 · iodefog</title><meta name="description" content="1.安装home-brew
-1/usr/bin/ruby -e &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;
-如果安装提示error：curl: (35) Server aborte"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>命令行发送邮件并修改发送人,避免自动邮件归置到垃圾邮件</a></h3></div><div class="post-content"><p>1.安装home-brew</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/ruby -e <span class="string">"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"</span></span><br></pre></td></tr></table></figure>
-<p>如果安装提示error：<br>curl: (35) Server aborted the SSL handshake<br><a id="more"></a></p>
-<p>解决方案：</p>
-<p>1.不过安装前，因为OS X El Capitan引入了系统完整性保护机制，使用Homebrew的同学请在升级后执行</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chown $(whoami):admin /usr/local &amp;&amp; sudo chown -R $(whoami):admin /usr/local</span><br></pre></td></tr></table></figure>
-<p>2.在命令中添加 –insecure</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/ruby -e <span class="string">"$(curl -fsSL --insecure  https://raw.githubusercontent.com/Homebrew/install/master/install)"</span></span><br></pre></td></tr></table></figure>
-<p>卸载命令</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ruby -e <span class="string">"$(curl -fsSL --insecure https://raw.githubusercontent.com/Homebrew/install/master/uninstall)"</span></span><br></pre></td></tr></table></figure>
-<p>2.安装msmtp</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install msmtp</span><br></pre></td></tr></table></figure>
-<p>3.配置<strong>vi ~/.mailrc  </strong><br><strong>粘贴 </strong></p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set sendmail=/usr/local/bin/msmtp</span><br></pre></td></tr></table></figure>
-<p><strong>
-</strong></p>
-<hr>
-<p><strong>vi ~/.msmtprc</strong><br><strong>注意把邮件密码设置为你的邮箱密码</strong></p>
-<hr>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">defaults</span><br><span class="line">logfile ~/.msmtp.log</span><br><span class="line"></span><br><span class="line">account honglili@sohu-inc.com</span><br><span class="line">host mail.sohu-inc.com</span><br><span class="line">port <span class="number">25</span></span><br><span class="line">auth login</span><br><span class="line">from honglili@sohu-inc.com</span><br><span class="line">user honglili@sohu-inc.com</span><br><span class="line">password *******</span><br><span class="line"></span><br><span class="line"><span class="meta"># this next line is crucial: you have to point to the correct security certificate for GMail.</span></span><br><span class="line"><span class="meta"># If this doesn't work, check the mstmp documentation</span></span><br><span class="line"><span class="meta"># at http://msmtp.sourceforge.net/documentation.html for help</span></span><br><span class="line"><span class="meta">#</span></span><br><span class="line"><span class="meta"># This next line should all be on one long line:</span></span><br><span class="line"><span class="meta">#tls_trust_file /path/to/Thawte Roots/Thawte SSLWeb Server Roots/thawte Premium Server CA/Thawte Premium Server CA.pem</span></span><br><span class="line"></span><br><span class="line"><span class="meta"># Set a default account</span></span><br><span class="line"><span class="meta"># You need to set a default account for Mail</span></span><br><span class="line">account <span class="keyword">default</span> : honglili@sohu-inc.com</span><br><span class="line"></span><br><span class="line"><span class="meta"># end msmtprc</span></span><br></pre></td></tr></table></figure>
-<p>4.~/.msmtprc 需要设置正确的访问权限<br><figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod <span class="number">600</span> ~/.msmtprc</span><br></pre></td></tr></table></figure></p>
-<p>5.发送邮件</p>
-<p>echo ‘hello world’ | mail -s “Subject” 305897143@qq.com<br>mail -s “test mail” 305897143@qq.com  &lt; ./head.jpg</p>
-<p>注：-s “Subject” 指修改标题   &lt; ./head.jpg 重定向内容</p>
-<p>其他<br>发送附件：<br>cat head.jpg| uuencode head.jpg | mail -s “test” 305897143@qq.com</p>
-</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2016-03-16</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
+include mixins
+
+extends partial/layout
+
+block site_title
+    != page.title + " · " + config.title
+
+block description
+    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
+    meta(name="description", content=desc)
+
+block content
+  .autopagerize_page_element: .content: .post-page
+    include mixins
+    +make_post(page, true)
+    .pagination
+      ul.clearfix
+        if prev
+          li.pre.pagbuttons
+            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
+        if next
+          li.next.pagbuttons
+            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
+    if page.comments
+        include partial/comments

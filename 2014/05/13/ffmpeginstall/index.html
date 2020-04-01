@@ -1,43 +1,25 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>ffmpeg 最方便的生产静态库的方案，一键到位， · iodefog</title><meta name="description" content="Compile ffmpeg for iOS 6, support Simulator &amp;amp; armv7 &amp;amp; armv7s 博客分类： - iphone &amp;amp; ipad
-iOSffmpegIn the posts, I will show how to use ffmpeg on"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>ffmpeg 最方便的生产静态库的方案，一键到位，</a></h3></div><div class="post-content"><h2 id="Compile-ffmpeg-for-iOS-6-support-Simulator-amp-armv7-amp-armv7s"><a href="#Compile-ffmpeg-for-iOS-6-support-Simulator-amp-armv7-amp-armv7s" class="headerlink" title="Compile ffmpeg for iOS 6, support Simulator &amp; armv7 &amp; armv7s"></a><a href="http://witcheryne.iteye.com/blog/1734706" target="_blank" rel="noopener">Compile ffmpeg for iOS 6, support Simulator &amp; armv7 &amp; armv7s</a></h2><p><strong> 博客分类：</strong> - <a href="http://witcheryne.iteye.com/category/249787" target="_blank" rel="noopener">iphone &amp; ipad</a></p>
-<p><a href="http://www.iteye.com/blogs/tag/iOS" target="_blank" rel="noopener">iOS</a><a href="http://www.iteye.com/blogs/tag/ffmpeg" target="_blank" rel="noopener">ffmpeg</a>In the posts, I will show how to use ffmpeg on iOS.</p>
-<p><strong> This posts is a document for this project: </strong><br><a href="https://github.com/lvjian700/ffmpegc-demo" target="_blank" rel="noopener">https://github.com/lvjian700/ffmpegc-demo</a></p>
-<a id="more"></a>
-<p><strong> Now, ffmpec support x264 module. If you use the script before, please check your version first. </strong></p>
-<h2 id="What-is-ffmpeg"><a href="#What-is-ffmpeg" class="headerlink" title="What is ffmpeg ?"></a>What is <a href="http://ffmpeg.org/" target="_blank" rel="noopener">ffmpeg</a> ?</h2><p>FFmpeg is a complete, across-platform solution to record, convert and stream audio and video. </p>
-<h2 id="Why-use-ffmpeg"><a href="#Why-use-ffmpeg" class="headerlink" title="Why use ffmpeg?"></a>Why use ffmpeg?</h2><ul>
-<li>Play h.264 video</li>
-<li>encoding capture video to h.264 video(It need ffmpeg h.264 module.)</li>
-<li>publish a av stream</li>
-<li>subscribe a rtsp av stream</li>
-</ul>
-<h2 id="Before-use-ffmpegc-demo-you-should-download-and-compile-ffmpeg"><a href="#Before-use-ffmpegc-demo-you-should-download-and-compile-ffmpeg" class="headerlink" title="Before use ffmpegc-demo, you should download and compile ffmpeg:"></a>Before use ffmpegc-demo, you should download and compile ffmpeg:</h2><p>I made a repository to make the step easy:Shell代码  <a href="&quot;收藏这段代码&quot;"><img src="http://witcheryne.iteye.com/images/icon_star.png" alt="收藏代码"></a></p>
-<ol>
-<li><p>git clone git@github.com:lvjian700/ffmpegc.git  </p>
-</li>
-<li><p>cd ffmpegc  </p>
-</li>
-<li><p>./install-ffmpeg.sh  </p>
-<p><a href="https://github.com/lvjian700/ffmpegc" target="_blank" rel="noopener">https://github.com/lvjian700/ffmpegc</a>###If compile complete, you can find universal library in ffmpeg/build folder:</p>
-</li>
-<li>ffmpeg core library:<img src="http://dl2.iteye.com/upload/attachment/0085/0318/11a437db-5e28-3fd5-9ab3-4dd93f4147e5.png" alt=""><ol>
-<li>ffmpeg x264 module. x264 is a H.264/MPEG-4 AVC encoder <img src="http://dl2.iteye.com/upload/attachment/0085/0320/380b5f32-3b5e-3e6c-b4dd-49e74191977e.png" alt="" title="点击查看原始大小图片"></li>
-</ol>
-</li>
-</ol>
-<h2 id="Using-ffmpeg"><a href="#Using-ffmpeg" class="headerlink" title="Using ffmpeg"></a>Using ffmpeg</h2><h2 id="1-Clone-project-first"><a href="#1-Clone-project-first" class="headerlink" title="1. Clone project first:"></a>1. Clone project first:</h2><p>Java代码  <a href="&quot;收藏这段代码&quot;"><img src="http://witcheryne.iteye.com/images/icon_star.png" alt="收藏代码"></a>1. git@github.com:lvjian700/ffmpegc-demo.git  </p>
-<h2 id="2-Open-in-XCode-and-copy-build-a-and-x264-build-a-to-libs-folder-of-the-project"><a href="#2-Open-in-XCode-and-copy-build-a-and-x264-build-a-to-libs-folder-of-the-project" class="headerlink" title="2.Open in XCode and copy build/.a and x264/build/.a to libs/ folder of the project:"></a>2.Open in XCode and copy build/<em>.a and x264/build/</em>.a to libs/ folder of the project:</h2><p><img src="http://dl2.iteye.com/upload/attachment/0085/0325/82f6bf73-e1bd-3703-a6db-83a292bcb9b8.png" alt="" title="点击查看原始大小图片"></p>
-<h2 id="3-Add-them-to-project-link-library"><a href="#3-Add-them-to-project-link-library" class="headerlink" title="3. Add them to project link library"></a>3. Add them to project link library</h2><p>Project References -&gt; Targets -&gt; Build Phases -&gt; Link Binary With Librarys<br><img src="http://dl.iteye.com/upload/attachment/0077/0400/120bf08f-a399-329b-a977-bc412ab4a7f2.png" alt="" title="点击查看原始大小图片"></p>
-<h2 id="4-Add-dependences-library"><a href="#4-Add-dependences-library" class="headerlink" title="4. Add dependences library:"></a>4. Add dependences library:</h2><p>Project References -&gt; Targets -&gt; Build Phases -&gt; Link Binary With LibrarysAdd two library:- libbz.dylib</p>
-<ul>
-<li>libz.dylib</li>
-<li>libiconv.2.4.0.dylib</li>
-</ul>
-<p><img src="http://dl.iteye.com/upload/attachment/0077/0405/76568674-6942-3d9c-919b-b7c265fc89a3.png" alt=""></p>
-<p>##5. Add Header Search Paths:<br>Project References -&gt; Targets -&gt; Build Settings -&gt; <strong>Header Search Paths</strong>1. add ffmpeg core header paths:<img src="http://dl.iteye.com/upload/attachment/0077/0407/97b61036-201b-37c9-8355-9500aa0ade29.png" alt="" title="点击查看原始大小图片"></p>
-<ol>
-<li>add x264 header paths:<img src="http://dl2.iteye.com/upload/attachment/0085/0323/7746423e-3af6-329e-a827-d5c4ee037f6c.png" alt=""></li>
-</ol>
-<h2 id="6-Now-run-project-…"><a href="#6-Now-run-project-…" class="headerlink" title="6. Now, run project …"></a>6. Now, run project …</h2><p><img src="http://dl.iteye.com/upload/attachment/0077/0409/4ac5fe50-df31-3dee-80ff-936c7605973c.png" alt="" title="点击查看原始大小图片"></p>
-<p>Some useful document:<br><a href="http://www.tangentsoftworks.com/blog/2012/11/12/how-to-prepare-your-mac-for-ios-development-with-ffmpeg-libraries/" target="_blank" rel="noopener">《How to prepare your mac for ios development with ffmpeg libraries》</a><br><a href="http://www.tangentsoftworks.com/blog/wp-content/uploads/2012/11/FFmpeg-Configure-Options.pdf" target="_blank" rel="noopener">《ffmpeg configure options》 -pdf</a></p>
-</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2014-05-13</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
+include mixins
+
+extends partial/layout
+
+block site_title
+    != page.title + " · " + config.title
+
+block description
+    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
+    meta(name="description", content=desc)
+
+block content
+  .autopagerize_page_element: .content: .post-page
+    include mixins
+    +make_post(page, true)
+    .pagination
+      ul.clearfix
+        if prev
+          li.pre.pagbuttons
+            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
+        if next
+          li.next.pagbuttons
+            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
+    if page.comments
+        include partial/comments

@@ -1,28 +1,25 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title> · iodefog</title><meta name="description" content="mac osx 破解wpa/wpa2 wifi
+include mixins
 
-首先要安装aircrack-ng工具可以使用Homebrew进行安装1brew install aircrack-ng
-第二步，我们将 airport 命令引入到用户命令里，在终端输入：1sudo ln -s /System/Library/Priv"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a></a></h3></div><div class="post-content"><h1 id="mac-osx-破解wpa-wpa2-wifi"><a href="#mac-osx-破解wpa-wpa2-wifi" class="headerlink" title="mac osx 破解wpa/wpa2 wifi"></a>mac osx 破解wpa/wpa2 wifi</h1><hr>
-<blockquote>
-<p>首先要安装aircrack-ng工具<br>可以使用Homebrew进行安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install aircrack-ng</span><br></pre></td></tr></table></figure></p>
-<p>第二步，我们将 airport 命令引入到用户命令里，在终端输入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport /usr/local/bin/airport</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<a id="more"></a>
-<blockquote>
-<p>第三步，用airport搜索附近wifi<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo airport -s</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<p>结果如下图所示:<br><img src="/img/airport_s.png" alt="image"></p>
-<blockquote>
-<p>第四步，根据搜索出的wifi进行嗅探<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo airport  en0 sniff  1</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<p>上面的en0为wifi card所在的地址, 有的也可能为en1, 可以根据实际情况输入, 可从以下地方获得:<br><img src="/img/wificard_addr.png" alt="image"></p>
-<p>1为你所要嗅探的wifi所在的CHANNEL.<br>默认嗅探的所存的文件在/tmp中, 以airportSniff**.cap形式命名.<br>wordlist 为wifi密码字典</p>
-<blockquote>
-<p>第五步，就是使用aircrack-ng和下载的密码字典进行暴力破解<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">aircrack-ng -w wordlist airportSniff****.cap</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<p>一般输入如下所示:<br><img src="/img/aircrack-ng.png" alt="image"></p>
-<p>最后看上面cap文件内的抓包内容, Encryption列中找到WPA (1 handshake)—它表示抓包成功. 当然要找到你想破解wifi的成功抓包, 然后在「Index number of target network?」中输入该成功抓包所在的行号. 此示例中为1:<br><img src="/img/index-number.png" alt="image"></p>
-<p>破解过程如下:<br><img src="/img/running.png" alt="image"></p>
-<p>如果破解成功, 会显示 KEY FOUND!:<br><img src="/img/aircrack-ng-success.jpg" alt="image"></p>
-<p>密码词典：<a href="https://pan.baidu.com/s/1geH8EAn" target="_blank" rel="noopener">https://pan.baidu.com/s/1geH8EAn</a></p>
-<p>参考：<a href="http://qiangweng.site/" target="_blank" rel="noopener">http://qiangweng.site/</a></p>
-</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2018-11-06</span><i class="fa fa-tag"></i></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
+extends partial/layout
+
+block site_title
+    != page.title + " · " + config.title
+
+block description
+    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
+    meta(name="description", content=desc)
+
+block content
+  .autopagerize_page_element: .content: .post-page
+    include mixins
+    +make_post(page, true)
+    .pagination
+      ul.clearfix
+        if prev
+          li.pre.pagbuttons
+            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
+        if next
+          li.next.pagbuttons
+            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
+    if page.comments
+        include partial/comments

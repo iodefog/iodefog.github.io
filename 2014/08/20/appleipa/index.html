@@ -1,151 +1,25 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>IAP最佳实践 · iodefog</title><meta name="description" content="转自：http://www.cocoachina.com/applenews/devnews/2014/0818/9407.html
-IAP最佳实践该文档是苹果8月5号发布的新Technical Note–In-App Purchase Best Practices，最要描述了iOS 和 OS X "><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>IAP最佳实践</a></h3></div><div class="post-content"><p>转自：<a href="http://www.cocoachina.com/applenews/devnews/2014/0818/9407.html" target="_blank" rel="noopener">http://www.cocoachina.com/applenews/devnews/2014/0818/9407.html</a></p>
-<p>IAP最佳实践<br>该文档是苹果8月5号发布的新Technical Note–<a href="https://developer.apple.com/library/ios/technotes/tn2387/_index.html#//apple_ref/doc/uid/DTS40014795" target="_blank" rel="noopener">In-App Purchase Best Practices</a>，最要描述了iOS 和 OS X 应用程序中的IAP的最佳实践。</p>
-<p>以下是推荐给开发者的IAP最佳实践列表。</p>
-<p>在应用启动时添加一个交易队列观察者<br>应用程序调用StoreKit把观察者链接到payment queue。</p>
-<ol>
-<li>[[SKPaymentQueue defaultQueue] addTransactionObserver:your_observer]; </li>
-</ol>
-<a id="more"></a>
-<p>在恢复或者运行你的app应用时，如果支付队列的内容发生了变化，StoreKit则会自动通知你（注册的）观察者 在应用启动时添加观察者确保它在所有app启动时都会存在，这将允许你的应用能接收到所有的payment queue提醒。</p>
-<p>考虑应用程序这样一个情况，在向队列（如表1）添加支付请求前，应用的 DetailViewController 类创建了一个观察者。这个观察者的存在时间和 DetailViewController 实例一样长。如果出现中断情况，比如网络失败，那么app将不能完成购买流程，而相关的交易仍在支付队列中。当app正常恢复后，它将没有观察者存在，因为在应用被发送至后台时，上述观察者就已经被解除了。因此，你的应用将不会收到队列中的交易通知。</p>
-<p>列表 1.不遵循实现交易观察者最佳实践：当用户尝试购买产品时,应用为 payment queue 添加观察者：</p>
-<ol>
-<li>@implementation DetailViewController </li>
-<li>…. </li>
-<li></li>
-<li>// Called when a customer attempts to purchase a product </li>
-<li><ul>
-<li>(IBAction)purchase:(id)sender </li>
-</ul>
-</li>
-<li>{ </li>
-<li>// Register an observer to the payment queue </li>
-<li>[[SKPaymentQueue defaultQueue] addTransactionObserver:self]; </li>
-<li></li>
-<li>// Create a payment request </li>
-<li>SKMutablePayment *payment = [SKMutablePayment paymentWithProduct:self.product]; </li>
-<li></li>
-<li>// Submit the payment request to the payment queue </li>
-<li>[[SKPaymentQueue defaultQueue] addPayment:payment]; </li>
-<li>} </li>
-<li>…. </li>
-<li>@end </li>
-</ol>
-<p>列表 2.遵循注册交易观察者的最佳实践</p>
-<ol>
-<li>@implementation AppDelegate </li>
-<li></li>
-<li><ul>
-<li>(BOOL)application:(UIApplication <em>)application didFinishLaunchingWithOptions:(NSDictionary </em>)launchOptions </li>
-</ul>
-</li>
-<li>{ </li>
-<li>// Attach an observer to the payment queue </li>
-<li>[[SKPaymentQueue defaultQueue] addTransactionObserver:self]; </li>
-<li><strong>return</strong> YES; </li>
-<li>} </li>
-<li></li>
-<li>// Called when the application is about to terminate </li>
-<li><ul>
-<li>(<strong>void</strong>)applicationWillTerminate:(UIApplication *)application </li>
-</ul>
-</li>
-<li>{ </li>
-<li>// Remove the observer </li>
-<li>[[SKPaymentQueue defaultQueue] removeTransactionObserver:self]; </li>
-<li>} </li>
-<li></li>
-<li>…. </li>
-<li>@end </li>
-</ol>
-<p>StoreKit 在app调用时从payment queue移除观察者： </p>
-<p>同样，如果没有从 payment queue 移除观察者，StoreKit 将会试图通知上述观察者，从而导致应用崩溃，好像观察者已经不复存在了。</p>
-<p>在展示应用内商店UI之前向App Store询问产品信息<br>在决定在用户界面中展示可购买商品之前，你的应用必须首先向App Store发送一个产品请求。发送产品请求可让你确定产品是否可在App Store中出售，从而阻止展示不能购买的产品。可查看<a href="https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/StoreKitGuide/Chapters/ShowUI.html#//apple_ref/doc/uid/TP40008267-CH3-SW9" target="_blank" rel="noopener">Retrieving Product Information</a>学习如何创建一个产品请求。App Store使用 SKResponse 对象响应产品请求，使用其 products 属性来更新你的UI，以确保你的用户只能看到App Store中可供销售的产品。</p>
-<p>列表 3.不遵循IAP产品展示最佳实践：在展示可销售产品后， APP向App Store询问相关产品信息。</p>
-<ol>
-<li>// App first displays a product for sale, then queries the App Store about it when a customer attempts to purchase it </li>
-<li><ul>
-<li>(IBAction)purchase:(id)sender </li>
-</ul>
-</li>
-<li>{ </li>
-<li>// Create a set for your product identifier </li>
-<li>NSSet *productSet = [NSSet setWithObject:@”your_product_identifier”]; </li>
-<li>// Create a product request object and initialize it with the above set </li>
-<li>SKProductsRequest *request = [[SKProductsRequest alloc] initWithProductIdentifiers:productSet]; </li>
-<li></li>
-<li>request.delegate = self; </li>
-<li>// Send the request to the App Store </li>
-<li>[request start]; </li>
-<li>} </li>
-<li></li>
-<li></li>
-<li></li>
-<li>// Get the App Store’s response </li>
-<li><ul>
-<li>(<strong>void</strong>)productsRequest:(SKProductsRequest <em>)request didReceiveResponse:(SKProductsResponse </em>)response </li>
-</ul>
-</li>
-<li>{ </li>
-<li>// No purchase will take place if there are no products available for sale. </li>
-<li>// As a result, StoreKit won’t prompt your customer to authenticate their purchase. </li>
-<li><strong>if</strong> ([response.products count] &gt; 0) </li>
-<li>{ </li>
-<li>SKProduct <em>product = (SKProduct </em>)[response.products objectAtIndex:0]; </li>
-<li></li>
-<li>// The product is available, let’s submit a payment request to the queue </li>
-<li>SKMutablePayment *payment = [SKMutablePayment paymentWithProduct:product]; </li>
-<li>[[SKPaymentQueue defaultQueue] addPayment:payment]; </li>
-<li>} </li>
-<li>} </li>
-</ol>
-<p>列表 4.  遵循IAP产品展示最佳实践</p>
-<ol>
-<li>-(<strong>void</strong>)fetchProductInformationForIds:(NSArray *)productIds </li>
-<li>{ </li>
-<li>// Create a set for your product identifier </li>
-<li>NSSet *mySet = [NSSet setWithObject:your_product_identifier]; </li>
-<li></li>
-<li>// Create a product request object and initialize it with the above set </li>
-<li>SKProductsRequest *request = [[SKProductsRequest alloc] initWithProductIdentifiers:mySet]; </li>
-<li></li>
-<li>request.delegate = self; </li>
-<li></li>
-<li>// Send the request to the App Store </li>
-<li>[request start]; </li>
-<li>} </li>
-<li></li>
-<li></li>
-<li>//Get the App Store’s response </li>
-<li><ul>
-<li>(<strong>void</strong>)productsRequest:(SKProductsRequest <em>)request didReceiveResponse:(SKProductsResponse </em>)response </li>
-</ul>
-</li>
-<li>{ </li>
-<li><strong>if</strong> ([response.products count] &gt; 0) </li>
-<li>{ </li>
-<li>// Use availableProducts to populate your UI </li>
-<li>NSArray *availableProducts = response.products; </li>
-<li>} </li>
-<li>} </li>
-</ol>
-<p>为restoring products提供一个UI<br>如果你的应用出售 non-consumable、auto-renewable subscription 或者 non-renewing subscription产品，那你必须提供一个允许恢复它们的UI。可以查看<a href="https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/StoreKitGuide/Chapters/Products.html#//apple_ref/doc/uid/TP40008267-CH2-SW5" target="_blank" rel="noopener">Differences Between Product Types</a> 和<a href="https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/StoreKitGuide/Chapters/Restoring.html#//apple_ref/doc/uid/TP40008267-CH8-SW9" target="_blank" rel="noopener">Restoring Purchased Products</a>获得更多信息。</p>
-<p>处理交易<br>调用 StoreKit 为 payment queue 添加支付请求：</p>
-<ol>
-<li>[[SKPaymentQueue defaultQueue] addPayment:your_payment]; </li>
-</ol>
-<p>队列创建交易对象来处理这个请求。当交易状态改变时，StoreKit通过调用 paymentQueue: updatedTransactions: 来通知你的观察者。</p>
-<p><a href="https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/StoreKitGuide/Chapters/DeliverProduct.html#//apple_ref/doc/uid/TP40008267-CH5-SW4" target="_blank" rel="noopener">In-App Purchase Programming Guide&gt;<br> Delivering Products&gt; Table 4-1 Transaction statuses and corresponding actions</a>列出了每个交易可能存在的4种交易状态。要确保观察者的 paymentQueue: updatedTransactions: 可以在任何时间响应这些状态。如果IAP产品是由苹果托管的，那么需在在观察者上实现 paymentQueue:updatedDownloads: 方法。</p>
-<p>提供付费内容<br>当收到一个状态是 SKPaymentTransactionStatePurchased 或者 SKPaymentTransactionStateRestored 的交易时，应用程序将会向用户交付内容或者解锁app的功能。这些状态表明已经接收到可售产品的付款。用户也希望应用能提供付费内容。</p>
-<p>如果你的购买产品包括App Store托管内容，要确保调用 SKPaymentQueue’s startDownloads: 下载内容。可查看<a href="https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/StoreKitGuide/Chapters/DeliverProduct.html#//apple_ref/doc/uid/TP40008267-CH5-SW20" target="_blank" rel="noopener">Unlocking App Functionality</a>和<a href="https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/StoreKitGuide/Chapters/DeliverProduct.html#//apple_ref/doc/uid/TP40008267-CH5-SW9" target="_blank" rel="noopener">Delivering Associated Content</a>获得更多信息。</p>
-<p>完成交付<br>交易将会保存在支付队列中直到它们被移除。每次启动应用或者从后台恢复时，StoreKit将会调用观察者的 paymentQueue: updatedTransactions: 直到它们被移除。大意是你的用户可能反复请求验证它们的购买，或者被阻止购买你的产品。</p>
-<p>调用 finishTransaction: 从队列中移除交易。完成的交易是不可恢复的，因此你务必提供内容，下载所有苹果托管的产品内容，或者在完成交易前完成你的购买流程。查看<a href="https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/StoreKitGuide/Chapters/DeliverProduct.html#//apple_ref/doc/uid/TP40008267-CH5-SW10" target="_blank" rel="noopener">Finishing the Transaction</a>获得更多信息。</p>
-<p>测试IAP的实现<br>要确保在把应用提交审核之前彻底测试IAP的实现。可在 <a href="https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/StoreKitGuide/Chapters/DeliverProduct.html#//apple_ref/doc/uid/TP40008267-CH5-SW12" target="_blank" rel="noopener">Suggested Testing Steps</a> 查看多测试场景，在 <a href="https://developer.apple.com/library/ios/technotes/tn2259/_index.html#//apple_ref/doc/uid/DTS40009578-CH1-FREQUENTLY_ASKED_QUESTIONS" target="_blank" rel="noopener">Frequently Asked Questions</a> 查看各种疑难解答。</p>
-<p>参考：<br><a href="https://developer.apple.com/library/ios/documentation/NetworkingInternet/Conceptual/StoreKitGuide/Introduction.html" target="_blank" rel="noopener">In-App Purchase Programming Guide</a></p>
-<p><a href="https://developer.apple.com/library/ios/technotes/tn2259/_index.html#//apple_ref/doc/uid/DTS40009578-CH1-FREQUENTLY_ASKED_QUESTIONS" target="_blank" rel="noopener">Adding In-App Purchase to your iOS and OS X Applications</a></p>
-<p><a href="https://developer.apple.com/videos/wwdc/2012/?id=302" target="_blank" rel="noopener">WWDC 2012: Selling Products with Store Kit</a></p>
-<p><a href="https://developer.apple.com/videos/wwdc/2012/?id=308" target="_blank" rel="noopener">WWDC 2012: Managing Subscriptions with In-App Purchase</a></p>
-<p><a href="https://developer.apple.com/videos/wwdc/2013/?id=305" target="_blank" rel="noopener">WWDC 2013: Using Store Kit for In-App Purchases</a></p>
-<p><a href="https://developer.apple.com/videos/wwdc/2014/#303" target="_blank" rel="noopener">WWDC 2014: Optimizing In-App Purchases</a></p>
-</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2014-08-20</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
+include mixins
+
+extends partial/layout
+
+block site_title
+    != page.title + " · " + config.title
+
+block description
+    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
+    meta(name="description", content=desc)
+
+block content
+  .autopagerize_page_element: .content: .post-page
+    include mixins
+    +make_post(page, true)
+    .pagination
+      ul.clearfix
+        if prev
+          li.pre.pagbuttons
+            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
+        if next
+          li.next.pagbuttons
+            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
+    if page.comments
+        include partial/comments

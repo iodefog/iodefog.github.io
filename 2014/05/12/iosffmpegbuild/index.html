@@ -1,54 +1,25 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>iOS FFmpeg编译和使用问题总结 · iodefog</title><meta name="description" content="iOS: FFmpeg编译和使用问题总结　　　　折磨了我近一周多时间的FFmpeg库编译问题终于解决了，必须得把这一段时间来遇到过的坑全写出来。如果急着解决问题，编译最新版本的FFmpeg库请直接看第二部分，编译较老版本(0.7)的FFmpeg库请直接跳至第七部分，那里有你想要的编译脚本，但别忘了抽"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>iOS FFmpeg编译和使用问题总结</a></h3></div><div class="post-content"><p><strong>iOS: FFmpeg编译和使用问题总结</strong><br>　　<br>　　折磨了我近一周多时间的FFmpeg库编译问题终于解决了，必须得把这一段时间来遇到过的坑全写出来。如果急着解决问题，编译最新版本的FFmpeg库请直接看第二部分，编译较老版本(0.7)的FFmpeg库请直接跳至第七部分，那里有你想要的编译脚本，但别忘了抽空看看全文。<br>　<br><strong>一、背景</strong><br>　　网上有很多FFmpeg编译配置的资料，大部分都是关于FFmpeg最新的版本(2.0)的，我一开始也想着编写一个2.0版本的，可以放到接手的那个项目中，发现各种问题（无法快进，没有声音）,再看一下代码一堆警告，原因很简单，使用的FFMpeg库太新了，很多接口变动了。由于手上没有多少信息，不知道那个项目使用的是哪个版本的FFmpeg库，一点点找，终于知道原来使用的是0.7.x的。找到目标版本的FFmpeg本以为万事大吉了，后来才发现原来这才是坑的开始，有历经一系列磨难，最后终于把编译问题解决了。<br>　　<br><a id="more"></a></p>
-<p><strong>二、FFmpeg最新版本的库编译</strong><br>　　FFmpeg最新版本的应该是2.1的，历史版本详见<a href="http://ffmpeg.org/releases/" target="_blank" rel="noopener">http://www.ffmpeg.org/releases/</a>，在这个网站上我们可以下到所有历史版本的库。FFmpeg是一个跨平台的用C语言写成的库，包含了编码，解码，色彩空间转换等库。编译需要用到命令行，对于我们这些没搞过后台或者linux开发的脚本知识欠缺的人来说的确算是一个挑战。庆幸的是现在网络这么方便，不会做问Google，很快就找到了一个在xcode5下一键编译FFmpeg库的脚本。这个脚本是个老外写的，真心强大，从下载到编译到构建最后的Fat库一气呵成。<br>　　脚本地址: <a href="https://gist.github.com/m1entus/6983547" target="_blank" rel="noopener">https://gist.github.com/m1entus/6983547</a><br>　　运行这个脚本需要依赖一个库Perl写的脚本，搜了一下网上目前编译FFmpeg库的帖子基本都会提到这个脚本，脚本地址如下: <a href="https://github.com/mansr/gas-preprocessor" target="_blank" rel="noopener">https://github.com/mansr/gas-preprocessor</a>。<br>　　下载完这两个脚本后，编译FFmpeg库的准备工作就基本完成了，接着依次执行下面几步:<br>　　1、拷贝gas-preprocessor.pl文件到 /usr/bin目录下。<br>　　2、修改gas-preprocessor.pl文件的权限<br>　　注:需要有读，写和执行的权限。具体操作为，首先在命令行下进入/usr/bin目录，然后执行chmod命令，如下图所示:<br><img src="http://images.cnitblog.com/blog/302680/201311/13224613-88afdd0778fa46bda8c5a6549a0febfe.png" alt=""><br>　　3、切换<code>build-ffmpeg.sh脚本的目录下，使用命令</code>sh build-ffmpeg.sh 运行该脚本即可。``</p>
-<p>　　注:  1) build-ffmpeg.sh脚本的父目录的名字不能包括空格，否则可能导致构建失败。<br>　　　   2) build-ffmpeg.sh脚本中可以配置编译的FFMpeg版本，以及使用iOS SDK的版本，如下图所示:</p>
-<p><img src="http://images.cnitblog.com/blog/302680/201311/13225059-5048ca38bf994d02bed7c4298acc7a77.png" alt=""></p>
-<p>　　该脚本中默认采用的FFmpeg是2.0版本，使用iOS 7.0的SDK编译，c语言编译器采用clang，应用中可以根据实际项目需要选中不同的FFmpeg和iOS SDK版本。[注：VERSION 是需要下载的ffmpeg的版本，SDKVERSION 是当期xcode 的iOS 版本，不能写错，我现在时sdk7.1<br>  ,写7.0就出问题了]　<br>   根据上面的步骤看来，编译工作也没有什么复杂的，为什么我会说踩了很多坑呢？这个问题我会一点点儿解释。</p>
-<p><strong>三、编译较早期版本的FFmpeg本库</strong><br>　　第二部分中我们介绍了一个牛逼的脚本，一键编译，这给我们造成了一种错觉，FFmpeg编译不过如此吗！如果我们尝试一下把脚本中的VERSION变成0.7试试，运行脚本，发现编译报错。如下图所示:<br><img src="http://images.cnitblog.com/blog/302680/201311/13230415-0997539be052498e93928c68925af866.png" alt=""><br>　　提示位置选项–disable-iconv，根据提示我们输入./configure查看所有可用选项。命令行下切换到实际的FFmpeg源码目录下，查看帮助如下图:<br><img src="http://images.cnitblog.com/blog/302680/201311/13230951-de8dbe98e0d04381beee07151ada63f1.png" alt=""></p>
-<p>　　我们可以看到很多选项，英语不难，就是有些选项描述的太简洁了，所以实际使用时如果不确定的话，我们可以去问问google。<br>　　好了回过头来看看这个configure文件到底有什么作用呢？<br>　　1、裁剪<br>　　我们知道FFmpeg库是一个非常庞大的库，包括编码，解码以及流媒体的支持等，如果不做裁剪全部编译进来的话，最后生成的静态库会很大。实际使用中我们可能只想用到解码(例如播放器)，因此我们可以使用相关选项指定编译时禁用编码部分。当然我们还可以做进一步的裁剪，例如只打开部分常用格式的解码，禁用掉其他的解码，这样编译出来的静态库将会更小。<br>　　要想裁剪，我们的先知道有哪些部分，使用下面的命令可以查看FFMpeg库支持的组件列表。<br>1234567891011<code>--list-decoders         
- show all available decoders``--list-encoders         
- show all available encoders``--list-hwaccels         
- show all available hardware accelerators``--list-muxers           
- show all available muxers``--list-demuxers         
- show all available demuxers``--list-parsers          
- show all available parsers``--list-protocols        
- show all available protocols``--list-bsfs             
- show all available bitstream filters``--list-indevs           
- show all available input devices``--list-outdevs          
- show all available output devices``--list-filters          
- show all available filters</code>　　我们可以根据实际需要把不用的部分都禁用掉，这样编译快，包也会比较小，常用的裁剪选项如下:<br>123456789101112<code>--disable-doc           ``do</code> <code>not
- build documentation``--disable-ffmpeg        
- disable ffmpeg build``--disable-ffplay        
- disable ffplay build``--disable-ffserver      
- disable ffserver build``--disable-network       
- disable network support [no]``--disable-encoder=NAME  
- disable encoder NAME``--enable-encoder=NAME   
- enable encoder NAME``--disable-encoders      
- disable all encoders``--disable-decoder=NAME  
- disable decoder NAME``--enable-decoder=NAME   
- enable decoder NAME``--disable-decoders      
- disable all decoders``--disable-hwaccel=NAME  
- disable hwaccel</code>　　举个例子，如果我们需要做一款本地视频播放器，那么我们可以使用如下配置:<br>　　<img src="http://images.cnitblog.com/blog/302680/201311/17213238-6ce1cf805e8b4dffb3cf0ddd64fcd6b0.png" alt=""><br>　　当然你还可以根据帮助列表进行更细粒度的裁剪，例如只支持哪几种格式的解码等等。</p>
-<p>　　2、指定编译环境<br>　　FFMpeg作为一个跨平台的库，不同的平台，不同的人的计算机上编译器的路径都可能不尽相同，所以我们需要为编译脚本指定编译器的路径。同事我们还可以指定其他编译选项，如是否交叉编译，目标平台系统，CPU架构，需要依赖的其他库的路径已经指定是否禁用汇编优化等。<br>1234567891011<code>--enable-cross-compile  
- assume a cross-compiler is used``--sysroot=PATH          
- root of cross-build tree``--sysinclude=PATH       
- location of cross-build system headers``--target-os=OS          
- compiler targets OS []``--cc=CC                 
- use C compiler CC [gcc]``--extra-cflags=ECFLAGS  
- add ECFLAGS to CFLAGS []``--extra-ldflags=ELDFLAGS
- add ELDFLAGS to LDFLAGS []``--arch=ARCH             
- select architecture []``--cpu=CPU               
- select the minimum required CPU (affects``                         ``instruction
- selection, may crash on older CPUs)``--disable-asm           
- disable all assembler optimizations</code>　　sysroot即iOS SDK的路径，注意编译真机版本的库时需要使用iPhoneOS.platform中SDK的路径，编译模拟器版本的库使用iPhoneSimulator.platform中SDK的路径。target-os填写darwin(苹果系统的内核)，arch可以根据具体的情况添加i386(模拟器)，armv6，armv7等。cpu根据具体类型可填写cortex-a8，cortox-a9，i386等。　　　</p>
-<p>　　3、指定静态库的安装路径<br>　　指定执行make install命令时编译好的静态库和相关头文件拷贝到的位置，即FFmpeg库编译后输出的路径。通常我们只需要设置“–prefix=PREFIX”选项即可。例如我们需要将最后生成静态库的路径指向“build/armv7”下，则设置–prefix=”build/armv7”;<br>　　　<br><strong>四、FFmpeg0.7版本库一键编译脚本</strong><br>　　通过第三部分的介绍，相信我们应该对FFmpeg的配置都有了一个初步的认识，我们再回到第三部分开始时我们运行build-ffmpeg.sh的碰到的问题，经过查看configure的帮助，我们发现0.7这个版本的FFmpeg库却是没有”–disable-iconv”选项。这个牛逼的脚本是针对当前较新的FFmpeg库写的，在低版本中没有一些配置选项也是正常。<br>　　下面给出经过修改后的脚本，脚本中对原先的脚本进行了精简，去掉了下载部分的代码。<br><img src="http://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" alt=""> build-ffmpeg0.7　　注：由于FFmpeg库比较陈旧，该脚本使用xcode4.6下，编译器为GCC，采用6.1的SDK进行编译。如果你的机器上装的同事安装了xcode4.x和xcode5的话，可以在命令行下使用如下命令切换当前的默认编译环境为xcode4.6即可:<br><img src="http://images.cnitblog.com/blog/302680/201311/20220127-cb09e787fd664b4196ff47d87d7d673a.png" alt=""><br>　　设置好xcode的编译环境以后，只需要将该脚本拷贝到FFMpeg源文件路径下运行即可一键生成armv7，armv7s，i386以及合成后的全平台库。</p>
-<p><strong>五、如何使用以及编译链接中可能遇到的问题</strong><br>　　第四部分中我们对build-ffmpeg.sh的脚本进行了修改和精简后得到了build-ffmpeg0.7.sh，我们只需要运行该脚本就可以一键完成FFmpeg 0.7版本库的编译工作了。编译后我们得到的是lib目录(包含所有生成的静态库)以及include目录(包含相应的头文件)，使用时我们只需要将这些文件添加到工程中即可。<br>　　问题到这里似乎就全部解决了，如果顺利的话，恭喜你，你可以直接使用了。<br>　　如果你跟我一样的”不幸”的话，可能还会遇到一些其他问题。下面是我遇到的问题及解决办法:<br>　　1、time.h重复问题<br>　　我们知道一般静态库都是搭配头文件使用的，要在项目里面使用FFmpeg库，我们出了需要在xcode的build phases中添加静态库以外，还需要导入该库对应的头文件。FFmpeg库对应的头文件有很多，通常会采用设置header search path的方式来导入头文件，这样做有两个好处: 第一可以避免对我们的工程结构造成干扰。第二可以在一定程序上降低头文件冲突。<br>　　time.h冲突的问题就是属于头文件冲突，系统的标准库中有time.h文件，FFmpeg应该是在1.1之后也加入了一个time.h文件，路径为libavutil/time.h。所以如果你使用的是FFmpeg1.1之后的版本，那么在使用中就可能会碰到头文件冲突的问题。解决这个问题，网上流传一个方法是修改FFmpeg库中time.h文件的名字，我觉得这太麻烦了，而且也容易出错。后来查看FFmpeg源码的时候偶然发现它自身内部引用这个time.h的时候都有带一层父目录，如#include “libavutil/time.h”。因此想是不是通过指定头文件搜索路径就可以解决这个问题。<br>　　打开工程设置页面，搜索header search path如下图所示:<br><img src="http://images.cnitblog.com/blog/302680/201311/20222918-557995d2b4e34b60a4ede310c3efac17.png" alt=""><br>　　如果你的FFmpeg库正好是放在当前的路径下，且为了偷懒设置了递归包含头文件的话，那么你很可能就会遇到time.h冲突的问题。因为xcode工程默认的设置是优先查找用户路径，编译时FFmpeg中libavutil下的time.h就会优先被链接，从而导致不会再链接系统time.h文件，最终导致编译失败。<br>　　解决这个问题有两个办法:<br>　　<strong>a、取消掉Header Search Paths中的递归引用。</strong><br><strong>　　b、设置Always Search User Paths为NO。</strong></p>
-<p>　　2、gcc c compiletest error问题<br>　　xcode5下面编译FFmpeg都采用clang，同样也会遇到类似问题。这个问题通常出现在配置文件错误的情况下，一般都是gcc路径错误，当然也可能是其他编译参数错误问题。<br>　　出现这个问题我们应该首先检查gcc的路径是否正确，如果确认了指定路径上存在gcc程序，但是还是报错的，我们再去检查当前要编译的平台和指定的gcc路径是否一致，如果你使用iPhoneOS.platform下面的gcc去编译i386平台的库那肯定是不会测试通过的。</p>
-<p>　　3、C compiler test failed问题<br>　　编译i386版本的FFmpeg库和armv版本库可能用到的参数不尽相同，例如我遇到这个问题，我的编译选项中有一项如下:<br>　　–extra-cflags=’-arch i386 -mfloat-abi=softfp -miphoneos-version-min=5.0’<br>　　在我确认其他参数(如cpu，arch)都正确的情况下，依然提示我们“C compiler test failed.” 后面紧跟着一句查看config.log你可以得到更详细的信息，于是打开该文件，你可以在最开始的地方看到你的配置语句，如果是用脚本，这块儿会显示最终解释后(替换参数为真实值)的配置语句。然后紧跟着一堆具体的配置，通常哭啼的错误信息会在该文件的最末尾。我遇到的问题的信息如下:<br>　　<img src="http://images.cnitblog.com/blog/302680/201311/20225337-945d86005e8e49888bf89f6eaffac9c4.png" alt=""><br>　　看到标红的这个区域了没有，提示“-mfloat-abi=softfp”选项不支持，删掉该选项后，在运行时配置就通过了。其他配置问题，都可以通过查看config.log来获取更详细的错误信息。</p>
-<p>　　4、由于未导入libbz动态库的问题<br>　　如果导入FFmpeg库了，并且配置了头文件搜索路径，遇到”Undefined symbols for architecture armv7s: _BZ2_bzDecompressInit”，如下图所示:<br><img src="http://images.cnitblog.com/blog/302680/201311/20230156-9749034ad1a041b883fbdedf7f5a2d7a.png" alt=""></p>
-<p>　　这个问题是由于没有导入“libbz2.dylib”库的原因，导入库即可解决该问题。</p>
-<p>　　5、libavcodec/audioconvert.h头文件缺失问题<br>　　不知道为什么执行make install的时候libavcodec中的audioconvert.h怎么没有拷贝到include目录下的libavcodec中去，查看发现原来libavutil目录下已经有一个audioconvert.h了。解决这个问题只需要从FFmpeg库的libavcodec中拷贝audioconvert.h头文件到include的libavcodec目录中即可解决。</p>
-<p><strong>六、杂谈</strong><br>　　感谢我所遭遇的”不幸”，如果当时接受的项目使用的最新版本的FFmpeg库，我可能就直接运行一下那个牛逼的脚本，然后一切就可以顺顺利利。如果真是那样的话，我可能也就不会花时间去学习基本的脚本知识，去了解FFmpeg库的相关配置，这样的结果就是下次当我中奖遇到FFmpeg库编译链接等问题时，只能束手无策。<br>　　说了这么多，当我们使用一个技术的时候，不应该仅仅停留在会用的层次，花点儿时间了解一下背后的原理会更让你对该技术有个更深的理解，多学，多看，多思考，最终会有有所收获的。</p>
-<p><strong>七、编译脚本及参考资料</strong><br>　　1、编译脚本　　<br>　　gas-preprocessor脚本地址: <a href="https://github.com/mansr/gas-preprocessor" target="_blank" rel="noopener">https://github.com/mansr/gas-preprocessor</a>　　<br>　　FFmpeg 2.x一键化编译脚本: <a href="https://gist.github.com/m1entus/6983547" target="_blank" rel="noopener">https://gist.github.com/m1entus/6983547</a><br>　　FFmpeg0.7一键化编译脚本: <a href="https://gist.github.com/smileEvday/7565260" target="_blank" rel="noopener">https://gist.github.com/smileEvday/7565260</a></p>
-<p>　　2、参考资料<br>　　模拟器与真机下ffmpeg的编译方法（总结版）<br>　　<a href="http://www.cocoachina.com/iphonedev/toolthain/2011/1020/3395.html" target="_blank" rel="noopener">http://www.cocoachina.com/iphonedev/toolthain/2011/1020/3395.html</a><br>　　编译在ios4.3中使用的ffmpeg库(转)<br>　　<a href="http://www.cocoachina.com/bbs/simple/?t70887.html" target="_blank" rel="noopener">http://www.cocoachina.com/bbs/simple/?t70887.html</a><br>　　Installing ffmpeg ios libraries armv7, armv7s, i386 and universal on Mac with 10.8<br>　　<a href="http://stackoverflow.com/questions/18003034/installing-ffmpeg-ios-libraries-armv7-armv7s-i386-and-universal-on-mac-with-10/19370679#19370679%20" target="_blank" rel="noopener">http://stackoverflow.com/questions/18003034/installing-ffmpeg-ios-libraries-armv7-armv7s-i386-and-universal-on-mac-with-10/19370679#19370679</a></p>
-<p><strong>注：如果觉得本文帮到了你，别忘了点推荐</strong><br><strong>　　转载请著名出处，有什么问题欢迎留言</strong><br><strong>　　欢迎一起讨论iOS开发的知识！！！</strong></p>
-</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2014-05-12</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
+include mixins
+
+extends partial/layout
+
+block site_title
+    != page.title + " · " + config.title
+
+block description
+    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
+    meta(name="description", content=desc)
+
+block content
+  .autopagerize_page_element: .content: .post-page
+    include mixins
+    +make_post(page, true)
+    .pagination
+      ul.clearfix
+        if prev
+          li.pre.pagbuttons
+            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
+        if next
+          li.next.pagbuttons
+            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
+    if page.comments
+        include partial/comments

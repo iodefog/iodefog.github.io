@@ -1,69 +1,25 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>手把手利用Google cloud platform 建立VPS · iodefog</title><meta name="description" content="手把手利用Google cloud platform 建立VPS
-1.准备工作
-一张VISA信用卡
-Google 账户
-由于 Google 在中国是不存在的，所以 要有代理
-下载ShadowsocksX
+include mixins
 
-300刀一年的有效期，使用最低配的话，可以玩一年，每个月有86G的流量，个人使用足够了吧……
-"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>手把手利用Google cloud platform 建立VPS</a></h3></div><div class="post-content"><p>手把手利用Google cloud platform 建立VPS</p>
-<h2 id="1-准备工作"><a href="#1-准备工作" class="headerlink" title="1.准备工作"></a>1.准备工作</h2><ol>
-<li>一张VISA信用卡</li>
-<li>Google 账户</li>
-<li>由于 Google 在中国是不存在的，所以 要有代理</li>
-<li>下载<a href="/file/ShadowsocksX.zip">ShadowsocksX</a></li>
-</ol>
-<p>300刀一年的有效期，使用最低配的话，可以玩一年，每个月有86G的流量，个人使用足够了吧……</p>
-<h2 id="2-开始申请"><a href="#2-开始申请" class="headerlink" title="2.开始申请"></a>2.开始申请</h2><p>选择国家</p>
-<p>很多人说不能选中国，后面会无法通过，不过我用的就是中国的，已经通过了。如果觉得不保险，可以用虚拟的美国身份 </p>
-<p>随机生成美国身份<a href="http://www.haoweichi.com/Index/random" target="_blank" rel="noopener">http://www.haoweichi.com/Index/random</a></p>
-<p>填写注册信息和信用卡<br>根绝你的身份和信用卡账单地址如实填写就好了，如实也包括上面的美国身份。</p>
-<p>信用卡会扣除1美元，过一会就会返还。</p>
-<h2 id="3-设定防火墙"><a href="#3-设定防火墙" class="headerlink" title="3.设定防火墙"></a>3.设定防火墙</h2><ul>
-<li>从选单中找到网路- VPC网路- 防火墙规则<br><img src="https://upload-images.jianshu.io/upload_images/2968083-b34d227bf49e10cc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/653" alt="image"></li>
-<li><p>选择建立防火墙规则<br><img src="https://wx3.sinaimg.cn/mw690/699c2d0fly1fesgxm2qxpj20ml0mymyg.jpg" alt="image"></p>
-</li>
-<li><p>选择目标</p>
-</li>
-<li>ip范围输入 0.0.0.0/0</li>
-<li>建立完毕可以看到刚刚建立的规则</li>
-</ul>
-<h2 id="3-申请静态IP"><a href="#3-申请静态IP" class="headerlink" title="3.申请静态IP"></a>3.申请静态IP</h2><p>这个步骤可有可无。具体区别请看以下描述。</p>
-<ul>
-<li>静态IP地址 被分配到一个项目长期直到它们被明确地释放，并且保持附着到一个实例，即使当实例停止，直到它们被明确地分离。</li>
-<li>临时IP地址 分配给一个实例只有等到它重新启动或终止。 如果一个实例被终止或停止时，分配给该实例的任何临时的外部IP地址被释放回通用计算引擎IP地址池，成为可以使用的其他项目。 当停止实例再次启动，一个新的临时外部IP地址被分配给该实例。<br>直接访问 ： <a href="https://console.cloud.google.com/networking/addresses/list" target="_blank" rel="noopener">https://console.cloud.google.com/networking/addresses/list</a></li>
-</ul>
-<p>或者在菜单中依次点击 【网络】–&gt;  【外部IP地址】 –&gt; 【保留静态IP】</p>
-<p>区域可选亚洲东部、欧洲、美国 等地。推荐亚洲！<br><img src="https://51.ruyo.net/wp-content/uploads/2016/09/4.png" alt=""></p>
-<p>PS : 静态IP只能申请一个！！！</p>
-<h2 id="4-开启一个新的Project"><a href="#4-开启一个新的Project" class="headerlink" title="4.开启一个新的Project"></a>4.开启一个新的Project</h2><p>这边范例名称使用personal VPN<br><img src="https://upload-images.jianshu.io/upload_images/2968083-6b44ef610481cbb1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt="image"></p>
-<h2 id="5-建立VM执行个体"><a href="#5-建立VM执行个体" class="headerlink" title="5.建立VM执行个体"></a>5.建立VM执行个体</h2><ul>
-<li><p>从左侧开启选单，寻找Compute Engine，找到VM执行个体<br><img src="https://upload-images.jianshu.io/upload_images/2968083-5785c7cb3254b162.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt="image"></p>
-</li>
-<li><p>等待VM执行个体初始化完成<br><img src="https://upload-images.jianshu.io/upload_images/2968083-dc884f70e1746190.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/700" alt="image"></p>
-</li>
-<li><p>选择建立<br><img src="https://upload-images.jianshu.io/upload_images/2968083-b56c6c195402d947.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/644" alt="image"></p>
-</li>
-<li><p>设定VM 名称以及位置与配备<br><img src="https://51.ruyo.net/wp-content/uploads/2016/09/5.png" alt="image"><br><img src="https://51.ruyo.net/wp-content/uploads/2016/09/6.png" alt=""></p>
-</li>
-</ul>
-<h3 id="6-配置SSH"><a href="#6-配置SSH" class="headerlink" title="6.配置SSH"></a>6.配置SSH</h3><ul>
-<li>需要点两下SSH </li>
-</ul>
-<p><img src="https://img-blog.csdn.net/20180119220707358?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2hvdXhpaGFv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""></p>
-<ol>
-<li>第一步输入 “sudo -i “ ,获取root权限.</li>
-</ol>
-<p><img src="https://img-blog.csdn.net/20180119220733572?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvY2hvdXhpaGFv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""></p>
-<ol>
-<li>第二步运行如下代码</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-go.sh</span><br><span class="line">chmod +x shadowsocks-go.sh</span><br><span class="line">./shadowsocks-go.sh 2&gt;&amp;1 | tee shadowsocks-go.log</span><br></pre></td></tr></table></figure>
-<p>黏贴进去然后  回车 。执行完毕后</p>
-<p><img src="/img/QQ20180505-133654.png" alt="image"></p>
-<p>参考资料：</p>
-<p><a href="https://51.ruyo.net/2144.html" target="_blank" rel="noopener">Google Cloud服务免费申请试用以及使用教程</a></p>
-<p><a href="https://www.jianshu.com/p/9625bfbc1bf4" target="_blank" rel="noopener">Shadowsocks Python版一键安装脚本</a></p>
-<p><a href="https://www.jianshu.com/p/6bd66829a1ce" target="_blank" rel="noopener">用Google Cloud搭建免费一年的SS</a></p>
-<p><a href="https://blog.csdn.net/chouxihao/article/details/79111121" target="_blank" rel="noopener">用谷歌cloud搭建可以学上网方式</a></p>
-</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2018-11-06</span><i class="fa fa-tag"></i><a href="/categories/技术-vps/" title="技术,vps" class="tag">技术,vps </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
+extends partial/layout
+
+block site_title
+    != page.title + " · " + config.title
+
+block description
+    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
+    meta(name="description", content=desc)
+
+block content
+  .autopagerize_page_element: .content: .post-page
+    include mixins
+    +make_post(page, true)
+    .pagination
+      ul.clearfix
+        if prev
+          li.pre.pagbuttons
+            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
+        if next
+          li.next.pagbuttons
+            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
+    if page.comments
+        include partial/comments

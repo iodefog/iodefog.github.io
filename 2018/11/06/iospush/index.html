@@ -1,55 +1,25 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>iOS生成服务器所需证书pem或P12 · iodefog</title><meta name="description" content="本文主要记录制作服务器（例如php）利用pem推送服务
+include mixins
 
-基本流程：
-1.利用“钥匙串”请求证书
-2.创建证书，下载cer文件
-3.双击安装下载的cer文件后，导出p12证书
-4.利用命令行转换pem文件
-5.如果需要转换为p12
-6.验证证书是否可用
-具体步骤：
-1.利用钥匙串请求证书
+extends partial/layout
 
-Appl"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>iOS生成服务器所需证书pem或P12</a></h3></div><div class="post-content"><p>本文主要记录制作服务器（例如php）利用pem推送服务</p>
-<a id="more"></a>
-<p>基本流程：</p>
-<p>1.利用“钥匙串”请求证书</p>
-<p>2.创建证书，下载cer文件</p>
-<p>3.双击安装下载的cer文件后，导出p12证书</p>
-<p>4.利用命令行转换pem文件</p>
-<p>5.如果需要转换为p12</p>
-<p>6.验证证书是否可用</p>
-<p>具体步骤：</p>
-<p>1.利用钥匙串请求证书</p>
-<p><img src="/img/request_csr.png" alt="image"></p>
-<p>Apple建议这样填写</p>
-<p><img src="/img/9962780C-E852-497E-87C1-013CA3FCB461.png" alt="image"></p>
-<p>保存，得到”CertificateSigningRequest.certSigningRequest”文件。这是请求所有证书的基础。</p>
-<p>2.创建证书，下载cer文件</p>
-<p>进入苹果开发者中心:<a href="https://developer.apple.com/cn/" target="_blank" rel="noopener">https://developer.apple.com/cn/</a> Certificates, IDs &amp; Profiles</p>
-<p><img src="/img/B996E06D-EB2B-45F8-9DCA-37740CF79AED.png" alt="image"></p>
-<p><img src="/img/3094613-6b5c3eae15e96f21.png" alt="image"></p>
-<p>创建 “iOS Development” 和 “iOS Distribution” 以及“Identifiers-&gt;App IDs”证书后，才可以创建推送证书。</p>
-<p>创建方法类似，此处省略800字。</p>
-<p>把做的证书下载下来。</p>
-<p><img src="/img/66851C9E-F106-4524-A11F-A193EF4A0833.png" alt="image"></p>
-<p>分别得到发布开发cer和发布cer</p>
-<p>“aps_development.cer” 和 “aps.cer”</p>
-<p>3.双击安装下载的cer文件后，导出p12证书</p>
-<p><img src="/img/12EFBBB0-FC0A-4D6E-8F9D-1D1BD7F2F9C2.png" alt="image"></p>
-<p>分别导出开发证书和发布证书</p>
-<p>“Apple Development IOS Push Services- com.in.inlan.p12” 和 “Apple Push Services- com.in.inlan.p12”</p>
-<p>4.利用命令行转换pem文件</p>
-<p>1). 先把下载下的cer转换为pem</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ openssl x509 -inform der -in aps_development.cer -out devPushChatCert.pem</span><br><span class="line"></span><br><span class="line">$ openssl x509 -inform der -in aps.cer -out PushChatCert.pem</span><br></pre></td></tr></table></figure>
-<p>2). 将钥匙串中的p12转换成pem</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$  openssl pkcs12 -nocerts -out devPushChatKey.pem -in Apple\ Development\ IOS\ Push\ Services-\ com.in.inlan.p12</span><br><span class="line"></span><br><span class="line">$ openssl pkcs12 -nocerts -out PushChatKey.pem -in Apple\ Push\ Services-\ com.in.inlan.p12</span><br></pre></td></tr></table></figure>
-<p>3). 将上面生成的2中pem转为一个pem</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ cat devPushChatCert.pem devPushChatKey.pem &gt; dev_ck.pem</span><br><span class="line"></span><br><span class="line">$ cat PushChatCert.pem PushChatKey.pem &gt; ck.pem</span><br></pre></td></tr></table></figure>
-<p>5.如果需要转换为p12</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ openssl pkcs12 -export -in dev_ck.pem -out dev_pushcer.p12</span><br><span class="line"></span><br><span class="line">$ openssl pkcs12 -export -in ck.pem -out pushcer.p12</span><br></pre></td></tr></table></figure>
-<p>6.验证证书是否可用</p>
-<p>整理有个写好的脚本可用（内部替换所需deviceToken即可）</p>
-<p><a href="/file/push.zip">push demo</a></p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ php ios-push.php</span><br></pre></td></tr></table></figure>
-</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2018-11-06</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a><a href="/tags/iOS-Object-C/" title="iOS , Object-C" class="tag">iOS , Object-C </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
+block site_title
+    != page.title + " · " + config.title
+
+block description
+    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
+    meta(name="description", content=desc)
+
+block content
+  .autopagerize_page_element: .content: .post-page
+    include mixins
+    +make_post(page, true)
+    .pagination
+      ul.clearfix
+        if prev
+          li.pre.pagbuttons
+            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
+        if next
+          li.next.pagbuttons
+            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
+    if page.comments
+        include partial/comments
