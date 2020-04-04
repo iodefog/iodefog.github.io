@@ -1,25 +1,13 @@
-include mixins
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>iOS 快速切换开发环境 · iodefog</title><meta name="description" content="转自：  http://blog.csdn.net/yadonghaoren/article/details/38423159
+step1: 添加自定义的配置project Navigationor –&amp;gt; PROJECT –&amp;gt; Info –&amp;gt;Configurations(+) –&amp;"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>iOS 快速切换开发环境</a></h3></div><div class="post-content"><p>转自：  <a href="http://blog.csdn.net/yadonghaoren/article/details/38423159" target="_blank" rel="noopener">http://blog.csdn.net/yadonghaoren/article/details/38423159</a></p>
+<p>step1: 添加自定义的配置<br>project Navigationor –&gt; PROJECT –&gt; Info –&gt;Configurations(+) –&gt;Depulicate”Debug” Configuration. 如图：<br><img src="http://img.blog.csdn.net/20140807180858812?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveWFkb25naGFvcmVu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""><br>注意：<br>选择Depulicate “Debug” Configuration 则新的配置环境是debug模式。<br>选择Depulicate “Release” Configuration 则新的配置环境是Release模式。</p>
+<a id="more"></a>
 
-extends partial/layout
 
-block site_title
-    != page.title + " · " + config.title
-
-block description
-    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
-    meta(name="description", content=desc)
-
-block content
-  .autopagerize_page_element: .content: .post-page
-    include mixins
-    +make_post(page, true)
-    .pagination
-      ul.clearfix
-        if prev
-          li.pre.pagbuttons
-            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
-        if next
-          li.next.pagbuttons
-            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
-    if page.comments
-        include partial/comments
+<p>step2: 添加关键字<br>****-info.plists –&gt; add {Key:Configuration  Value:${CONFIGURATION}}<br><img src="http://img.blog.csdn.net/20140807181637038?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveWFkb25naGFvcmVu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p>step3:创建配置文件newfile–&gt; iOS Resource –&gt; Property List   并named Environment.plist<img src="http://img.blog.csdn.net/20140807181942875?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveWFkb25naGFvcmVu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p>step4:创建单利从plist中读取数据<br><img src="http://img.blog.csdn.net/20140807182558452?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveWFkb25naGFvcmVu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p>此时编译一下如果不通过，提示pod library 找不到的解决方法：<br>Targets－－》buildsetting －－》 搜索searchPaths －－》 将Framework、Library、userHeader 对应的searchPath中都添加$(BUILD_DIR)/Release$(EFFECTIVE_PLATFORM_NAME)。</p>
+<p>技巧：<br>可以通过编辑scheme来设置自己的环境变量，具体操作如下：<br>edit Scheme －－&gt; Run ***.app – &gt; Arguments  —&gt; Environment Variables –&gt;添加相应的name &amp; value。<br>如何取得自定义得环境变量值：</p>
+<p>   NSString * element = [[[NSProcessInfo processInfo] environment] objectForKey:@”TestEnvironment”];<br>    NSLog(@”element = %@”,element);</p>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2015-03-12</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

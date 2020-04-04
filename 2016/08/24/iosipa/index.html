@@ -1,25 +1,48 @@
-include mixins
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>iOS证书及ipa包重签名 · iodefog</title><meta name="description" content="闲来无事，玩了玩重签名，成功搞定重签名准备工作：
+1.准备你需要重新签名的ipa。
+*2.制作entitlements.plist *
+code 如下： 注意 VB2VQ6GKB2.com.test.enterprise 这个是使用下图箭头所指标识  VB2VQ6GKB2 相应变换。这个应该都会吧
+"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>iOS证书及ipa包重签名</a></h3></div><div class="post-content"><h3 id="闲来无事，玩了玩重签名，成功搞定重签名"><a href="#闲来无事，玩了玩重签名，成功搞定重签名" class="headerlink" title="闲来无事，玩了玩重签名，成功搞定重签名"></a>闲来无事，玩了玩重签名，成功搞定重签名</h3><p>准备工作：</p>
+<p><strong>1.准备你需要重新签名的ipa。</strong></p>
+<p>*<em>2.制作entitlements.plist *</em></p>
+<p>code 如下： 注意 VB2VQ6GKB2.com.test.enterprise 这个是使用下图箭头所指标识  VB2VQ6GKB2 相应变换。这个应该都会吧</p>
+<a id="more"></a>
 
-extends partial/layout
 
-block site_title
-    != page.title + " · " + config.title
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>  </span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">plist</span> <span class="meta-keyword">PUBLIC</span> <span class="meta-string">"-//Apple//DTD PLIST 1.0//EN"</span> <span class="meta-string">"http://www.apple.com/DTDs/PropertyList-1.0.dtd"</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">"1.0"</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;<span class="name">dict</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>keychain-access-groups<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">array</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">string</span>&gt;</span>VB2VQ6GKB2.*<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">array</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>get-task-allow<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">false</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>application-identifier<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>VB2VQ6GKB2.com.test.enterprise<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>com.apple.developer.team-identifier<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>VB2VQ6GKB2<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>aps-environment<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">string</span>&gt;</span>production<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dict</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-block description
-    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
-    meta(name="description", content=desc)
 
-block content
-  .autopagerize_page_element: .content: .post-page
-    include mixins
-    +make_post(page, true)
-    .pagination
-      ul.clearfix
-        if prev
-          li.pre.pagbuttons
-            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
-        if next
-          li.next.pagbuttons
-            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
-    if page.comments
-        include partial/comments
+<p>这里关键点在于id的正确，这点搞了好久，总是和网上找的不一样。我这里用了“<a href="https://pan.baidu.com/s/1o7OLrRG" target="_blank" rel="noopener">iPhone</a><a href="https://pan.baidu.com/s/1o7OLrRG" target="_blank" rel="noopener">配置实用工具</a>”这个工具来查看证书的，找到你的证书</p>
+<p><img src="../img/20160824143715637.jpg" alt=""></p>
+<p><strong>3.选中你的证书，点击左上角导出按钮，导出成embedded.mobileprovision</strong></p>
+<p><strong>4.解压ipa</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">  upzip xxx.ipa</span><br></pre></td></tr></table></figure>
+
+<p>*<em>5.移除老的证书 *</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> rm -rf  Payload&#x2F;xxx.app&#x2F;_CodeSignature </span><br><span class="line"> rm -rf  Payload&#x2F;xxx.app&#x2F;embedded.mobileprovision</span><br></pre></td></tr></table></figure>
+
+<p><strong>6.替换证书</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp  embedded.mobileprovision  Payload&#x2F;xxx.app&#x2F;embedded.mobileprovision**</span><br></pre></td></tr></table></figure>
+
+<p><strong>7.进入到钥匙串，找到对应的证书名称。进行重签名</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">certifierName&#x3D;&quot;iPhone Distribution: Shenzhen Test Technology Co., Ltd.&quot;  </span><br><span class="line"></span><br><span class="line">codesign -f -s $certifierName  --entitlements entitlements.plist Payload&#x2F;xxx.app</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>8.进入到Payload/xxx/Info.plist,修改Bundle identifier 注：我这个地方修改就好使了，不知道是不是必须修改</strong></p>
+<p><strong>9.打包成ipa</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">  zip -r newxxx.ipa Payload</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="以上流程，我写了一个脚本，如下："><a href="#以上流程，我写了一个脚本，如下：" class="headerlink" title="以上流程，我写了一个脚本，如下："></a>以上流程，我写了一个脚本，如下：</h3><p><strong>resign.sh</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">IPAName&#x3D;$1</span><br><span class="line"></span><br><span class="line">rm -rf new_$&#123;IPAName&#125;.ipa</span><br><span class="line">rm -rf Payload</span><br><span class="line"></span><br><span class="line">unzip $&#123;IPAName&#125;.ipa</span><br><span class="line"></span><br><span class="line">rm -rf Payload&#x2F;$&#123;IPAName&#125;.app&#x2F;_CodeSignature </span><br><span class="line">rm -rf Payload&#x2F;$&#123;IPAName&#125;.app&#x2F;Embedded.mobileprovision</span><br><span class="line"></span><br><span class="line">cp Embedded.mobileprovision Payload&#x2F;$&#123;IPAName&#125;.app&#x2F;embedded.mobileprovision</span><br><span class="line"></span><br><span class="line">echo $CertifierName</span><br><span class="line"></span><br><span class="line">codesign -f -s &quot;iPhone Distribution: BEIJING SOHU NEW MEDIA INFORMATION TECHNOLOGY CO. Ltd.&quot;  --entitlements entitlements.plist Payload&#x2F;$&#123;IPAName&#125;.app</span><br><span class="line"></span><br><span class="line">codesign -f -s &quot;iPhone Distribution: BEIJING SOHU NEW MEDIA INFORMATION TECHNOLOGY CO. Ltd.&quot;  --entitlements entitlements.plist Payload&#x2F;$&#123;IPAName&#125;.app&#x2F;Frameworks&#x2F;*</span><br><span class="line"></span><br><span class="line">zip -r new_$&#123;IPAName&#125;.ipa Payload</span><br></pre></td></tr></table></figure>
+
+<p>使用方法：</p>
+<ul>
+<li>1.把Embedded.mobileprovision， entitlements.plist， resign.sh， xxx.ipa 放到同一个文件夹下</li>
+<li>2.利用终端，cd到文件夹下，执行以下命令。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh resign.sh VipVideo-iPhone</span><br></pre></td></tr></table></figure>
+
+<p><em>注意:VipVideo-iPhone 一定是scheme名称。查找方式，保存ipa成.zip格式，解压，得到Palaod-&gt;VipVideo-iPhone。这个VipVideo-iPhone才是真正的scheme。</em></p>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2016-08-24</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

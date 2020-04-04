@@ -1,25 +1,40 @@
-include mixins
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>利用Python实现BT种子转化为磁力链接 · iodefog</title><meta name="description" content="利用Python实现BT种子转化为磁力链接
+方案是：利用python的bencode模块，用起来比较简单
 
-extends partial/layout
+首先安装 pip getpip 地址:https://bootstrap.pypa.io/get-pip.py
 
-block site_title
-    != page.title + " · " + config.title
 
-block description
-    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
-    meta(name="description", content=desc)
 
-block content
-  .autopagerize_page_element: .content: .post-page
-    include mixins
-    +make_post(page, true)
-    .pagination
-      ul.clearfix
-        if prev
-          li.pre.pagbuttons
-            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
-        if next
-          li.next.pagbuttons
-            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
-    if page.comments
-        include partial/comments
+
+
+第二 安装bencode
+
+1pip install bencode
+"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>利用Python实现BT种子转化为磁力链接</a></h3></div><div class="post-content"><p>利用Python实现BT种子转化为磁力链接</p>
+<p>方案是：利用python的bencode模块，用起来比较简单</p>
+<ul>
+<li>首先安装 pip <a href="https://bootstrap.pypa.io/get-pip.py" target="_blank" rel="noopener">getpip</a> 地址:<a href="https://bootstrap.pypa.io/get-pip.py" target="_blank" rel="noopener">https://bootstrap.pypa.io/get-pip.py</a></li>
+</ul>
+<a id="more"></a>
+
+
+<ul>
+<li>第二 安装bencode</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install bencode</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>第三 vim，生成bt2magnet.py</li>
+</ul>
+<p>[bt2magnet.py]<br>[bt2magnet.py]:./python/bt2magnet.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#! /usr/local/bin/python </span></span><br><span class="line"><span class="comment"># -*- coding: cp936 -*-</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># @desc python通过BT种子生成磁力链接  </span></span><br><span class="line"><span class="comment"># @date 2015/11/10 </span></span><br><span class="line"><span class="comment"># @author pythontab.com </span></span><br><span class="line"><span class="keyword">import</span> bencode </span><br><span class="line"><span class="keyword">import</span> sys </span><br><span class="line"><span class="keyword">import</span> hashlib </span><br><span class="line"><span class="keyword">import</span> base64 </span><br><span class="line"><span class="keyword">import</span> urllib </span><br><span class="line"><span class="comment">#获取参数 </span></span><br><span class="line">torrentName = sys.argv[<span class="number">1</span>] </span><br><span class="line"><span class="comment">#读取种子文件 </span></span><br><span class="line">torrent = open(torrentName, <span class="string">'rb'</span>).read() </span><br><span class="line"><span class="comment">#计算meta数据 </span></span><br><span class="line">metadata = bencode.bdecode(torrent) </span><br><span class="line">hashcontents = bencode.bencode(metadata[<span class="string">'info'</span>]) </span><br><span class="line">digest = hashlib.sha1(hashcontents).digest() </span><br><span class="line">b32hash = base64.b32encode(digest) </span><br><span class="line"><span class="comment">#打印 </span></span><br><span class="line"><span class="keyword">print</span> <span class="string">'magnet:?xt=urn:btih:%s'</span> % b32hash</span><br></pre></td></tr></table></figure>
+<ul>
+<li>最后， 在命令行里执行命令</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python bt2url.py 70A429316D53032552B67734D53AB0BC51A2A4D9.torrent</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>结果:</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">magnet:?xt&#x3D;urn:btih:OCSCSMLNKMBSKUVWO42NKOVQXRI2FJGZ</span><br></pre></td></tr></table></figure>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2017-02-27</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a><a href="/tags/python-bt-magnet-torrent/" title="python, bt, magnet, torrent" class="tag">python, bt, magnet, torrent </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

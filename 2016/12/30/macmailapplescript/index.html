@@ -1,25 +1,42 @@
-include mixins
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>Mac 远程控制，邮件关机，重启等，利用AppleScript · iodefog</title><meta name="description" content="首先：开关机动作
+12345tell application &quot;Finder&quot; to shut downtell application &quot;Finder&quot; to sleeptell application &quot;Finder&quot; to restart
 
-extends partial/layout
 
-block site_title
-    != page.title + " · " + config.title
 
-block description
-    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
-    meta(name="description", content=desc)
 
-block content
-  .autopagerize_page_element: .content: .post-page
-    include mixins
-    +make_post(page, true)
-    .pagination
-      ul.clearfix
-        if prev
-          li.pre.pagbuttons
-            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
-        if next
-          li.next.pagbuttons
-            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
-    if page.comments
-        include partial/comments
+分别保存文件为  关机  睡眠 重启第二步：打"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>Mac 远程控制，邮件关机，重启等，利用AppleScript</a></h3></div><div class="post-content"><p><strong>首先：开关机动作</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tell application <span class="string">"Finder"</span> to shut down</span><br><span class="line"></span><br><span class="line">tell application <span class="string">"Finder"</span> to sleep</span><br><span class="line"></span><br><span class="line">tell application <span class="string">"Finder"</span> to restart</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+
+<p>分别保存文件为  关机  睡眠 重启<br><strong>第二步：打开邮件-&gt;偏好设置-&gt;规则</strong><br>**<br>**<br><strong>第三步：设置规则，如下</strong><br><img src="" alt=""></p>
+<p>最终现象如下<br><img src="" alt=""></p>
+<p>Location 命令<br>这个命令允许你打开一个特定的位置（不管路径位于你的 Mac 上，还是在网络上）。这个命令最常用于操纵Finder。例如：如果你想打开”apple4.us”，你可以输入下面的命令：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tell application <span class="string">"Finder"</span> to open location <span class="string">"http://apple4.us"</span></span><br></pre></td></tr></table></figure>
+
+
+<p>记住，当你指定应用程序的时候，一定在其名字上加双引号（如这里的“Finder”）。当你输入一个 URL 的时候，一定要加上这个URL的协议前缀（如，http://，afp://，ftp://，等），同样，你也要在 URL 上加双引号。你也可以指定你的浏览器打开一个URL，如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tell application <span class="string">"Safari"</span> to open location <span class="string">"http://apple4.us"</span></span><br></pre></td></tr></table></figure>
+
+<p>如果你没有马上实验第一条命令的话，你也许会想，这个命令和上一个命令有什么区别呢？难道 Finder 还能当浏览器用？实际上，第一条命令中，我们让 Finder 打开一个 Web 路径时，Finder 会调用系统默认的浏览器来打开它。</p>
+<p>Say 命令<br>你可以用 Say 命令来让 Mac 跟你说话（按，记得吗，Leopard 的<a href="http://www.apple.com/macosx/features/300.html#universalaccess" target="_blank" rel="noopener">300<br> 个新特征之一</a>中就包含了增强的语音模拟系统！）。Say 是最简单的一个 AppleScript 命令了。例如，如果你想用默认的 Mac 的话音说“Hello, my name is Macintosh.”，你可以输入：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tell application <span class="string">"Finder"</span> to say <span class="string">"Hello, my name is Macintosh."</span></span><br></pre></td></tr></table></figure>
+
+<p>用这个命令，可以让你的 Mac 说任何你输入的话，只要记住，把你想让 Mac 说的话用双引号包围起来就行了。如果你想试试 Mac 能说的其他声音，你可以在最后加上 using 和“说话人”的名称。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tell application <span class="string">"Finder"</span> to say <span class="string">"Hello, my name is Macintosh."</span> using <span class="string">"Bruce"</span></span><br></pre></td></tr></table></figure>
+
+<p>或</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tell application <span class="string">"Finder"</span> to say <span class="string">"Hello, my name is Macintosh."</span> using <span class="string">"Vicki"</span></span><br></pre></td></tr></table></figure>
+
+
+<p>显示对话框<br>当你把 Mac 分享给其他人使用时，你想在他/她登录后给他/她一些使用提示，这个命令就非常有用了！（关于这个，我会在后面的文章中会详细介绍的，请关注！）使用这个命令会在屏幕上显示一个对话框。例如，如果你想显示一个“Hello, there”的对话框，你可以使用下面这个命令：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tell application <span class="string">"Finder"</span> to display dialog <span class="string">"Hello, there."</span></span><br></pre></td></tr></table></figure>
+
+
+<p>运行这个脚本，一个小对话框会出现，并显示你刚才输入的问候语。</p>
+<p>构建一个脚本<br>现在，让我们来使用我们已经学到的命令来显示对话框，并使用 Say 命令：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tell application <span class="string">"Finder"</span> to display dialog <span class="string">"Hello there, click OK and I will talk to you."</span></span><br><span class="line"></span><br><span class="line">tell application <span class="string">"Finder"</span> to say <span class="string">"Hello, my name is Macintosh; I like Apples."</span></span><br></pre></td></tr></table></figure>
+
+
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2016-12-30</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

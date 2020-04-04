@@ -1,25 +1,77 @@
-include mixins
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>整理和收集一些知识和技巧 · iodefog</title><meta name="description" content="//`UIWebview 如何自适应高度- (void)webViewDidFinishLoad:(UIWebView*)webView { //webview
+ 自适应高度    CGRectframe = webView.frame;CGSizefittingSize
+ = [webViewsi"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>整理和收集一些知识和技巧</a></h3></div><div class="post-content"><p><code>//`UIWebview 如何自适应高度</code>-<br> (<code>void</code>)webViewDidFinishLoad:(<code>UIWebView</code>*)webView<br> { <code>//webview
+ 自适应高度</code>    <code>CGRect</code>frame<br> = webView<code>.frame</code>;<code></code>CGSize<code>fittingSize
+ = [webView</code><br>sizeThatFits<code>:CGSizeZero];</code>    <code>frame</code>.size<code>=
+ fittingSize;</code>    <code>webView</code>.frame<code>=
+ frame;</code>    <code>//tableView
+ reloadData</code>}``</p>
+<pre><code class="//判断用户是否禁止该App使用设备麦克风">&lt;!--more--&gt;
 
-extends partial/layout
+//从iOS 7开始，如果App需要用到设备的麦克风，会弹出一个对话框询问用户。这段代码可以检测到用户是否拒绝该App使用麦克风，从而弹出提示框，提示用户去设置那里开启。if ([[AVAudioSession sharedInstance] respondsToSelector:@selector(requestRecordPermission:)]) {
+        [[AVAudioSession sharedInstance] performSelector:@selector(requestRecordPermission:) withObject:^(BOOL granted) {
+            if (granted) {
+                // Microphone enabled code
+                NSLog(@&quot;Microphone is enabled..&quot;);
+            }
+            else {
+                // Microphone disabled code
+                NSLog(@&quot;Microphone is disabled..&quot;);
 
-block site_title
-    != page.title + " · " + config.title
+                // We&apos;re in a background thread here, so jump to main thread to do UI work.
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[[UIAlertView alloc] initWithTitle:@&quot;Microphone Access Denied&quot;
+                                                 message:@&quot;This app requires access to your device&apos;s Microphone.\n\nPlease enable Microphone access for this app in Settings / Privacy / Microphone&quot;
+                                                delegate:nil
+                                       cancelButtonTitle:@&quot;Dismiss&quot;
+                                       otherButtonTitles:nil] show];
+                });
+            }
+        }];
+    }
 
-block description
-    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
-    meta(name="description", content=desc)
+#
 
-block content
-  .autopagerize_page_element: .content: .post-page
-    include mixins
-    +make_post(page, true)
-    .pagination
-      ul.clearfix
-        if prev
-          li.pre.pagbuttons
-            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
-        if next
-          li.next.pagbuttons
-            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
-    if page.comments
-        include partial/comments
+#
+
+#
+
+#禁止输入表情符号
+有效禁止用户各种方法输入表情符号、、
+
+123456789101112131415161718192021222324252627282930313233343536373839`//``// 
+ ViewController.m``// 
+ test``//``// 
+ Created by 郭宇 on 13-11-15.``// 
+ Copyright (c) 2013年 郭 宇. All rights reserved.``//` `#import
+ &quot;ViewController.h&quot;` `@implementation``
+ViewController``{``    ``IBOutlet``
+UITextView``
+*textinput;``}` `-
+ (``void``)viewDidLoad``{``    ``[``super``
+viewDidLoad``];``    ``[textinput``
+setDelegate``:``self``];``}` `-
+ (``void``)textViewDidChange:(``UITextView``
+*)textView``{``    ``NSRange``
+textRange = [textView``
+selectedRange``];``    ``[textView``
+setText``:[``self``
+disable_emoji``:[textView``
+text``]]];``    ``[textView``
+setSelectedRange``:textRange];``}` `-
+ (``NSString``
+*)disable_emoji:(``NSString``
+*)text``{``    ``NSRegularExpression``
+*regex = [``NSRegularExpression``
+regularExpressionWithPattern``:``@&quot;[^\\u0020-\\u007E\\u00A0-\\u00BE\\u2E80-\\uA4CF\\uF900-\\uFAFF\\uFE30-\\uFE4F\\uFF00-\\uFFEF\\u0080-\\u009F\\u2000-\\u201f\r\n]&quot;``
+options``:``NSRegularExpressionCaseInsensitive``
+error``:nil``];``    ``NSString``
+*modifiedString = [regex``
+stringByReplacingMatchesInString``:text``                                                              
+``options``:``0``                                                                
+``range``:NSMakeRange(``0``,
+ [text``
+length``])``                                                         
+``withTemplate``:``@&quot;&quot;``];``    ``return``
+modifiedString;``}` `@end`</code></pre>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2014-05-16</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

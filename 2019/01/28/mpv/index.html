@@ -1,25 +1,18 @@
-include mixins
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>mpv播放器在mac上的使用 · iodefog</title><meta name="description" content="安装1. brew 安装1brew install mpv
 
-extends partial/layout
+2.源码安装下载源码：https://github.com/mpv-player/mpv/
+1234$ .&amp;#x2F;bootstrap.py$ .&amp;#x2F;waf configure$ .&amp;#x2F;waf$ .&amp;#x2F;waf i"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>mpv播放器在mac上的使用</a></h3></div><div class="post-content"><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="1-brew-安装"><a href="#1-brew-安装" class="headerlink" title="1. brew 安装"></a>1. brew 安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install mpv</span><br></pre></td></tr></table></figure>
 
-block site_title
-    != page.title + " · " + config.title
+<h3 id="2-源码安装"><a href="#2-源码安装" class="headerlink" title="2.源码安装"></a>2.源码安装</h3><p>下载源码：<a href="https://github.com/mpv-player/mpv/" target="_blank" rel="noopener">https://github.com/mpv-player/mpv/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ .&#x2F;bootstrap.py</span><br><span class="line">$ .&#x2F;waf configure</span><br><span class="line">$ .&#x2F;waf</span><br><span class="line">$ .&#x2F;waf install</span><br></pre></td></tr></table></figure>
 
-block description
-    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
-    meta(name="description", content=desc)
+<h3 id="生成app"><a href="#生成app" class="headerlink" title="生成app"></a>生成app</h3><p>网上说可以使用 brew linkapps mpv,但是新版本的brew已经将linksapps操作给删掉了.<br>直接执行 brew cask install mpv即可, 安装之后发现mpv已经出现在了lauchpad里面并且可以打开使用了.</p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 切换到mpv文件夹</span><br><span class="line">$ &#x2F;Users&#x2F;yourname&#x2F;.config&#x2F;mpv</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 创建配置文件</span><br><span class="line">$ touch mpv.conf</span><br></pre></td></tr></table></figure>
 
-block content
-  .autopagerize_page_element: .content: .post-page
-    include mixins
-    +make_post(page, true)
-    .pagination
-      ul.clearfix
-        if prev
-          li.pre.pagbuttons
-            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
-        if next
-          li.next.pagbuttons
-            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
-    if page.comments
-        include partial/comments
+<p>附mpv.conf:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># mpv.conf</span><br><span class="line">hwdec&#x3D;auto</span><br><span class="line">autofit-larger&#x3D;92%</span><br><span class="line">video-sync&#x3D;display-resample</span><br><span class="line">sub-codepage&#x3D;enca:zh:utf8</span><br><span class="line">sub-auto&#x3D;fuzzy</span><br><span class="line">sub-font-size&#x3D;40</span><br><span class="line">sub-shadow-offset&#x3D;0</span><br><span class="line">sub-color&#x3D;&quot;#ffffffff&quot;</span><br><span class="line">sub-font&#x3D;&quot;STZhongsong&quot;</span><br><span class="line">sub-codepage&#x3D;utf8:gb18030</span><br><span class="line">screenshot-template&#x3D;mpv-screenshot-%f-%p</span><br><span class="line">screenshot-format&#x3D;png</span><br><span class="line">osd-font&#x3D;&quot;STZhongsong&quot;</span><br><span class="line">osd-font-size&#x3D;36</span><br><span class="line">--script&#x3D;&#x2F;Users&#x2F;yourname&#x2F;.config&#x2F;mpv&#x2F;autoload.lua</span><br></pre></td></tr></table></figure>
+<ul>
+<li>注意使用的时候把最后一行的yourname改掉</li>
+</ul>
+<h3 id="播放"><a href="#播放" class="headerlink" title="播放"></a>播放</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mpv http:&#x2F;&#x2F;dlhls.cdn.zhanqi.tv&#x2F;zqlive&#x2F;43626_vQOn9.m3u8</span><br></pre></td></tr></table></figure>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2019-01-28</span><i class="fa fa-tag"></i></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

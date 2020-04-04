@@ -1,25 +1,56 @@
-include mixins
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>用xcconfig文件配置iOS app环境变量 · iodefog</title><meta name="description" content="app开发中通常都会涉及到多个环境，Debug、Release等。环境切换时可能就会涉及到服务器url的切换，或者一些第三方sdk的appid的切换。最初我是通过在代码中添加变量的方式来设置环境的：static let isRelease = true
+static let serverURL = "><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>用xcconfig文件配置iOS app环境变量</a></h3></div><div class="post-content"><h2 id="app开发中通常都会涉及到多个环境，Debug、Release等。环境切换时可能就会涉及到服务器url的切换，或者一些第三方sdk的appid的切换。最初我是通过在代码中添加变量的方式来设置环境的："><a href="#app开发中通常都会涉及到多个环境，Debug、Release等。环境切换时可能就会涉及到服务器url的切换，或者一些第三方sdk的appid的切换。最初我是通过在代码中添加变量的方式来设置环境的：" class="headerlink" title="app开发中通常都会涉及到多个环境，Debug、Release等。环境切换时可能就会涉及到服务器url的切换，或者一些第三方sdk的appid的切换。最初我是通过在代码中添加变量的方式来设置环境的："></a>app开发中通常都会涉及到多个环境，Debug、Release等。环境切换时可能就会涉及到服务器url的切换，或者一些第三方sdk的appid的切换。最初我是通过在代码中添加变量的方式来设置环境的：</h2><pre><code>static let isRelease = true
+static let serverURL = isRelease ? &quot;prod server url&quot; : &quot;dev server url&quot;</code></pre><a id="more"></a>
 
-extends partial/layout
+<p>然而这样做的缺陷是，每一次要切换环境的时候都需要去更改这个变量，多次修改后还是会比较烦。并且通常开发中可能会有不止两个环境。所以，配置app环境变量能够更好的解决环境切换的问题。<br>配置app环境变量的方式有多种，我选择了一种我感觉比较直观的方式来配置——使用xcconfig文件。</p>
+<h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>Xcode默认会提供两种配置环境：Debug 和 Release，这两者的区别：</p>
+<ul>
+<li>Debug 会多一些调试信息（网上很多人说release，环境下不能断点之类的，自己测试后发现断点什么的和debug、release没有关系，后面会详细说）</li>
+<li>Release 运行速度快很多，流畅。打的包大小可能要比debug小一些</li>
+</ul>
+<p>在我的开发中主要是会用到3种环境：</p>
+<ul>
+<li>测试服务器debug</li>
+<li>偶尔会切换到正式服务器debug</li>
+<li>上架（正式服务器，release）</li>
+</ul>
+<p>默认提供的两种还不太够用。。。<br>根据以上需求，操作步骤大致如下：</p>
+<h2 id="1、添加Build-Configuration"><a href="#1、添加Build-Configuration" class="headerlink" title="1、添加Build Configuration"></a>1、添加Build Configuration</h2><p>打开项目的workspace，进入xcode的主界面。<br>选中主要工程的project -&gt; info , 找到Configurations, 点击下方的“＋”<br><img src="http://upload-images.jianshu.io/upload_images/1748971-8d924a0586334e07.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>Snip20160813_4.png从图中可以看到两个已经添加好的Configuration: Debug 和 Release<br>选择“deplicate debug configuration”,添加一个新的configuration,命名为ReleaseTest:<br><img src="http://upload-images.jianshu.io/upload_images/1748971-c306a5df02ee6cba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>Snip20160814_5.png从图上可以看到，三个configuration都已经有了默认的configuration set(也就是xxconfig文件)。这是因为我的工程中已经包含了cocoapods。默认的configuration set是pods添加的。<br>这个时候新增加的build configuration并没有对应的pods的xcconfig，所以项目会报错。把新建的configuration 对应的set 设置为none<br><img src="http://upload-images.jianshu.io/upload_images/1748971-e32ba6ac74eb4627.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>Snip20160814_6.png命令行运行<br>    pod install<br>完成之后如下图<br><img src="http://upload-images.jianshu.io/upload_images/1748971-717b4fe3a5d646ab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>Snip20160814_9.png</p>
+<h2 id="2、新建并配置xcconfig文件"><a href="#2、新建并配置xcconfig文件" class="headerlink" title="2、新建并配置xcconfig文件"></a>2、新建并配置xcconfig文件</h2><p>common + “n”, 选择 iOS -&gt; Other -&gt; Configuration settings file<br><img src="http://upload-images.jianshu.io/upload_images/1748971-78f2a366a661d6a1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>Snip20160814_7.png新建4个xxconfig文件，我采用一下命名：<br><img src="http://upload-images.jianshu.io/upload_images/1748971-9389ce75443f0f53.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>Snip20160814_8.png其中：<br>CommonConfig.xcconfig 文件中放一些通用的配置，例如build version等<br>其他三个文件分别对应三个build configuration.<br>在CommonConfig中添加：<br>    BUILD_VERSION = 1.0.0<br>DebugConfig:<br>    /*<br>        导入公共 config<br>    <em>/<br>    #include”CommonConfig.xcconfig”<br>    /</em><br>        导入pods 对应的 config<br>    */<br>    #include”Pods/Target Support Files/Pods/Pods.debug.xcconfig”</p>
+<pre><code>APP_DISPLAY_NAME = 测试服
+CONFIG_FLAG = DEBUG</code></pre><p>ReleaseConfig:<br>    #include”CommonConfig.xcconfig”<br>    #include”Pods/Target Support Files/Pods/Pods.release.xcconfig”</p>
+<pre><code>APP_DISPLAY_NAME = 真名
+CONFIG_FLAG = RELEASE</code></pre><p>ReleaseTestConfig:<br>    #include”CommonConfig.xcconfig”<br>    #include”Pods/Target Support Files/Pods/Pods.releasetest.xcconfig”</p>
+<pre><code>APP_DISPLAY_NAME = 正式服
+CONFIG_FLAG = RELEASE_TEST</code></pre><p>其中：<br>    #include”Pods/Target Support Files/Pods/Pods.releasetest.xcconfig”<br>可能会因为项目名称的不同导致路径不同，如果不太确定的可以再次pod install。pods会给出提示，其中包含了正确的路径。</p>
+<blockquote>
+<p><strong>重点： pod 使用说明</strong><br>[!] CocoaPods did not set the base configuration of your project because your project already has a custom config set. In order for CocoaPods integration to work at all, please either set the base configurations of the target <code>configTest</code> to<code>Pods/Target
+ Support Files/Pods/Pods.debug.xcconfig</code> or include the <code>Pods/Target Support
+ Files/Pods/Pods.debug.xcconfig</code> in your build configuration.<br>完成以上后，把build configuration切换成对应的新建的文件：<br><img src="http://upload-images.jianshu.io/upload_images/1748971-f1a525371228d3c3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>Snip20160814_10.png</p>
+</blockquote>
+<h2 id="2、设置环境变量"><a href="#2、设置环境变量" class="headerlink" title="2、设置环境变量"></a>2、设置环境变量</h2><p>完成上面的步骤就已经添加好了环境，剩下的就是设置环境变量<br>在Info.plist文件中，设置Bundle name 为<br>    ${APP_DISPLAY_NAME}<br>应用的名称就会根据配置改变了。<br><img src="http://upload-images.jianshu.io/upload_images/1748971-de1d8d6dac8fe640.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>Snip20160814_11.png然而在代码中需要根据环境改变某些变量的值怎么办呢？</p>
+<h2 id="1、设置预编译头参数"><a href="#1、设置预编译头参数" class="headerlink" title="1、设置预编译头参数"></a>1、设置预编译头参数</h2><p>OC<br>Project -&gt; Build settings -&gt; Apple LLVM 7.1 - Preprocessing<br>在 preprocessor 中添加<br>    ${CONFIG_FLAG}=1<br><img src="http://upload-images.jianshu.io/upload_images/1748971-f4f2cdbc0fc7d379.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>Snip20160814_12.png</p>
+<p>Swift<br>Project -&gt; Build settings -&gt; Swift Compiler - Custom Flags<br>在 other swift flags 中添加<br>    －D ${CONFIG_FLAG}<br><img src="http://upload-images.jianshu.io/upload_images/1748971-3b518f9014a62ce5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>Snip20160814_21.png</p>
+<p>然后<br>代码中：<br>    struct AppConfig {<br>        private enum AppConfigType {<br>            case Debug<br>            case Release<br>            case ReleaseTest<br>        }</p>
+<pre><code>    private static var currentConfig: AppConfigType {
+        #if DEBUG = 1
+            return .Debug
+        #elseif RELEASE_TEST = 1
+            return .ReleaseTest
+        #else
+            return .Release
+        #endif
+    }
 
-block site_title
-    != page.title + " · " + config.title
-
-block description
-    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
-    meta(name="description", content=desc)
-
-block content
-  .autopagerize_page_element: .content: .post-page
-    include mixins
-    +make_post(page, true)
-    .pagination
-      ul.clearfix
-        if prev
-          li.pre.pagbuttons
-            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
-        if next
-          li.next.pagbuttons
-            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
-    if page.comments
-        include partial/comments
+    static var webServerURL: String {
+        switch currentConfig {
+        case .Debug:
+            return &quot;test url&quot;
+        default:
+            return &quot;release url&quot;
+        }
+    }
+}</code></pre><p>其他变量也可以采用以上方式配置。</p>
+<h2 id="添加多个scheme-方便配置切换"><a href="#添加多个scheme-方便配置切换" class="headerlink" title="添加多个scheme,方便配置切换"></a>添加多个scheme,方便配置切换</h2><p><img src="http://upload-images.jianshu.io/upload_images/1748971-51d9d056d783628d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>Snip20160814_14.png<img src="http://upload-images.jianshu.io/upload_images/1748971-785b380092076a20.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>Snip20160814_18.png在scheme中改变build configuration即可实现不同的环境切换，也可以添加多个scheme实现更方便的切换<br><img src="http://upload-images.jianshu.io/upload_images/1748971-4fa370bb13cef1fb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>Snip20160814_19.png<img src="http://upload-images.jianshu.io/upload_images/1748971-4b165b90ff55f1c0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>Snip20160814_20.png<strong>添加的新scheme需要在manage scheme中勾选shared，git上的其他人才能看到新scheme</strong><br><img src="http://upload-images.jianshu.io/upload_images/1748971-b97ffc642c9a2b15.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>Snip20160814_22.png</p>
+<h2 id="DEMO及推荐"><a href="#DEMO及推荐" class="headerlink" title="DEMO及推荐"></a>DEMO及推荐</h2><p><a href="https://github.com/MangoMade/XCConfigTestDemo" target="_blank" rel="noopener">XCConfig Demo</a><br><a href="http://www.jianshu.com/p/9b8bc8351223" target="_blank" rel="noopener">http://www.jianshu.com/p/9b8bc8351223</a></p>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2016-08-16</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

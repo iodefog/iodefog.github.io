@@ -1,25 +1,13 @@
-include mixins
-
-extends partial/layout
-
-block site_title
-    != page.title + " · " + config.title
-
-block description
-    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
-    meta(name="description", content=desc)
-
-block content
-  .autopagerize_page_element: .content: .post-page
-    include mixins
-    +make_post(page, true)
-    .pagination
-      ul.clearfix
-        if prev
-          li.pre.pagbuttons
-            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
-        if next
-          li.next.pagbuttons
-            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
-    if page.comments
-        include partial/comments
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>整站下载器,一个wget命令就搞定了！ · iodefog</title><meta name="description" content="到处找整站下载器？何必那么麻烦，一个wget命令就搞定了！
+或是想克隆扒皮别人的网站，或是想保持别人网站的内容保存下来离线浏览，这是我们一般都是百度搜索各种整站下载软件，挨个尝试哪个好用；
+但是如果你会使用linux系统，真的没必要那么麻烦的，直接用wget一个简单的命令就可以轻松的完成整站下载任务"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>整站下载器,一个wget命令就搞定了！</a></h3></div><div class="post-content"><p>到处找整站下载器？何必那么麻烦，一个wget命令就搞定了！</p>
+<p>或是想克隆扒皮别人的网站，或是想保持别人网站的内容保存下来离线浏览，这是我们一般都是百度搜索各种整站下载软件，挨个尝试哪个好用；</p>
+<p>但是如果你会使用linux系统，真的没必要那么麻烦的，直接用wget一个简单的命令就可以轻松的完成整站下载任务，如果是在远程服务器上运行下载速度会非常快；</p>
+<p>wget通常我们用来下载文件用的普通工具而已，其实只要添加参数就能够迅速完成网站克隆下载任务了；</p>
+<p>Wget整站下载命令：<br>wget -r -p -np -k <a href="http://www.5yun.org" target="_blank" rel="noopener">www.5yun.org</a></p>
+<p>执行完该命令后，会在当前路径下生成一个<a href="http://www.5yun.org的文件夹，所有文件全部都会下载到这个目录之中；" target="_blank" rel="noopener">www.5yun.org的文件夹，所有文件全部都会下载到这个目录之中；</a></p>
+<p>Wget参数说明：<br>-r –recursive（递归） specify recursive download.（指定递归下载）<br>-k –convert-links（转换链接） make links in downloaded HTML point to local files.（将下载的HTML页面中的链接转换为相对链接即本地链接）<br>-p –page-requisites（页面必需元素） get all images, etc. needed to display HTML page.（下载所有的图片等页面显示所需的内容）<br>-np –no-parent（不追溯至父级） don’t ascend to the parent directory.</p>
+<p>额外参数：</p>
+<p>-nc  断点续传<br>-o   生成日志文件</p>
+<p>就是这么简单，就是粗暴，就是这么有效，想扒皮仿站的站长们来测试一下下吧！</p>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2018-11-06</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

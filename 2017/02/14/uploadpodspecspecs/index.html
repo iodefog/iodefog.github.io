@@ -1,25 +1,49 @@
-include mixins
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>上传Podspec到Cocoapods · iodefog</title><meta name="description" content="1、cd 到工程目录下 创建xxx.podspec文件  xxx为工程名
+1pod spec create xxx   //xxx为工程名
 
-extends partial/layout
+生成xxx.podspec
+2、修改xxx.podspec文件内容 
 
-block site_title
-    != page.title + " · " + config.title
 
-block description
-    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
-    meta(name="description", content=desc)
+1vi xxx.podspec
 
-block content
-  .autopagerize_page_element: .content: .post-page
-    include mixins
-    +make_post(page, true)
-    .pagination
-      ul.clearfix
-        if prev
-          li.pre.pagbuttons
-            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
-        if next
-          li.next.pagbuttons
-            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
-    if page.comments
-        include partial/comments
+s.name  pods名称s.version 版"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>上传Podspec到Cocoapods</a></h3></div><div class="post-content"><p>1、cd 到工程目录下 创建xxx.podspec文件  xxx为工程名</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod spec create xxx   <span class="comment">//xxx为工程名</span></span><br></pre></td></tr></table></figure>
+
+<p>生成xxx.podspec</p>
+<p>2、修改xxx.podspec文件内容 </p>
+<a id="more"></a>
+
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi xxx.podspec</span><br></pre></td></tr></table></figure>
+
+<p>s.name  pods名称<br>s.version 版本号  此版本号需要与github中tag的内容一致<br>s.summary 简短说明<br>s.homepage github工程的链接地址<br>s.source  github工程的地址追加.git  </p>
+<p>3.之后验证 xxx.podspec文件是否有效</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod  spec lint</span><br></pre></td></tr></table></figure>
+
+<p>如果未验证通过 出现错误或警告  根据错误提示进行修改 xxx.podspec文件即可</p>
+<p>4.git 上传至 oschina或者github 后，标记当前源码版本号，不然发布会报错</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git tag '1.0.1'</span><br><span class="line">git push --tags</span><br></pre></td></tr></table></figure>
+
+
+
+<p>5.设置本地pod对应的版本号</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set the new version to <span class="number">1.0</span><span class="number">.1</span>set the new tag to <span class="number">1.0</span><span class="number">.1</span></span><br></pre></td></tr></table></figure>
+
+
+<p>6、注册cocoapods维护者信息</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod trunk me  <span class="comment">//查看自己的注册信息</span></span><br></pre></td></tr></table></figure>
+
+<p>如果没有注册过,输入下面的命令 并根据命令进行注册</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod trunk <span class="keyword">register</span> xxxxx@qq.com <span class="string">'author name'</span> --description=<span class="string">'macbook pro'</span> --verbose</span><br></pre></td></tr></table></figure>
+
+<p>7、上传pod </p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod trunk push xxxx.podspec --allow-warnings</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod trunk push</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2017-02-14</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a><a href="/tags/上传/" title="上传" class="tag">上传 </a><a href="/tags/Podspec/" title="Podspec" class="tag">Podspec </a><a href="/tags/Cocoapods/" title="Cocoapods" class="tag">Cocoapods </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

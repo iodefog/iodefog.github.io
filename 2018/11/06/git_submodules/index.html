@@ -1,25 +1,65 @@
-include mixins
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>Git submodule(子项目)使用 · iodefog</title><meta name="description" content="Git submodule(子项目)使用有种情况我们经常会遇到：某个工作中的项目需要包含并使用另一个项目。 也许是第三方库，或者你独立开发的，用于多个父项目的库。 现在问题来了：你想要把它们当做两个独立的项目，同时又想在一个项目中使用另一个。
+1.从更新下载代码开始即使用了一个我没有用过的方式 su"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>Git submodule(子项目)使用</a></h3></div><div class="post-content"><h1 id="Git-submodule-子项目-使用"><a href="#Git-submodule-子项目-使用" class="headerlink" title="Git submodule(子项目)使用"></a>Git submodule(子项目)使用</h1><p>有种情况我们经常会遇到：某个工作中的项目需要包含并使用另一个项目。 也许是第三方库，或者你独立开发的，用于多个父项目的库。 现在问题来了：你想要把它们当做两个独立的项目，同时又想在一个项目中使用另一个。</p>
+<p>1.从更新下载代码开始即使用了一个我没有用过的方式 submodules(子模块).</p>
+<p>开始使用子模块<br>我们将要演示如何在一个被分成一个主项目与几个子项目的项目上开发。</p>
+<p>我们首先将一个已存在的 Git 仓库添加为正在工作的仓库的子模块。 你可以通过在 git submodule add 命令后面加上想要跟踪的项目 URL 来添加新的子模块。 在本例中，我们将会添加一个名为 HLImagePicker 的库。</p>
+<h2 id="添加子模块"><a href="#添加子模块" class="headerlink" title="添加子模块"></a>添加子模块</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">✗ git submodule add https:&#x2F;&#x2F;github.com&#x2F;iodefog&#x2F;HLImagePicker</span><br><span class="line">Cloning into &#39;&#x2F;Users&#x2F;lhl&#x2F;Desktop&#x2F;Test&#x2F;HLImagePicker&#39;...</span><br><span class="line">remote: Counting objects: 190, done.</span><br><span class="line">remote: Compressing objects: 100% (44&#x2F;44), done.</span><br><span class="line">remote: Total 190 (delta 28), reused 49 (delta 18), pack-reused 126</span><br><span class="line">Receiving objects: 100% (190&#x2F;190), 103.92 KiB | 58.00 KiB&#x2F;s, done.</span><br></pre></td></tr></table></figure>
 
-extends partial/layout
 
-block site_title
-    != page.title + " · " + config.title
+<p>如果这时运行 git status，你会注意到几件事。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">✗ git status</span><br><span class="line">On branch master</span><br><span class="line">Changes to be committed:</span><br><span class="line">  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)</span><br><span class="line"></span><br><span class="line">	new file:   .gitmodules</span><br><span class="line">	new file:   HLImagePicker</span><br></pre></td></tr></table></figure>
 
-block description
-    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
-    meta(name="description", content=desc)
+<p>首先应当注意到新的 .gitmodules 文件。 该配置文件保存了项目 URL 与已经拉取的本地目录之间的映射：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> cat .gitmodules </span><br><span class="line">[submodule &quot;HLImagePicker&quot;]</span><br><span class="line">	path &#x3D; HLImagePicker</span><br><span class="line">	url &#x3D; https:&#x2F;&#x2F;github.com&#x2F;iodefog&#x2F;HLImagePicker</span><br></pre></td></tr></table></figure>
 
-block content
-  .autopagerize_page_element: .content: .post-page
-    include mixins
-    +make_post(page, true)
-    .pagination
-      ul.clearfix
-        if prev
-          li.pre.pagbuttons
-            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
-        if next
-          li.next.pagbuttons
-            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
-    if page.comments
-        include partial/comments
+<p>在 git status 输出中列出的另一个是项目文件夹记录。 如果你运行 git diff，会看到类似下面的信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git diff --cached xxxproject</span><br></pre></td></tr></table></figure>
+
+<p>如果你想看到更漂亮的差异输出，可以给 git diff 传递 –submodule 选项。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git diff --cached --submodule</span><br></pre></td></tr></table></figure>
+
+<h2 id="克隆含有子模块的项目"><a href="#克隆含有子模块的项目" class="headerlink" title="克隆含有子模块的项目"></a>克隆含有子模块的项目</h2><p>接下来我们将会克隆一个含有子模块的项目。 当你在克隆这样的项目时，默认会包含该子模块目录，但其中还没有任何文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;iodefog&#x2F;Test</span><br></pre></td></tr></table></figure>
+
+<p>clone 完毕</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> ls -a</span><br><span class="line">.              .git           HLImagePicker  Test.xcodeproj</span><br><span class="line">..             .gitmodules    Test</span><br><span class="line"></span><br><span class="line">Test git:(master) cd HLImagePicker </span><br><span class="line">➜  HLImagePicker git:(master) ls</span><br><span class="line">➜  HLImagePicker git:(master)</span><br></pre></td></tr></table></figure>
+
+<p>其中有 HLImagePicker 目录，不过是空的。 你必须运行两个命令：git submodule init 用来初始化本地配置文件，而 git submodule update 则从该项目中抓取所有数据并检出父项目中列出的合适的提交。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git submodule init</span><br></pre></td></tr></table></figure>
+
+<p>不过还有更简单一点的方式。 如果给 git clone 命令传递 –recursive 选项，它就会自动初始化并更新仓库中的每一个子模块。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git clone --recursive https:&#x2F;&#x2F;github.com&#x2F;iodefog&#x2F;Test</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="在包含子模块的项目上工作"><a href="#在包含子模块的项目上工作" class="headerlink" title="在包含子模块的项目上工作"></a>在包含子模块的项目上工作</h2><p>现在我们有一份包含子模块的项目副本，我们将会同时在主项目和子模块项目上与队员协作。</p>
+<p>拉取上游修改<br>在项目中使用子模块的最简模型，就是只使用子项目并不时地获取更新，而并不在你的检出中进行任何更改。 我们来看一个简单的例子。</p>
+<p>子项目提交及更新</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git pull</span><br><span class="line"> </span><br><span class="line">$ git commit -m&quot;xxx&quot;</span><br><span class="line"></span><br><span class="line">$ git push</span><br></pre></td></tr></table></figure>
+
+<p>主项目更新子项目</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 更新某一个子项目</span><br><span class="line">$ git submodule update --remote SubModuleTest</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 更新所有子项目</span><br><span class="line">$ git submodule update --remote</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 更新服务器上的这个子模块有一个改动并且它被合并了进来</span><br><span class="line">git submodule update --remote --merge</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;</span><br><span class="line">git submodule update --remote --rebase</span><br></pre></td></tr></table></figure>
+
+<p>其他人clone的项目更新</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git fetch</span><br><span class="line"></span><br><span class="line">$ git merge</span><br></pre></td></tr></table></figure>
+
+<p>如果想要在子模块中查看新工作，可以进入到目录中运行 git fetch 与 git merge，合并上游分支来更新本地代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git log -p --submodule  查看这个信息。</span><br></pre></td></tr></table></figure>
+
+
+<p>启用项目子模块下的某分支，需要.gitmodules 文件中设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[submodule &quot;SubModuleTest&quot;]</span><br><span class="line">	path &#x3D; SubModuleTest</span><br><span class="line">	url &#x3D; ..&#x2F;SubModuleTest</span><br><span class="line">	branch &#x3D; stable</span><br></pre></td></tr></table></figure>
+
+
+<p>如果我们在主项目中提交并推送但并不推送子模块上的改动，其他尝试检出我们修改的人会遇到麻烦，因为他们无法得到依赖的子模块改动。 那些改动只存在于我们本地的拷贝中。</p>
+<p>为了确保这不会发生，你可以让 Git 在推送到主项目前检查所有子模块是否已推送。 git push 命令接受可以设置为 “check” 或 “on-demand” 的 –recurse-submodules 参数。 如果任何提交的子模块改动没有推送那么 “check” 选项会直接使 push 操作失败。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push --recurse-submodules&#x3D;check</span><br></pre></td></tr></table></figure>
+
+<p>另一个选项是使用 “on-demand” 值，它会尝试为你这样做。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git push --recurse-submodules&#x3D;on-demand</span><br></pre></td></tr></table></figure>
+
+
+<p>移除子项目, 仅仅执行“rm -Rf SubModuleTest/” 是不行的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rm -r SubModuleTest</span><br></pre></td></tr></table></figure>
+
+<p>参考：<a href="https://git-scm.com/book/zh/v2/Git-工具-子模块" target="_blank" rel="noopener">https://git-scm.com/book/zh/v2/Git-工具-子模块</a></p>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2018-11-06</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a><a href="/tags/git/" title="git" class="tag">git </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

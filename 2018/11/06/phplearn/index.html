@@ -1,25 +1,30 @@
-include mixins
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>PHP学习 · iodefog</title><meta name="description" content="PHP学习
+1. 获取get和post方法中参数get方法
+1234&amp;lt;?php$name&amp;#x3D;_GET(&amp;#39;name&amp;#39;);echo $name;?&amp;gt;
 
-extends partial/layout
+post方法都使用
+1234&amp;lt;?php$name&amp;#x3D;_POST(&amp;#39;name&amp;#39;);ech"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>PHP学习</a></h3></div><div class="post-content"><p>PHP学习</p>
+<h2 id="1-获取get和post方法中参数"><a href="#1-获取get和post方法中参数" class="headerlink" title="1. 获取get和post方法中参数"></a>1. 获取get和post方法中参数</h2><p>get方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$name&#x3D;_GET(&#39;name&#39;);</span><br><span class="line">echo $name;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
 
-block site_title
-    != page.title + " · " + config.title
+<p>post方法都使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$name&#x3D;_POST(&#39;name&#39;);</span><br><span class="line">echo $name;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="2-返回json值"><a href="#2-返回json值" class="headerlink" title="2.返回json值"></a>2.返回json值</h2><p>数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$name&#x3D;$_POST[&quot;name&quot;];</span><br><span class="line">$age&#x3D;$_POST[&quot;age&quot;];</span><br><span class="line">$gender&#x3D;$_POST[&quot;gender&quot;];</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 生成json字典</span><br><span class="line">$arrayName &#x3D; array(&quot;name&quot; &#x3D;&gt; $name,</span><br><span class="line">					&quot;age&quot; &#x3D;&gt; $age,</span><br><span class="line">				    &quot;gender&quot; &#x3D;&gt; $gender);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 生成json数组</span><br><span class="line">$arrayName2 &#x3D; array($arrayName,$arrayName,$arrayName);</span><br><span class="line">echo  json_encode($arrayName2);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
 
-block description
-    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
-    meta(name="description", content=desc)
+<p>json_encode()只能转换UTF-8格式。否则就会为null。</p>
+<p>转换编码</p>
+<p>第一个参数，当前编码格式。<br>第二个参数，转换到的编码格式。<br>第三个参数，需要转换的值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$newArray &#x3D; iconv(&#39;UTF-8&#39;,&quot;GBK&quot;,$array);</span><br></pre></td></tr></table></figure>
 
-block content
-  .autopagerize_page_element: .content: .post-page
-    include mixins
-    +make_post(page, true)
-    .pagination
-      ul.clearfix
-        if prev
-          li.pre.pagbuttons
-            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
-        if next
-          li.next.pagbuttons
-            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
-    if page.comments
-        include partial/comments
+<h2 id="3-组装json"><a href="#3-组装json" class="headerlink" title="3.组装json"></a>3.组装json</h2><ol>
+<li>定义Response类，json()方法 进行参数组装<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class Response&#123;</span><br><span class="line">	&#x2F;**</span><br><span class="line">	* 这里注释</span><br><span class="line">	*&#x2F;</span><br><span class="line">	public static function json($code, $message&#x3D;&#39;&#39;, $data&#x3D;array())&#123;</span><br><span class="line">		if(!is_numeric($code))&#123;</span><br><span class="line">			return &#39;&#39;;</span><br><span class="line">		&#125;</span><br><span class="line">		$result &#x3D; array(</span><br><span class="line">			&#39;code&#39; &#x3D;&gt; $code,</span><br><span class="line">			&#39;message&#39; &#x3D;&gt; $message,</span><br><span class="line">			&#39;data&#39; &#x3D;&gt; $data</span><br><span class="line">		);</span><br><span class="line"></span><br><span class="line">		echo json_encode($result);</span><br><span class="line">		exit;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<ol start="2">
+<li>使用组装类的方法</li>
+</ol>
+<p>// 引用当前目录下的“response.php”文件<br>require_once(‘./response.php’);</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$name&#x3D;$_POST[&quot;name&quot;];</span><br><span class="line">$age&#x3D;$_POST[&quot;age&quot;];</span><br><span class="line">$gender&#x3D;$_POST[&quot;gender&quot;];</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 引用当前目录下的“response.php”文件</span><br><span class="line">require_once(&#39;.&#x2F;response.php&#39;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 生成json字典</span><br><span class="line">$arrayName &#x3D; array(&quot;name&quot; &#x3D;&gt; $name,</span><br><span class="line">					&quot;age&quot; &#x3D;&gt; $age,</span><br><span class="line">				    &quot;gender&quot; &#x3D;&gt; $gender);</span><br><span class="line">&#x2F;&#x2F; 生成json数组</span><br><span class="line">$response &#x3D; Response::json(&quot;200&quot;, &quot;成功&quot;,$arrayName);</span><br><span class="line">echo  json_encode($response);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2018-11-06</span><i class="fa fa-tag"></i><a href="/categories/技术-PHP/" title="技术,PHP" class="tag">技术,PHP </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

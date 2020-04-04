@@ -1,25 +1,19 @@
-include mixins
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>ffmpeg 编译静态库，搞了好久，终于搞成功了.根据网上教程做的 · iodefog</title><meta name="description" content="1.首先，先有ffmpeg，然后需要另外的一个文件，gas-preprocessor.pl  所有的一切具备之后，下面让我们开始编译。2.然后我在ffmpeg里建了一个文件夹，命名为armv7，这个自己标记，记的是啥意思就行
 
-extends partial/layout
 
-block site_title
-    != page.title + " · " + config.title
+3../configure –prefix=/Users/zhangd"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>ffmpeg 编译静态库，搞了好久，终于搞成功了.根据网上教程做的</a></h3></div><div class="post-content"><p>1.首先，先有ffmpeg，然后需要另外的一个文件，gas-preprocessor.pl  所有的一切具备之后，下面让我们开始编译。<br>2.然后我在ffmpeg里建了一个文件夹，命名为armv7，这个自己标记，记的是啥意思就行</p>
+<a id="more"></a>
 
-block description
-    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
-    meta(name="description", content=desc)
-
-block content
-  .autopagerize_page_element: .content: .post-page
-    include mixins
-    +make_post(page, true)
-    .pagination
-      ul.clearfix
-        if prev
-          li.pre.pagbuttons
-            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
-        if next
-          li.next.pagbuttons
-            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
-    if page.comments
-        include partial/comments
+<p>3../configure –prefix=/Users/zhangdongqiankun/Downloads/kolyvan-kxmovie-2c5324b/kxmovie/ffmpeg-iphone-build/armv7 –disable-ffmpeg –disable-ffplay –disable-ffserver –enable-dxva2 –enable-vda –enable-vdpau –disable-debug –enable-cross-compile –enable-gpl –enable-pic –disable-asm –sysroot=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk –target-os=darwin –arch=armv7 –cpu=cortex-a8 –extra-cflags=’-arch armv7’ –extra-ldflags=’-arch armv7’ –cc=/Applications/XCode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang  –extra-ldflags=-L/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/usr/lib/system<br>解释，1）.把刚才建立的文件路径直接赋值给–prefix，这个编译后的文件就会保存到上面建立的文件里<br>2）.iPhoneOS7.1版本，是电脑里iOS的版本，我电脑里有两个6.1和7.1，这里用的7.1，回头再试6.1的<br>3）.可以看到configure 里 –arch=armv7 ，这个生成的armv7 是iPhone5等试用的版本，模拟器用i386,iphone 5s 用armv7s，一会全部生成，合并一下<br>在网上找了很多，用–prefix直接给路径成功了，别的一直就配置失败<br>4.输入上面这句回车，成功后会出现类似：<br>License: LGPL version 2.1 or later<br>Creating config.mak and config.h…<br>libavutil/avconfig.h is unchanged</p>
+<p>WARNING: pkg-config not found, library detection may fail.<br>localhost:ffmpeg apple$<br>5.然后输入 sudo make，这个编译时间有点长，编译完成会出现下面界面，这个界面一直就这样，网上查了，大家说到达 STRIPffprobe就是成功了,所以继续下一步，我是新建了一个shell跑下面的代码<br><img src="" alt=""></p>
+<p>6.继续输入代码 sudo make install，这个执行很短，生成静态库，我是好几个代码都没走这个，一直纠结为啥没出来静态库，掉坑里了。。。<br><img src="" alt=""></p>
+<p>7，然后直接去刚才建的文件里查看生成的静态库，<br><img src="" alt=""></p>
+<p>看！成功了。^_^<br>8.继续整armv7s的静态库 ，<br>执行<br> make clean 命令就可以了。  接下来你可以照此方法编译armv7,跟armv7s框架下的。</p>
+<p>建立armv7s目录，其他步骤同上<br>./configure –prefix=/Users/zhangdongqiankun/Downloads/kolyvan-kxmovie-2c5324b/kxmovie/ffmpeg-iphone-build/armv7s –disable-ffmpeg –disable-ffplay –disable-ffserver –enable-dxva2 –enable-vda –enable-vdpau –disable-debug –enable-cross-compile –enable-gpl –enable-pic –disable-asm –sysroot=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk –target-os=darwin –arch=armv7s<br> –cpu=cortex-a8 –extra-cflags=’-arch armv7s’ –extra-ldflags=’-arch armv7s’ –cc=/Applications/XCode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang  –extra-ldflags=-L/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/usr/lib/system</p>
+<p>9.<br>继续整i386的静态库 ，<br>执行 make clean 命令就可以了。  接下来你可以照此方法编译i386,跟i386框架下的。</p>
+<p>建立i386目录，其他步骤同上<br>./configure –prefix=/Users/zhangdongqiankun/Downloads/kolyvan-kxmovie-2c5324b/kxmovie/ffmpeg-iphone-build/i386 –disable-ffmpeg –disable-ffplay –disable-ffserver –enable-dxva2 –enable-vda –enable-vdpau –disable-debug –enable-cross-compile –enable-gpl –enable-pic –disable-asm –sysroot=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk –target-os=darwin –arch=i386 –cpu=cortex-a8 –extra-cflags=’-arch i386’ –extra-ldflags=’-arch i386’ –cc=/Applications/XCode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang  –extra-ldflags=-L/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/usr/lib/system</p>
+<p>我这边没好使，还没解决<br>问题如下：<br><img src="" alt=""></p>
+<p>这个继续研究</p>
+<p>10.运行lipo方法，合并静态库</p>
+<p>lipo -create lib/i386/libavcodec.a lib/arm7/libavcodec.a lib/arm7s/libavcodec.a -output lib/libavcodec.a<br>lipo -create lib/i386/libavformat.a lib/arm7/libavformat.a lib/arm7s/libavformat.a -output lib/libavformat.a<br>lipo -create lib/i386/libavdevice.a lib/arm7/libavdevice.a lib/arm7s/libavdevice.a -output lib/libavdevice.a<br>lipo -create lib/i386/libavutil.a lib/arm7/libavutil.a lib/arm7s/libavutil.a -output lib/libavutil.a<br>lipo -create lib/i386/libswscale.a lib/arm7/libswscale.a lib/arm7s/libswscale.a -output lib/libswscale.a<br>这样就可以放到项目用了</p>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2014-05-13</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

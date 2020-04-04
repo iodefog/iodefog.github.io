@@ -1,25 +1,86 @@
-include mixins
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>Mac 利用 Apache 下的 HTTPS 服务 在线应用 安装 服务 · iodefog</title><meta name="description" content="1.创建ssl文件夹
+1sudo mkdir /private/etc/apache2/ssl
 
-extends partial/layout
 
-block site_title
-    != page.title + " · " + config.title
 
-block description
-    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
-    meta(name="description", content=desc)
+2.切换到ssl文件夹
+1cd /private/etc/apache2/ssl
 
-block content
-  .autopagerize_page_element: .content: .post-page
-    include mixins
-    +make_post(page, true)
-    .pagination
-      ul.clearfix
-        if prev
-          li.pre.pagbuttons
-            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
-        if next
-          li.next.pagbuttons
-            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
-    if page.comments
-        include partial/comments
+
+3.生成ssh等文件相关证书（server.key  +  server.key.pub）
+1sudo ssh-"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>Mac 利用 Apache 下的 HTTPS 服务 在线应用 安装 服务</a></h3></div><div class="post-content"><p>1.创建ssl文件夹</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir /private/etc/apache2/ssl</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<p>2.切换到ssl文件夹</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd /private/etc/apache2/ssl</span><br></pre></td></tr></table></figure>
+
+
+<p>3.生成ssh等文件相关证书（server.key  +  server.key.pub）</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ssh-keygen -f server.key</span><br></pre></td></tr></table></figure>
+
+
+<p>4.生成.csr 文件</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo openssl req -new -key server.key -<span class="keyword">out</span> request.csr</span><br></pre></td></tr></table></figure>
+
+
+<p>注意：Common Name 推荐填写自己的ip，<br><img src="http://img.blog.csdn.net/20170215113732595?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbGlob25nbGk1Mjg2Mjg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<ol start="5">
+<li>生成.crt文件</li>
+</ol>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo openssl x509 -req -days <span class="number">365</span> -<span class="keyword">in</span> request.csr -signkey server.key -<span class="keyword">out</span> server.crt</span><br></pre></td></tr></table></figure>
+
+
+
+<p>结果如下:<br><img src="http://img.blog.csdn.net/20170215112357497?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbGlob25nbGk1Mjg2Mjg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p>6.配置SSL服务</p>
+<p>1.)编辑 httpd.conf 文件</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /private/etc/apache2/httpd.conf</span><br></pre></td></tr></table></figure>
+
+<p>1.把以下三行代码前头的注释去掉</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LoadModule ssl_module libexec/apache2/mod_ssl.so</span><br><span class="line">LoadModule php7_module libexec/apache2/libphp7.so</span><br><span class="line"></span><br><span class="line">Include /private/etc/apache2/extra/httpd-ssl.conf</span><br><span class="line">Include /private/etc/apache2/extra/httpd-vhosts.conf</span><br></pre></td></tr></table></figure>
+
+<p>2.修改 ServerName example.com 为 ServerName localhost:80</p>
+<p>3.自定义起始目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DocumentRoot &quot;&#x2F;Users&#x2F;lhl&#x2F;Sites&quot;</span><br><span class="line">&lt;Directory &quot;&#x2F;Users&#x2F;lhl&#x2F;Sites&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>2.)编辑 httpd-ssl.conf 文件</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /private/etc/apache2/extra/httpd-ssl.conf</span><br></pre></td></tr></table></figure>
+
+
+<p>把以下两行代码的注释去掉，同时修改ssl的资源路径(如果与默认地址不同)</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SSLCertificateFile <span class="string">"/private/etc/apache2/ssl/server.crt"</span></span><br><span class="line">SSLCertificateKeyFile <span class="string">"/private/etc/apache2/ssl/server.key"</span></span><br></pre></td></tr></table></figure>
+
+<p>3.)httpd-vhosts.conf 文件</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /private/etc/apache2/extra/httpd-vhosts.conf</span><br></pre></td></tr></table></figure>
+
+
+
+<p>在末尾添加如下代码。  内容改成自己的内容。 ServerName 改成自己iP</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;VirtualHost *:<span class="number">443</span>&gt;</span><br><span class="line">  SSLEngine on</span><br><span class="line">  SSLCertificateFile /private/etc/apache2/ssl/server.crt</span><br><span class="line">  SSLCertificateKeyFile /private/etc/apache2/ssl/server.key</span><br><span class="line">  ServerName <span class="number">10.2</span><span class="number">.12</span><span class="number">.0</span></span><br><span class="line">  DocumentRoot <span class="string">"/Users/lhl/Sites/"</span></span><br><span class="line">&lt;/VirtualHost&gt;</span><br></pre></td></tr></table></figure>
+
+<p>7.测试配置及重启Apache</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apachectl -t   <span class="comment">//如果它提示：Syntax OK </span></span><br><span class="line">sudo apachectl restart</span><br></pre></td></tr></table></figure>
+
+<p>如果 “ sudo apachectl -t “命令后提示。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">AH00112: Warning: DocumentRoot [&#x2F;usr&#x2F;docs&#x2F;dummy-host.example.com] does not exist</span><br><span class="line">AH00112: Warning: DocumentRoot [&#x2F;usr&#x2F;docs&#x2F;dummy-host2.example.com] does not exist</span><br><span class="line">Syntax OK</span><br></pre></td></tr></table></figure>
+<p>起始这个只是个警告，不影响正常启动。如果想要解决警告，有2种方式。<br>1.在对应的路径下创建相关文件<br>2.注释掉 “&lt;VirtualHost * :80&gt; xxxxxx </VirtualHost>“ 等相关代码。</p>
+<p>浏览器输入 <a href="https://10.2.12.0" target="_blank" rel="noopener">https://10.2.12.0</a> 即可访问成功。</p>
+<p>注意如果提示不安全访问，请双击安装 server.crt 文件</p>
+<p>8.配置在线安装app环境</p>
+<p>1.)配置plist文件<br><img src="http://img.blog.csdn.net/20170215114305004?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbGlob25nbGk1Mjg2Mjg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p>code 如下  news.plist</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</span><br><span class="line">&lt;!DOCTYPE plist PUBLIC <span class="string">"-//Apple//DTD PLIST 1.0//EN"</span> <span class="string">"http://www.apple.com/DTDs/PropertyList-1.0.dtd"</span>&gt;</span><br><span class="line">&lt;plist version=<span class="string">"1.0"</span>&gt;</span><br><span class="line">&lt;dict&gt;</span><br><span class="line">	&lt;key&gt;items&lt;/key&gt;</span><br><span class="line">	&lt;array&gt;</span><br><span class="line">		&lt;dict&gt;</span><br><span class="line">			&lt;key&gt;assets&lt;/key&gt;</span><br><span class="line">			&lt;array&gt;</span><br><span class="line">				&lt;dict&gt;</span><br><span class="line">					&lt;key&gt;kind&lt;/key&gt;</span><br><span class="line">					&lt;string&gt;software-package&lt;/string&gt;</span><br><span class="line">					&lt;key&gt;url&lt;/key&gt;</span><br><span class="line">					&lt;string&gt;https:<span class="comment">//10.2.12.0/ipa/news.ipa&lt;/string&gt;</span></span><br><span class="line">				&lt;/dict&gt;</span><br><span class="line">			&lt;/array&gt;</span><br><span class="line">			&lt;key&gt;metadata&lt;/key&gt;</span><br><span class="line">			&lt;dict&gt;</span><br><span class="line">				&lt;key&gt;bundle-identifier&lt;/key&gt;</span><br><span class="line">				&lt;string&gt;com.sohu.news&lt;/string&gt;</span><br><span class="line">				&lt;key&gt;kind&lt;/key&gt;</span><br><span class="line">				&lt;string&gt;software&lt;/string&gt;</span><br><span class="line">				&lt;key&gt;title&lt;/key&gt;</span><br><span class="line">				&lt;string&gt;sohunews&lt;/string&gt;</span><br><span class="line">			&lt;/dict&gt;</span><br><span class="line">		&lt;/dict&gt;</span><br><span class="line">	&lt;/array&gt;</span><br><span class="line">&lt;/dict&gt;</span><br><span class="line">&lt;/plist&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2.配置html文件</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta charset=<span class="string">"utf-8"</span> mime-types=<span class="string">"text/plain"</span>&gt;</span><br><span class="line">&lt;title&gt; 测试安装包 &lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;h1&gt;第一次连接请先安装证书,以后就不需要安装了&lt;/h1&gt;</span><br><span class="line"></span><br><span class="line">&lt;h2&gt;</span><br><span class="line">证书:&lt;a href="https://10.2.12.0/ipa/server.crt"&gt;profile&lt;/a&gt;</span><br><span class="line">&lt;/h2&gt;</span><br><span class="line"></span><br><span class="line">&lt;h2&gt;HTTPS:&lt;a href=<span class="string">"itms-services://?action=download-manifest&amp;url=https://10.2.12.0/ipa/news.plist"</span>&gt;</span><br><span class="line">news<span class="number">-02</span>/<span class="number">13</span><span class="number">-15</span>:<span class="number">35</span></span><br><span class="line">&lt;/a&gt;</span><br><span class="line">&lt;/h2&gt;</span><br><span class="line"></span><br><span class="line">&lt;/body&gt;</span><br><span class="line"></span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+
+<p>效果：<br><img src="http://img.blog.csdn.net/20170215115806323?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbGlob25nbGk1Mjg2Mjg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p>最终文件夹文件为：<br><img src="http://img.blog.csdn.net/20170215114820303?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbGlob25nbGk1Mjg2Mjg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p>访问 <a href="https://10.2.12.0/ipa.html" target="_blank" rel="noopener">https://10.2.12.0/ipa.html</a> 即可访问安装应用测试包。</p>
+<p>其他：手机也需要先安装crt证书文件才可以下载测试包。</p>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2017-02-15</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a><a href="/tags/Mac/" title="Mac" class="tag">Mac </a><a href="/tags/Apache/" title="Apache" class="tag">Apache </a><a href="/tags/HTTPS/" title="HTTPS" class="tag">HTTPS </a><a href="/tags/在线安装/" title="在线安装" class="tag">在线安装 </a><a href="/tags/应用/" title="应用" class="tag">应用 </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

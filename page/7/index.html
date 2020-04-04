@@ -1,9 +1,53 @@
-extends partial/layout
-block content
-	.autopagerize_page_element: .content
-		- page.posts.each(function (item) {
-			include mixins
-			+make_post(item, false)
-		- })
-		include mixins
-		+make_pager(__('prev'), __('next'))
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>iodefog</title><meta name="description" content="记录人生道路景色的，点点滴滴。"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/" class="current">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" style="display:none;" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2015/07/29/iosscrolllabel/">iOS 滚动label（LED，跑马灯等）  快速实现源码</a></h3></div><div class="post-content"><p>ios  滚动label  快速实现源码。这里使用的两个label，挪动frame实现。简单使用，这里仅抛砖引玉而已
+
+
+
+
+1234567891011121314151617181920212223242526272829303132- (void)viewDidLoad &#123;    [super vi...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2015-07-29</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2015/07/24/terminal_ipa/">终端命令行打包成ipa，基础用法</a></h3></div><div class="post-content"><p>第一步，切到项目目录例如   cd /Users/lhl/Downloads/iOSAppTime-master
+第二步 执行命令xcodebuild clean
+完事后，执行xcodebuild build
+
+
+
+注意：如果使用了pod，使用上面可能会报错，编译失败，请使用下面代码执行xcodebuild -w...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2015-07-24</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2015/07/21/locationManager/">locationManager 定位地址不准，获取回调更准的方法</a></h3></div><div class="post-content"><p>原来的写法，这种写法获取第一次返回的结果，然后就会停止更新经纬度
+12345678910- （void）operationLocations:(NSArray *)locations&#123;    [self.locationManager stopUpdatingLocation];     ....   ...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2015-07-21</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2015/07/06/stringdrawanimation/">实现对字符串的画线动画</a></h3></div><div class="post-content"><p>实现对字符串的画线动画
+
+
+12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2015-07-06</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2015/07/02/iosstatic/">iOS项目工程中创建静态库文件(.a)库文件</a></h3></div><div class="post-content"><p>步骤1.创建工程HLStaticTest
+
+
+)步骤2.创建静态库文件
+
+
+步骤3. 关闭HLStatic，回到HLStaticTest))
+Targets - 》Build Phases -&gt;Link Binary With Libraries)
+然后进入到  Targets -&gt; Build Se...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2015-07-02</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2015/07/02/iosframework/">iOS项目工程中创建Framework库文件</a></h3></div><div class="post-content"><p>步骤1.新建一工程 MyFMTest
+
+
+
+)
+
+步骤二，新建静态库  MyFrameWork
+)))
+步骤3.关闭MyFrameWork，然后把myFramework库添加MyFMTest里（如图）
+
+
+把 MyFrameWork 库文件添加进 Link Binary With Libraries
+
+在MyFr...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2015-07-02</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2015/06/17/xcodealcatraz/">Xcode 可视化安装插件，却找不到插件管理界面的解决方法</a></h3></div><div class="post-content"><p>Xcode 5+使用下面命令：
+curl -fsSL https://raw.github.com/supermarin/Alcatraz/master/Scripts/install.sh | sh
+重启xcode然后里面的插件就可以随意安装了
+
+
+
+插件源地址：https://github.com/super...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2015-06-17</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2015/06/16/ioscheksim/">iOS 检测手机是否安装SIM卡</a></h3></div><div class="post-content"><p>[CTSIMSupportGetSIMStatus() isEqualToString:kCTSIMSupportSIMStatusNotInserted]可以判断是否插入了sim卡。需要CoreTelephony.framework。
+
+
+
+12345678910111213141516171819202122...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2015-06-16</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2015/06/15/forbiddenemoji/">禁止输入各种表情符号</a></h3></div><div class="post-content"><p>```    [_nameFieldaddTarget:selfaction:@selector(limitLength:)forControlEvents:UIControlEventEditingChanged];
+// 限制字数，区别中英文
+
+(void)limitLength:(UITextField *...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2015-06-15</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="post animated fadeInDown"><div class="post-title"><h3><a href="/2015/06/03/stringuicolor/">字符串颜色转成UIColor</a></h3></div><div class="post-content"><p>字符串颜色转成UIColor
+
+
+123456789101112131415161718192021222324252627282930313233343536373839404142+ (UIColor *)colorWithHexString:(NSString *)hexString&#123;    NS...</p></div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2015-06-03</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="pagination"><ul class="clearfix"><li class="pre pagbuttons"><a role="navigation" href="/page/6/" class="btn">上一页</a></li><li class="next pagbuttons"><a role="navigation" href="/page/8/" class="btn">下一页</a></li></ul></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

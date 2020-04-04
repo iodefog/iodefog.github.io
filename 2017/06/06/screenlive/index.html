@@ -1,25 +1,25 @@
-include mixins
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>FFmpeg 直播 命令 · iodefog</title><meta name="description" content="一、FFmpeg 录制屏幕并推流直播
+可以继续扩展例子1，直播当前屏幕的内容，向大家介绍一下怎么通过几行命令搭建一个测试用的直播服务：
+Step 1：首先安装 docker： 访问 https://www.docker.com/products/docker ，按操作系统下载安装。
 
-extends partial/layout
 
-block site_title
-    != page.title + " · " + config.title
+Step 2"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>FFmpeg 直播 命令</a></h3></div><div class="post-content"><p>一、FFmpeg 录制屏幕并推流直播</p>
+<p>可以继续扩展例子1，直播当前屏幕的内容，向大家介绍一下怎么通过几行命令搭建一个测试用的直播服务：</p>
+<p>Step 1：首先安装 docker： 访问 <a href="https://www.docker.com/products/docker" target="_blank" rel="noopener">https://www.docker.com/products/docker</a> ，按操作系统下载安装。</p>
+<a id="more"></a>
 
-block description
-    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
-    meta(name="description", content=desc)
+<p>Step 2：下载 nginx-rtmp 镜像：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull chakkritte&#x2F;docker-nginx-rtmp</span><br></pre></td></tr></table></figure>
 
-block content
-  .autopagerize_page_element: .content: .post-page
-    include mixins
-    +make_post(page, true)
-    .pagination
-      ul.clearfix
-        if prev
-          li.pre.pagbuttons
-            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
-        if next
-          li.next.pagbuttons
-            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
-    if page.comments
-        include partial/comments
+<p>Step 3：创建 nginx html 路径，启动 docker-nginx-rtmp</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~&#x2F;rtmp</span><br></pre></td></tr></table></figure>
+
+<p>docker run -d -p 80:80 -p 1935:1935 -v ~/rtmp:/usr/local/nginx/html chakkritte/docker-nginx-rtmp<br>Step 4：推送屏幕录制到 nignx-rtmp</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -y -loglevel warning -f avfoundation -i 2 -r 30 -s 480x320 -threads 2 -vcodec libx264  -f flv rtmp:&#x2F;&#x2F;127.0.0.1&#x2F;live&#x2F;test</span><br></pre></td></tr></table></figure>
+
+<p>Step 5：用 ffplay 播放</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffplay rtmp:&#x2F;&#x2F;127.0.0.1&#x2F;live&#x2F;test</span><br></pre></td></tr></table></figure>
+
+<p>二、FFmpeg 推流正常视频直播</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -re -i &quot;太平洋战争[1280高清中 英双字]EP01.rmvb&quot; -vcodec h264 -f flv rtmp:&#x2F;&#x2F;localhost:1935&#x2F;rtmplive&#x2F;maopian01</span><br><span class="line"></span><br><span class="line">ffplay rtmp:&#x2F;&#x2F;localhost:1935&#x2F;rtmplive&#x2F;maopian01</span><br></pre></td></tr></table></figure>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2017-06-06</span><i class="fa fa-tag"></i><a href="/categories/技术/" title="技术" class="tag">技术 </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>

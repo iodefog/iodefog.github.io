@@ -1,25 +1,86 @@
-include mixins
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="X-UA-Compatible" content="IE=edge"><meta name="author" content="iodefog"><title>基于DLNA的 移动端网络视频投屏技术初探 · iodefog</title><meta name="description" content="解决什么问题
+如何将客户端保存的网络视频地址告诉智能电视盒子
+合理实现基本播放控制
+暂不讨论离线流媒体的传输控制
 
-extends partial/layout
-
-block site_title
-    != page.title + " · " + config.title
-
-block description
-    - var desc = page.desc || strip_html(page.content).replace(/^\s*/, '').replace(/\s*$/, '').substring(0, 150);
-    meta(name="description", content=desc)
-
-block content
-  .autopagerize_page_element: .content: .post-page
-    include mixins
-    +make_post(page, true)
-    .pagination
-      ul.clearfix
-        if prev
-          li.pre.pagbuttons
-            a.btn(role="navigation",href=url_for(prev), title=page.prev.title)!= __('prev_post')
-        if next
-          li.next.pagbuttons
-            a.btn(role="navigation",href=url_for(next), title=page.next.title)!= __('next_post')
-    if page.comments
-        include partial/comments
+DLNA是什么
+Digital Living Network Alliance
+微软(Miracast)、苹果(AirPlay)、三星、索尼
+UPnP SSDP XML SOAP HT"><meta name="keywords"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="renderer" content="webkit"><link rel="short icon" type="image/x-icon"><link rel="stylesheet" href="/css/style.css"><link rel="stylesheet" href="/css/blog_basic.css"><link rel="stylesheet" href="/css/font-awesome.min.css"><link rel="alternate" type="application/atom+xml" title="ATOM 1.0" href="/atom.xml"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="sidebar animated fadeInDown"><div class="logo-title"><div class="title"><img src="/./images/logo.png" style="width:127px;"><h3 title=""><a href="/">iodefog</a></h3><div class="description"><p>记录人生道路景色的，点点滴滴。</p></div></div></div><ul class="social-links"></ul><div class="footer"><a target="_blank" href="/"><span>Theme by </span></a><a href="https://www.caicai.me" target="_blank" rel="noopener"> CaiCai </a><span>&</span><a href="https://github.com/Ben02/hexo-theme-Anatole" target="_blank" rel="noopener"> Ben</a><div class="by_farbox"><a href="https://hexo.io/zh-cn/" target="_blank">Proudly published with Hexo&#65281;</a></div></div></div><div class="main"><div class="page-top animated fadeInDown"><div class="nav"><li><a href="/">首页</a></li><li><a href="/archives">归档</a></li><li><a href="/about">关于</a></li><li><a href="/links">链接</a></li></div><div class="information"><div class="back_btn"><li><a onclick="window.history.go(-1)" class="fa fa-chevron-left"> </a></li></div><div class="avatar"><img></div></div></div><div class="autopagerize_page_element"><div class="content"><div class="post-page"><div class="post animated fadeInDown"><div class="post-title"><h3><a>基于DLNA的 移动端网络视频投屏技术初探</a></h3></div><div class="post-content"><h1 id="解决什么问题"><a href="#解决什么问题" class="headerlink" title="解决什么问题"></a>解决什么问题</h1><ul>
+<li>如何将客户端保存的网络视频地址告诉智能电视盒子</li>
+<li>合理实现基本播放控制</li>
+<li>暂不讨论离线流媒体的传输控制</li>
+</ul>
+<h1 id="DLNA是什么"><a href="#DLNA是什么" class="headerlink" title="DLNA是什么"></a>DLNA是什么</h1><ul>
+<li>Digital Living Network Alliance</li>
+<li>微软(Miracast)、苹果(AirPlay)、三星、索尼</li>
+<li>UPnP SSDP XML SOAP HTTP UDP TCP/IP</li>
+</ul>
+<h1 id="UPnP协议"><a href="#UPnP协议" class="headerlink" title="UPnP协议"></a>UPnP协议</h1><ul>
+<li>不依赖任何驱动、操作系统、API的传输控制协议</li>
+<li>基于TCP/IP, HTTP</li>
+<li>大部分路由器和智能家电都支持</li>
+<li>存在安全漏洞（局域网内，https支持不好）</li>
+</ul>
+<h1 id="DLNA-UPnP的逻辑架构"><a href="#DLNA-UPnP的逻辑架构" class="headerlink" title="DLNA/UPnP的逻辑架构"></a>DLNA/UPnP的逻辑架构</h1><ul>
+<li>设备(Device)：扮演渲染/播放角色的设备</li>
+<li>服务(Service)：提供播控服务</li>
+<li>控制点(Control Point, CP)：发出播控指令</li>
+</ul>
+<p><img src="/img/B276331C-1CED-4330-9A84-C330FE88E14C.jpeg" alt="image"></p>
+<h1 id="1-寻址"><a href="#1-寻址" class="headerlink" title="1. 寻址"></a>1. 寻址</h1><ul>
+<li>设备加入网络后确定自身IP</li>
+<li>DHCP</li>
+</ul>
+<h1 id="2-SSDP"><a href="#2-SSDP" class="headerlink" title="2.SSDP"></a>2.SSDP</h1><ul>
+<li>基于HTTP（HTTPU、HTTPMU）</li>
+<li>两种工作方式：<br> 1.主动通知(Notify)<br> 2.搜索-响应(HTTP扩展协议：M-SEARCH)<br>   1.)多播搜索消息、单播搜索消息</li>
+</ul>
+<h1 id="3-获取设备的“登记信息”"><a href="#3-获取设备的“登记信息”" class="headerlink" title="3. 获取设备的“登记信息”"></a>3. 获取设备的“登记信息”</h1><ul>
+<li>UUID</li>
+<li>是否可进行播放</li>
+<li>设备的“名片”（设备描述文档）</li>
+</ul>
+<h1 id="SSDP搜索消息格式-UDP"><a href="#SSDP搜索消息格式-UDP" class="headerlink" title="SSDP搜索消息格式(UDP)"></a>SSDP搜索消息格式(UDP)</h1><p><img src="/img/Picture1.png" alt="image"></p>
+<p><img src="/img/Picture2.png" alt="image"></p>
+<h1 id="SSDP响应消息格式"><a href="#SSDP响应消息格式" class="headerlink" title="SSDP响应消息格式"></a>SSDP响应消息格式</h1><p><img src="/img/Picture3.png" alt="image"></p>
+<h1 id="4-获取设备的“名片”"><a href="#4-获取设备的“名片”" class="headerlink" title="4. 获取设备的“名片”"></a>4. 获取设备的“名片”</h1><ul>
+<li>设备描述文档, Device Description Document, DDD</li>
+<li>描述提供何种服务和能力</li>
+<li>基于TCP的HTTP请求</li>
+</ul>
+<p>请求DDD响应消息格式</p>
+<p><img src="/img/Picture4.png" alt="image"></p>
+<p>一个服务的定义格式</p>
+<p><img src="/img/Picture5.png" alt="image"></p>
+<h1 id="5-获取设备的服务描述文档"><a href="#5-获取设备的服务描述文档" class="headerlink" title="5. 获取设备的服务描述文档"></a>5. 获取设备的服务描述文档</h1><ul>
+<li>Service Description Document, SDD</li>
+<li>接口文档</li>
+<li>描述该设备的该服务的使用方法</li>
+</ul>
+<p>拼接请求SDD的完整地址</p>
+<p><img src="/img/Picture6.png" alt="image"></p>
+<p>SDD的响应消息格式</p>
+<p><img src="/img/Picture7.png" alt="image"></p>
+<h1 id="6-请求服务"><a href="#6-请求服务" class="headerlink" title="6. 请求服务"></a>6. 请求服务</h1><ul>
+<li>POST请求</li>
+<li>拼接基于SOAP格式的消息体</li>
+<li>根据SDD定义传入相应服务的名字和参数</li>
+</ul>
+<p><img src="/img/Picture8.png" alt="image"></p>
+<p>拼接服务动作请求消息格式(POST)</p>
+<p><img src="/img/Picture9.png" alt="image"></p>
+<p>服务动作请求响应消息格式</p>
+<p><img src="/img/Picture10.png" alt="image"></p>
+<h1 id="全套流程"><a href="#全套流程" class="headerlink" title="全套流程"></a>全套流程</h1><p><img src="/img/Picture11.png" alt="image"></p>
+<h1 id="客户端DLNA库模型设计"><a href="#客户端DLNA库模型设计" class="headerlink" title="客户端DLNA库模型设计"></a>客户端DLNA库模型设计</h1><p><img src="/img/Picture12.png" alt="image"></p>
+<p><img src="/img/Picture13.png" alt="image"></p>
+<p><img src="/img/Picture14.png" alt="image"></p>
+<h1 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h1><ul>
+<li>明文传输</li>
+<li>无法预防投屏地址被抓取</li>
+<li>无法使用HTTPS等安全传输协议，除非能和需要适配的DLNA设备厂商进行合作协商。</li>
+<li>在无法干预DLNA设备的前提下，可使用token过期/服务端次数限定等方案。</li>
+</ul>
+<p>END</p>
+</div><div class="post-footer"><div class="meta"><div class="info"><i class="fa fa-sun-o"></i><span class="date">2018-11-06</span><i class="fa fa-tag"></i><a href="/categories/技术-DLNA/" title="技术,DLNA" class="tag">技术,DLNA </a></div></div></div></div><div class="pagination"><ul class="clearfix"></ul></div></div></div></div></div><script src="/js/jquery.js"></script><script src="/js/jquery-migrate-1.2.1.min.js"></script><script src="/js/jquery.appear.js"></script></body></html>
