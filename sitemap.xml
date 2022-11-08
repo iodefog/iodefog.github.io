@@ -2,16 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://iodefog.github.io/dmg/index.html</loc>
+    <loc>https://iodefog.github.io/text/viplist.json</loc>
     
-    <lastmod>2020-01-17T04:18:15.098Z</lastmod>
+    <lastmod>2022-11-08T11:35:53.362Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/text/vlist.json</loc>
+    <loc>https://iodefog.github.io/dmg/index.html</loc>
     
-    <lastmod>2019-08-27T07:55:48.643Z</lastmod>
+    <lastmod>2020-01-17T04:18:15.098Z</lastmod>
     
   </url>
   
@@ -26,13 +26,6 @@
     <loc>https://iodefog.github.io/2019/01/28/mpv/</loc>
     
     <lastmod>2019-03-05T02:09:54.122Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://iodefog.github.io/text/viplist.json</loc>
-    
-    <lastmod>2019-01-11T01:56:28.080Z</lastmod>
     
   </url>
   
@@ -100,21 +93,7 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2016/08/16/xcconfigiosappenvriment/</loc>
-    
-    <lastmod>2018-11-06T01:45:40.928Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://iodefog.github.io/2018/11/06/xcodebuild/</loc>
-    
-    <lastmod>2018-11-06T01:45:40.928Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://iodefog.github.io/2017/09/18/xcode9plist/</loc>
+    <loc>https://iodefog.github.io/2017/02/14/uploadpodspecspecs/</loc>
     
     <lastmod>2018-11-06T01:45:40.928Z</lastmod>
     
@@ -128,7 +107,7 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2017/02/14/uploadpodspecspecs/</loc>
+    <loc>https://iodefog.github.io/2017/09/18/xcode9plist/</loc>
     
     <lastmod>2018-11-06T01:45:40.928Z</lastmod>
     
@@ -142,9 +121,16 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2017/02/17/tvlivelist/</loc>
+    <loc>https://iodefog.github.io/2018/11/06/xcodebuild/</loc>
     
-    <lastmod>2018-11-06T01:45:40.927Z</lastmod>
+    <lastmod>2018-11-06T01:45:40.928Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://iodefog.github.io/2016/08/16/xcconfigiosappenvriment/</loc>
+    
+    <lastmod>2018-11-06T01:45:40.928Z</lastmod>
     
   </url>
   
@@ -156,9 +142,9 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2015/08/11/transparent_triangle/</loc>
+    <loc>https://iodefog.github.io/2017/02/17/tvlivelist/</loc>
     
-    <lastmod>2018-11-06T01:45:40.924Z</lastmod>
+    <lastmod>2018-11-06T01:45:40.927Z</lastmod>
     
   </url>
   
@@ -170,21 +156,21 @@
   </url>
   
   <url>
+    <loc>https://iodefog.github.io/2015/08/11/transparent_triangle/</loc>
+    
+    <lastmod>2018-11-06T01:45:40.924Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://iodefog.github.io/2018/11/06/swiftlearn/</loc>
+    
+    <lastmod>2018-11-06T01:45:40.923Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://iodefog.github.io/2014/11/04/tableViewseparatorinset/</loc>
-    
-    <lastmod>2018-11-06T01:45:40.923Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://iodefog.github.io/2014/05/23/tibetanpoems/</loc>
-    
-    <lastmod>2018-11-06T01:45:40.923Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://iodefog.github.io/2016/10/28/textfiledclearButtonrightView/</loc>
     
     <lastmod>2018-11-06T01:45:40.923Z</lastmod>
     
@@ -198,7 +184,14 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2018/11/06/swiftlearn/</loc>
+    <loc>https://iodefog.github.io/2016/10/28/textfiledclearButtonrightView/</loc>
+    
+    <lastmod>2018-11-06T01:45:40.923Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://iodefog.github.io/2014/05/23/tibetanpoems/</loc>
     
     <lastmod>2018-11-06T01:45:40.923Z</lastmod>
     
@@ -206,6 +199,13 @@
   
   <url>
     <loc>https://iodefog.github.io/2014/05/16/skilllist/</loc>
+    
+    <lastmod>2018-11-06T01:45:40.922Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://iodefog.github.io/2018/11/06/servicedownload/</loc>
     
     <lastmod>2018-11-06T01:45:40.922Z</lastmod>
     
@@ -226,28 +226,7 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2018/11/06/servicedownload/</loc>
-    
-    <lastmod>2018-11-06T01:45:40.922Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://iodefog.github.io/2017/06/06/screenlive/</loc>
-    
-    <lastmod>2018-11-06T01:45:40.921Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://iodefog.github.io/2018/11/06/quotepath/</loc>
-    
-    <lastmod>2018-11-06T01:45:40.921Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://iodefog.github.io/2015/09/09/runtimechangeappicon/</loc>
     
     <lastmod>2018-11-06T01:45:40.921Z</lastmod>
     
@@ -261,14 +240,21 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2014/05/14/privateapidemo/</loc>
+    <loc>https://iodefog.github.io/2015/09/09/runtimechangeappicon/</loc>
     
-    <lastmod>2018-11-06T01:45:40.920Z</lastmod>
+    <lastmod>2018-11-06T01:45:40.921Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2018/11/06/pythondownloadmp3/</loc>
+    <loc>https://iodefog.github.io/2017/06/06/screenlive/</loc>
+    
+    <lastmod>2018-11-06T01:45:40.921Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://iodefog.github.io/2014/11/19/particle_emitter/</loc>
     
     <lastmod>2018-11-06T01:45:40.920Z</lastmod>
     
@@ -282,13 +268,6 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2014/11/19/particle_emitter/</loc>
-    
-    <lastmod>2018-11-06T01:45:40.920Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://iodefog.github.io/2018/11/06/phplearn/</loc>
     
     <lastmod>2018-11-06T01:45:40.920Z</lastmod>
@@ -296,14 +275,21 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2015/08/05/objectcimage/</loc>
+    <loc>https://iodefog.github.io/2018/11/06/pythondownloadmp3/</loc>
     
-    <lastmod>2018-11-06T01:45:40.919Z</lastmod>
+    <lastmod>2018-11-06T01:45:40.920Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2016/11/28/osxtime/</loc>
+    <loc>https://iodefog.github.io/2014/05/14/privateapidemo/</loc>
+    
+    <lastmod>2018-11-06T01:45:40.920Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://iodefog.github.io/2014/06/24/maczshshell/</loc>
     
     <lastmod>2018-11-06T01:45:40.919Z</lastmod>
     
@@ -324,9 +310,51 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2014/06/24/maczshshell/</loc>
+    <loc>https://iodefog.github.io/2015/08/05/objectcimage/</loc>
     
     <lastmod>2018-11-06T01:45:40.919Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://iodefog.github.io/2016/11/28/osxtime/</loc>
+    
+    <lastmod>2018-11-06T01:45:40.919Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://iodefog.github.io/2015/07/21/locationManager/</loc>
+    
+    <lastmod>2018-11-06T01:45:40.918Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://iodefog.github.io/2015/04/18/macbluestacksapk/</loc>
+    
+    <lastmod>2018-11-06T01:45:40.918Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://iodefog.github.io/2016/12/30/macmailapplescript/</loc>
+    
+    <lastmod>2018-11-06T01:45:40.918Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://iodefog.github.io/2017/02/15/macapachehttps/</loc>
+    
+    <lastmod>2018-11-06T01:45:40.918Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://iodefog.github.io/2016/05/31/macjenkinsios/</loc>
+    
+    <lastmod>2018-11-06T01:45:40.918Z</lastmod>
     
   </url>
   
@@ -345,63 +373,7 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2016/12/30/macmailapplescript/</loc>
-    
-    <lastmod>2018-11-06T01:45:40.918Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://iodefog.github.io/2016/05/31/macjenkinsios/</loc>
-    
-    <lastmod>2018-11-06T01:45:40.918Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://iodefog.github.io/2015/04/18/macbluestacksapk/</loc>
-    
-    <lastmod>2018-11-06T01:45:40.918Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://iodefog.github.io/2017/02/15/macapachehttps/</loc>
-    
-    <lastmod>2018-11-06T01:45:40.918Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://iodefog.github.io/2015/07/21/locationManager/</loc>
-    
-    <lastmod>2018-11-06T01:45:40.918Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://iodefog.github.io/2014/06/27/localdecodeapi/</loc>
-    
-    <lastmod>2018-11-06T01:45:40.917Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://iodefog.github.io/2014/04/28/itmsservicesinstallipa/</loc>
-    
-    <lastmod>2018-11-06T01:45:40.917Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://iodefog.github.io/2014/12/10/liketvanimation/</loc>
-    
-    <lastmod>2018-11-06T01:45:40.917Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://iodefog.github.io/2014/08/08/listenaddressbook/</loc>
     
     <lastmod>2018-11-06T01:45:40.917Z</lastmod>
     
@@ -415,6 +387,20 @@
   </url>
   
   <url>
+    <loc>https://iodefog.github.io/2014/08/08/listenaddressbook/</loc>
+    
+    <lastmod>2018-11-06T01:45:40.917Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://iodefog.github.io/2014/06/27/localdecodeapi/</loc>
+    
+    <lastmod>2018-11-06T01:45:40.917Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://iodefog.github.io/2016/05/30/linuxshellDate/</loc>
     
     <lastmod>2018-11-06T01:45:40.917Z</lastmod>
@@ -422,7 +408,14 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2014/12/29/iostechnology/</loc>
+    <loc>https://iodefog.github.io/2014/12/10/liketvanimation/</loc>
+    
+    <lastmod>2018-11-06T01:45:40.917Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://iodefog.github.io/2015/07/29/iosscrolllabel/</loc>
     
     <lastmod>2018-11-06T01:45:40.916Z</lastmod>
     
@@ -443,6 +436,13 @@
   </url>
   
   <url>
+    <loc>https://iodefog.github.io/2014/12/29/iostechnology/</loc>
+    
+    <lastmod>2018-11-06T01:45:40.916Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://iodefog.github.io/2015/07/02/iosstatic/</loc>
     
     <lastmod>2018-11-06T01:45:40.916Z</lastmod>
@@ -457,21 +457,7 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2015/07/29/iosscrolllabel/</loc>
-    
-    <lastmod>2018-11-06T01:45:40.916Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://iodefog.github.io/2015/08/07/iosreadbigfile/</loc>
-    
-    <lastmod>2018-11-06T01:45:40.915Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://iodefog.github.io/2018/11/06/iospush/</loc>
+    <loc>https://iodefog.github.io/2016/08/24/iosipa/</loc>
     
     <lastmod>2018-11-06T01:45:40.915Z</lastmod>
     
@@ -485,14 +471,21 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2016/07/29/iosreactivecocoaapi/</loc>
+    <loc>https://iodefog.github.io/2018/11/06/iospush/</loc>
     
     <lastmod>2018-11-06T01:45:40.915Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2016/08/24/iosipa/</loc>
+    <loc>https://iodefog.github.io/2015/08/07/iosreadbigfile/</loc>
+    
+    <lastmod>2018-11-06T01:45:40.915Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://iodefog.github.io/2016/07/29/iosreactivecocoaapi/</loc>
     
     <lastmod>2018-11-06T01:45:40.915Z</lastmod>
     
@@ -506,7 +499,7 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2015/07/02/iosframework/</loc>
+    <loc>https://iodefog.github.io/2014/05/14/iosdelegategcdmulticastdelegate/</loc>
     
     <lastmod>2018-11-06T01:45:40.914Z</lastmod>
     
@@ -520,7 +513,7 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2014/05/14/iosdelegategcdmulticastdelegate/</loc>
+    <loc>https://iodefog.github.io/2015/07/02/iosframework/</loc>
     
     <lastmod>2018-11-06T01:45:40.914Z</lastmod>
     
@@ -534,14 +527,7 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2015/03/12/ioschangeenvoriment/</loc>
-    
-    <lastmod>2018-11-06T01:45:40.913Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://iodefog.github.io/2018/11/06/iosbezierpath/</loc>
+    <loc>https://iodefog.github.io/2016/01/14/iosapp/</loc>
     
     <lastmod>2018-11-06T01:45:40.913Z</lastmod>
     
@@ -555,7 +541,14 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2016/01/14/iosapp/</loc>
+    <loc>https://iodefog.github.io/2014/07/21/iosanmotion/</loc>
+    
+    <lastmod>2018-11-06T01:45:40.913Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://iodefog.github.io/2018/11/06/iosbezierpath/</loc>
     
     <lastmod>2018-11-06T01:45:40.913Z</lastmod>
     
@@ -569,21 +562,21 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2014/07/21/iosanmotion/</loc>
+    <loc>https://iodefog.github.io/2015/03/12/ioschangeenvoriment/</loc>
     
     <lastmod>2018-11-06T01:45:40.913Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2016/08/11/ios9.0spotlight/</loc>
+    <loc>https://iodefog.github.io/2014/12/11/imessageaddressbooksend/</loc>
     
     <lastmod>2018-11-06T01:45:40.912Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2014/12/11/imessageaddressbooksend/</loc>
+    <loc>https://iodefog.github.io/2017/11/08/installjira/</loc>
     
     <lastmod>2018-11-06T01:45:40.912Z</lastmod>
     
@@ -604,7 +597,7 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2017/11/08/installjira/</loc>
+    <loc>https://iodefog.github.io/2016/08/11/ios9.0spotlight/</loc>
     
     <lastmod>2018-11-06T01:45:40.912Z</lastmod>
     
@@ -632,14 +625,14 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2018/11/06/githubchanglanguage/</loc>
+    <loc>https://iodefog.github.io/2018/11/06/git_submodules/</loc>
     
     <lastmod>2018-11-06T01:45:40.910Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2015/06/02/gitreadme/</loc>
+    <loc>https://iodefog.github.io/2014/09/10/gitemptyfile/</loc>
     
     <lastmod>2018-11-06T01:45:40.910Z</lastmod>
     
@@ -660,37 +653,16 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2018/11/06/git_submodules/</loc>
+    <loc>https://iodefog.github.io/2018/11/06/githubchanglanguage/</loc>
     
     <lastmod>2018-11-06T01:45:40.910Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2014/09/10/gitemptyfile/</loc>
+    <loc>https://iodefog.github.io/2015/06/02/gitreadme/</loc>
     
     <lastmod>2018-11-06T01:45:40.910Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://iodefog.github.io/2015/06/15/forbiddenemoji/</loc>
-    
-    <lastmod>2018-11-06T01:45:40.909Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://iodefog.github.io/2014/05/13/ffmpeginstall/</loc>
-    
-    <lastmod>2018-11-06T01:45:40.909Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://iodefog.github.io/2018/11/06/ffmpeghelper/</loc>
-    
-    <lastmod>2018-11-06T01:45:40.909Z</lastmod>
     
   </url>
   
@@ -709,9 +681,23 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2015/01/26/cocoapodsinstall/</loc>
+    <loc>https://iodefog.github.io/2014/05/13/ffmpeginstall/</loc>
     
-    <lastmod>2018-11-06T01:45:40.908Z</lastmod>
+    <lastmod>2018-11-06T01:45:40.909Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://iodefog.github.io/2015/06/15/forbiddenemoji/</loc>
+    
+    <lastmod>2018-11-06T01:45:40.909Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://iodefog.github.io/2018/11/06/ffmpeghelper/</loc>
+    
+    <lastmod>2018-11-06T01:45:40.909Z</lastmod>
     
   </url>
   
@@ -730,21 +716,14 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2016/03/16/changedefaultmailsender/</loc>
+    <loc>https://iodefog.github.io/2015/01/26/cocoapodsinstall/</loc>
     
-    <lastmod>2018-11-06T01:45:40.907Z</lastmod>
+    <lastmod>2018-11-06T01:45:40.908Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://iodefog.github.io/2018/11/06/catransform3d/</loc>
-    
-    <lastmod>2018-11-06T01:45:40.907Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://iodefog.github.io/2018/11/06/centos7set/</loc>
     
     <lastmod>2018-11-06T01:45:40.907Z</lastmod>
     
@@ -758,9 +737,16 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2014/08/20/appleipa/</loc>
+    <loc>https://iodefog.github.io/2018/11/06/centos7set/</loc>
     
-    <lastmod>2018-11-06T01:45:40.906Z</lastmod>
+    <lastmod>2018-11-06T01:45:40.907Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://iodefog.github.io/2016/03/16/changedefaultmailsender/</loc>
+    
+    <lastmod>2018-11-06T01:45:40.907Z</lastmod>
     
   </url>
   
@@ -772,14 +758,7 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2015/03/03/apptrack/</loc>
-    
-    <lastmod>2018-11-06T01:45:40.906Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://iodefog.github.io/2014/12/11/applescriptfireimessage/</loc>
+    <loc>https://iodefog.github.io/2014/05/13/addmessagecalendar/</loc>
     
     <lastmod>2018-11-06T01:45:40.906Z</lastmod>
     
@@ -793,7 +772,21 @@
   </url>
   
   <url>
-    <loc>https://iodefog.github.io/2014/05/13/addmessagecalendar/</loc>
+    <loc>https://iodefog.github.io/2014/08/20/appleipa/</loc>
+    
+    <lastmod>2018-11-06T01:45:40.906Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://iodefog.github.io/2014/12/11/applescriptfireimessage/</loc>
+    
+    <lastmod>2018-11-06T01:45:40.906Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://iodefog.github.io/2015/03/03/apptrack/</loc>
     
     <lastmod>2018-11-06T01:45:40.906Z</lastmod>
     
