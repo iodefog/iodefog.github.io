@@ -184,6 +184,31 @@
   </entry>
   
   <entry>
+    <title>PHP学习</title>
+    <link href="https://iodefog.github.io/2018/11/06/phplearn/"/>
+    <id>https://iodefog.github.io/2018/11/06/phplearn/</id>
+    <published>2018-11-06T01:45:40.920Z</published>
+    <updated>2018-11-06T01:45:40.920Z</updated>
+    
+    <content type="html"><![CDATA[<p>PHP学习</p><h2 id="1-获取get和post方法中参数"><a href="#1-获取get和post方法中参数" class="headerlink" title="1. 获取get和post方法中参数"></a>1. 获取get和post方法中参数</h2><p>get方法</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$name&#x3D;_GET(&#39;name&#39;);</span><br><span class="line">echo $name;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure><p>post方法都使用</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$name&#x3D;_POST(&#39;name&#39;);</span><br><span class="line">echo $name;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure><h2 id="2-返回json值"><a href="#2-返回json值" class="headerlink" title="2.返回json值"></a>2.返回json值</h2><p>数组</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$name&#x3D;$_POST[&quot;name&quot;];</span><br><span class="line">$age&#x3D;$_POST[&quot;age&quot;];</span><br><span class="line">$gender&#x3D;$_POST[&quot;gender&quot;];</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 生成json字典</span><br><span class="line">$arrayName &#x3D; array(&quot;name&quot; &#x3D;&gt; $name,</span><br><span class="line">&quot;age&quot; &#x3D;&gt; $age,</span><br><span class="line">    &quot;gender&quot; &#x3D;&gt; $gender);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 生成json数组</span><br><span class="line">$arrayName2 &#x3D; array($arrayName,$arrayName,$arrayName);</span><br><span class="line">echo  json_encode($arrayName2);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure><p>json_encode()只能转换UTF-8格式。否则就会为null。</p><p>转换编码</p><p>第一个参数，当前编码格式。<br>第二个参数，转换到的编码格式。<br>第三个参数，需要转换的值</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$newArray &#x3D; iconv(&#39;UTF-8&#39;,&quot;GBK&quot;,$array);</span><br></pre></td></tr></table></figure><h2 id="3-组装json"><a href="#3-组装json" class="headerlink" title="3.组装json"></a>3.组装json</h2><ol><li>定义Response类，json()方法 进行参数组装<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class Response&#123;</span><br><span class="line">&#x2F;**</span><br><span class="line">* 这里注释</span><br><span class="line">*&#x2F;</span><br><span class="line">public static function json($code, $message&#x3D;&#39;&#39;, $data&#x3D;array())&#123;</span><br><span class="line">if(!is_numeric($code))&#123;</span><br><span class="line">return &#39;&#39;;</span><br><span class="line">&#125;</span><br><span class="line">$result &#x3D; array(</span><br><span class="line">&#39;code&#39; &#x3D;&gt; $code,</span><br><span class="line">&#39;message&#39; &#x3D;&gt; $message,</span><br><span class="line">&#39;data&#39; &#x3D;&gt; $data</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">echo json_encode($result);</span><br><span class="line">exit;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></li></ol><ol start="2"><li>使用组装类的方法</li></ol><p>// 引用当前目录下的“response.php”文件<br>require_once(‘./response.php’);</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$name&#x3D;$_POST[&quot;name&quot;];</span><br><span class="line">$age&#x3D;$_POST[&quot;age&quot;];</span><br><span class="line">$gender&#x3D;$_POST[&quot;gender&quot;];</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 引用当前目录下的“response.php”文件</span><br><span class="line">require_once(&#39;.&#x2F;response.php&#39;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 生成json字典</span><br><span class="line">$arrayName &#x3D; array(&quot;name&quot; &#x3D;&gt; $name,</span><br><span class="line">&quot;age&quot; &#x3D;&gt; $age,</span><br><span class="line">    &quot;gender&quot; &#x3D;&gt; $gender);</span><br><span class="line">&#x2F;&#x2F; 生成json数组</span><br><span class="line">$response &#x3D; Response::json(&quot;200&quot;, &quot;成功&quot;,$arrayName);</span><br><span class="line">echo  json_encode($response);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;PHP学习&lt;/p&gt;
+&lt;h2 id=&quot;1-获取get和post方法中参数&quot;&gt;&lt;a href=&quot;#1-获取get和post方法中参数&quot; class=&quot;headerlink&quot; title=&quot;1. 获取get和post方法中参数&quot;&gt;&lt;/a&gt;1. 获取get和post方法中参数&lt;/h
+      
+    
+    </summary>
+    
+    
+      <category term="技术,PHP" scheme="https://iodefog.github.io/categories/%E6%8A%80%E6%9C%AF-PHP/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>Cocoapods 引用自定义Framework + Swift</title>
     <link href="https://iodefog.github.io/2018/11/06/pod_framework/"/>
     <id>https://iodefog.github.io/2018/11/06/pod_framework/</id>
@@ -207,31 +232,6 @@
     
     
       <category term="framework, cocoapods" scheme="https://iodefog.github.io/tags/framework-cocoapods/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>PHP学习</title>
-    <link href="https://iodefog.github.io/2018/11/06/phplearn/"/>
-    <id>https://iodefog.github.io/2018/11/06/phplearn/</id>
-    <published>2018-11-06T01:45:40.920Z</published>
-    <updated>2018-11-06T01:45:40.920Z</updated>
-    
-    <content type="html"><![CDATA[<p>PHP学习</p><h2 id="1-获取get和post方法中参数"><a href="#1-获取get和post方法中参数" class="headerlink" title="1. 获取get和post方法中参数"></a>1. 获取get和post方法中参数</h2><p>get方法</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$name&#x3D;_GET(&#39;name&#39;);</span><br><span class="line">echo $name;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure><p>post方法都使用</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$name&#x3D;_POST(&#39;name&#39;);</span><br><span class="line">echo $name;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure><h2 id="2-返回json值"><a href="#2-返回json值" class="headerlink" title="2.返回json值"></a>2.返回json值</h2><p>数组</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$name&#x3D;$_POST[&quot;name&quot;];</span><br><span class="line">$age&#x3D;$_POST[&quot;age&quot;];</span><br><span class="line">$gender&#x3D;$_POST[&quot;gender&quot;];</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 生成json字典</span><br><span class="line">$arrayName &#x3D; array(&quot;name&quot; &#x3D;&gt; $name,</span><br><span class="line">&quot;age&quot; &#x3D;&gt; $age,</span><br><span class="line">    &quot;gender&quot; &#x3D;&gt; $gender);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 生成json数组</span><br><span class="line">$arrayName2 &#x3D; array($arrayName,$arrayName,$arrayName);</span><br><span class="line">echo  json_encode($arrayName2);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure><p>json_encode()只能转换UTF-8格式。否则就会为null。</p><p>转换编码</p><p>第一个参数，当前编码格式。<br>第二个参数，转换到的编码格式。<br>第三个参数，需要转换的值</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$newArray &#x3D; iconv(&#39;UTF-8&#39;,&quot;GBK&quot;,$array);</span><br></pre></td></tr></table></figure><h2 id="3-组装json"><a href="#3-组装json" class="headerlink" title="3.组装json"></a>3.组装json</h2><ol><li>定义Response类，json()方法 进行参数组装<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">class Response&#123;</span><br><span class="line">&#x2F;**</span><br><span class="line">* 这里注释</span><br><span class="line">*&#x2F;</span><br><span class="line">public static function json($code, $message&#x3D;&#39;&#39;, $data&#x3D;array())&#123;</span><br><span class="line">if(!is_numeric($code))&#123;</span><br><span class="line">return &#39;&#39;;</span><br><span class="line">&#125;</span><br><span class="line">$result &#x3D; array(</span><br><span class="line">&#39;code&#39; &#x3D;&gt; $code,</span><br><span class="line">&#39;message&#39; &#x3D;&gt; $message,</span><br><span class="line">&#39;data&#39; &#x3D;&gt; $data</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">echo json_encode($result);</span><br><span class="line">exit;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></li></ol><ol start="2"><li>使用组装类的方法</li></ol><p>// 引用当前目录下的“response.php”文件<br>require_once(‘./response.php’);</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">$name&#x3D;$_POST[&quot;name&quot;];</span><br><span class="line">$age&#x3D;$_POST[&quot;age&quot;];</span><br><span class="line">$gender&#x3D;$_POST[&quot;gender&quot;];</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 引用当前目录下的“response.php”文件</span><br><span class="line">require_once(&#39;.&#x2F;response.php&#39;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 生成json字典</span><br><span class="line">$arrayName &#x3D; array(&quot;name&quot; &#x3D;&gt; $name,</span><br><span class="line">&quot;age&quot; &#x3D;&gt; $age,</span><br><span class="line">    &quot;gender&quot; &#x3D;&gt; $gender);</span><br><span class="line">&#x2F;&#x2F; 生成json数组</span><br><span class="line">$response &#x3D; Response::json(&quot;200&quot;, &quot;成功&quot;,$arrayName);</span><br><span class="line">echo  json_encode($response);</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;PHP学习&lt;/p&gt;
-&lt;h2 id=&quot;1-获取get和post方法中参数&quot;&gt;&lt;a href=&quot;#1-获取get和post方法中参数&quot; class=&quot;headerlink&quot; title=&quot;1. 获取get和post方法中参数&quot;&gt;&lt;/a&gt;1. 获取get和post方法中参数&lt;/h
-      
-    
-    </summary>
-    
-    
-      <category term="技术,PHP" scheme="https://iodefog.github.io/categories/%E6%8A%80%E6%9C%AF-PHP/"/>
-    
     
   </entry>
   
@@ -455,6 +455,28 @@
   </entry>
   
   <entry>
+    <title>不注册使用cleanmymac</title>
+    <link href="https://iodefog.github.io/2018/11/06/cleanmymac/"/>
+    <id>https://iodefog.github.io/2018/11/06/cleanmymac/</id>
+    <published>2018-11-06T01:45:40.908Z</published>
+    <updated>2018-11-06T01:45:40.908Z</updated>
+    
+    <content type="html"><![CDATA[<p>不注册使用cleanmymac</p><p>1.首先下载<a href="https://setapp.com/" target="_blank" rel="noopener">setapp</a><br>2.安装完成登录后，找到cleanmymac</p><a id="more"></a><p><img src="/img/cleanmymac.png" alt="image"></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;不注册使用cleanmymac&lt;/p&gt;
+&lt;p&gt;1.首先下载&lt;a href=&quot;https://setapp.com/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;setapp&lt;/a&gt;&lt;br&gt;2.安装完成登录后，找到cleanmymac&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="mac" scheme="https://iodefog.github.io/categories/mac/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>crackwifi</title>
     <link href="https://iodefog.github.io/2018/11/06/crackwifi/"/>
     <id>https://iodefog.github.io/2018/11/06/crackwifi/</id>
@@ -478,28 +500,6 @@
     
     </summary>
     
-    
-    
-  </entry>
-  
-  <entry>
-    <title>不注册使用cleanmymac</title>
-    <link href="https://iodefog.github.io/2018/11/06/cleanmymac/"/>
-    <id>https://iodefog.github.io/2018/11/06/cleanmymac/</id>
-    <published>2018-11-06T01:45:40.908Z</published>
-    <updated>2018-11-06T01:45:40.908Z</updated>
-    
-    <content type="html"><![CDATA[<p>不注册使用cleanmymac</p><p>1.首先下载<a href="https://setapp.com/" target="_blank" rel="noopener">setapp</a><br>2.安装完成登录后，找到cleanmymac</p><a id="more"></a><p><img src="/img/cleanmymac.png" alt="image"></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;不注册使用cleanmymac&lt;/p&gt;
-&lt;p&gt;1.首先下载&lt;a href=&quot;https://setapp.com/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;setapp&lt;/a&gt;&lt;br&gt;2.安装完成登录后，找到cleanmymac&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="mac" scheme="https://iodefog.github.io/categories/mac/"/>
     
     
   </entry>
